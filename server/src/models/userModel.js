@@ -19,6 +19,10 @@ const userSchema = new mongoose.Schema({
         enum: ['user', 'theaterOwner', 'admin'],
         default: 'user'
     },
+    isVerified: { 
+        type: Boolean, 
+        default: false 
+    },
     bookings: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Booking'

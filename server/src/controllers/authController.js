@@ -1,11 +1,12 @@
 import User from "../models/userModel.js";
 import bcrypt from "bcryptjs";
 import sendEmail from "../utils/sendEmail.js";
+import generateToken from "../utils/token.js";
 
 
 
 // ------------User Signup------------
-export const userSignup = async (req, res) => {
+export const signup = async (req, res) => {
 
     try {
 
@@ -27,7 +28,7 @@ export const userSignup = async (req, res) => {
         // ------otp expire time ( 2 min )------
         const otpExpires = Date.now() + 2 * 60 * 1000;
 
-        const newUser = new User({ name, email, password: hashedPassword, role, otp, otpExpires });
+        const newUser = new User({ name, email, password: hashedPassword, role, otp, otpExpires, isVerified: false });
         await newUser.save();
 
         //--------- Send OTP via email------------
@@ -36,8 +37,76 @@ export const userSignup = async (req, res) => {
         res.json({ message: "OTP sent to your email. Please verify to complete registration." });
 
     } catch (error) {
-        console.log(error);
+        console.log("Error in signup",error);
         res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
     }
+};
 
+
+
+// ------------otp verification------------
+export const verifyOTP = async (req, res) => {
+    
+    try {
+        
+        const { email, otp } = req.body;
+
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(400).json({ message: "User not found" });
+        }
+
+        if(user.otp !== otp || Date.now() > user.otpExpires){
+            return res.status(400).json({ message: "Invalid or expired OTP" });
+        }
+
+        // OTP verified, finalize registration
+        user.isVerified = true;
+        user.otp = null;
+        user.otpExpires = null;
+        await user.save();
+
+        res.json({ message: "Registration successful." });
+
+    } catch (error) {
+        console.log("Error in verifying OTP",error);
+        res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });F
+    }
+};
+
+
+// -----------user login------------
+export const login = async (req, res) => {
+
+    try {
+        
+        const { email, password } = req.body;
+
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(400).json({ message: "User not found" });
+        }
+
+        if (user.isVerified === false) {
+            return res.status(400).json({ message: "Please verify your email before logging in." });
+        }
+
+        const isMatch = await bcrypt.compare(password, user.password);
+
+        if (!isMatch) {
+            return res.status(400).json({ message: "Invalid credentials" });
+        } 
+
+        // Generate Token---------
+        const token = generateToken(user._id, user.role);
+
+        res.cookie("token", token)
+
+        res.status(200).json({ message: "Login successful",user: { _id: user._id, name: user.name, email: user.email, role: user.role } });
+
+    } catch (error) {
+        
+    }
 }
