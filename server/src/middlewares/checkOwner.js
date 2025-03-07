@@ -15,7 +15,7 @@ const checkOwner = (req, res, next) =>{
                 return res.status(401).json({message:"Unauthorized"})
             }
 
-            if(decoded.role !== "owner"){
+            if(decoded.role !== "theaterOwner"){
                 return res.status(403).json({message:"Access denied"})
             }
 
