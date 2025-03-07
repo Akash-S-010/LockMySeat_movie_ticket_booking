@@ -76,6 +76,46 @@ export const verifyOTP = async (req, res) => {
 };
 
 
+
+
+// -----------Resent OTP------------
+export const resendOTP = async (req, res) => {
+    try {
+        const { email } = req.body;
+
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(400).json({ message: "User not found" });
+        }
+
+        if (user.isVerified) {
+            return res.status(400).json({ message: "User is already verified." });
+        }
+
+        // ---------Generate new OTP------------
+        const otp = Math.floor(100000 + Math.random() * 900000);
+        const otpExpires = Date.now() + 2 * 60 * 1000; // Set expiration time
+
+        user.otp = otp;
+        user.otpExpires = otpExpires;
+        await user.save();
+
+        // -----------Send OTP via email-----------
+        await sendEmail(email, "Lock My Seat", `Your new OTP for registration: ${otp}`);
+
+        res.json({ message: "New OTP sent to your email." });
+
+    } catch (error) {
+        console.log("Error in resending OTP", error);
+        res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
+    }
+};
+
+
+
+
+
 // -----------user login------------
 export const login = async (req, res) => {
 
@@ -111,6 +151,8 @@ export const login = async (req, res) => {
      res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });   
     }
 };
+
+
 
 
 

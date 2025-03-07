@@ -4,3 +4,6 @@ const router = express.Router();
 
 
 router.use('/auth',authRoutes);
+
+
+export default router
