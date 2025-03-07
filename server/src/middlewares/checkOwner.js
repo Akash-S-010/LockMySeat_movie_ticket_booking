@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 
 
-const checkAdmin = (req, res, next) =>{
+const checkOwner = (req, res, next) =>{
     try {
         
         const {token} = req.cookies
@@ -29,4 +29,4 @@ const checkAdmin = (req, res, next) =>{
     }
 };
 
-export default checkAdmin
+export default checkOwner
