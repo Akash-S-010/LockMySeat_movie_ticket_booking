@@ -14,6 +14,7 @@ app.use(cookieParser());
 
 
 app.use('/api/auth', authRoutes)
+app.all("*", (req, res) => res.status(404).json({ message: "Route not found" }));
 
 
 

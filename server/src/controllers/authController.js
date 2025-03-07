@@ -104,9 +104,23 @@ export const login = async (req, res) => {
 
         res.cookie("token", token)
 
-        res.status(200).json({ message: "Login successful",user: { _id: user._id, name: user.name, email: user.email, role: user.role } });
+        res.status(200).json({ message: "Login successful",data: {_id: user._id, role: user.role } });
 
     } catch (error) {
-        
+     console.log("Error in login",error);
+     res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });   
     }
-}
+};
+
+
+
+// -----------user logout------------
+export const logout = async (req, res) => {
+    try {
+        res.clearCookie("token");
+        res.json({ message: "Logout successful" });
+    } catch (error) {
+        console.log("Error in logout",error);
+        res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
+    }
+};
