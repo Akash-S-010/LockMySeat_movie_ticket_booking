@@ -25,3 +25,22 @@ export const checkUser = async (req, res) => {
 
 
 
+
+// -------------get all users------------
+export const getAllUsers = async (req, res) => {
+    try {
+        
+        const users = await User.find({ role: "user" });
+
+        if(!users){
+            res.status(404).json({ message: "No users found" });
+        }
+
+        const totalUser = users.length;
+        res.status(200).json({ message: "Users found", data: totalUser });
+
+    } catch (error) {
+        console.log("Error in getAllUsers controller",error);
+        res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
+    }
+};
