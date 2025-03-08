@@ -1,8 +1,7 @@
 import express from "express";
 import checkAuth from "../middlewares/checkAuth.js";
 import checkAdmin from "../middlewares/checkAdmin.js";
-import checkOwner from "../middlewares/checkOwner.js";
-import { addMovie, getAllMovies, getMovieDetails } from "../controllers/MovieController.js";
+import { addMovie, deleteMovie, getAllMovies, getMovieDetails } from "../controllers/MovieController.js";
 const router = express.Router();
 
 
