@@ -9,18 +9,18 @@ const movieSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
-    genre: {
+    genre: [{
         type: String,
         required: true,
-    },
+    }],
     plot: {
         type: String,
         required: true,
         max: 200,
     },
-    cast: {
+    cast: [{
         type: String,
-    },
+    }],
     releaseDate: {
         type: Date,
         required: true,
