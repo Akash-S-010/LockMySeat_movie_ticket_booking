@@ -5,9 +5,7 @@ const router = express.Router();
 
 
 router.get('/check-user', checkAuth, checkUser)
-router.get('/movies',getAllMovies)
-router.get('/movie-details/:id', checkAuth)
-router.get('/show', checkAuth)
+
 
 
 export default router

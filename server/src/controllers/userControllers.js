@@ -1,4 +1,5 @@
 import User from "../models/userModel.js";
+import Movie from "../models/movieModel.js";
 
 
 
@@ -23,9 +24,4 @@ export const checkUser = async (req, res) => {
 };
 
 
-
-
-export const getAllMovies = async (req, res) => {
-    
-}
 
