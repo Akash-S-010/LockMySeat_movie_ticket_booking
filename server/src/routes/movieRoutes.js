@@ -1,8 +1,8 @@
 import express from "express";
 import checkAuth from "../middlewares/checkAuth.js";
 import checkAdmin from "../middlewares/checkAdmin.js";
-import checkOwner from "../middlewares/checkOwner.js";
-import { addMovie, deleteMovie, getAllMovies, getMovieDetails } from "../controllers/MovieController.js";
+import checkOwnerAdmin from "../middlewares/checkOwnerAdmin.js";
+import { addMovie, deleteMovie, getAllMovies, getMovieDetails, totalMovies, updateMovie } from "../controllers/MovieController.js";
 import { addReview, getAllReviews } from "../controllers/reviewController.js";
 const router = express.Router();
 
@@ -10,9 +10,10 @@ const router = express.Router();
 // -----------Movie routes-----------
 router.post('/add-movie', checkAdmin, addMovie)
 router.delete('/delete-movie/:id', checkAdmin, deleteMovie)
-router.get('/movies',getAllMovies)
+router.put('/update-movie/:id', checkAdmin, updateMovie)
+router.get('/movies', getAllMovies)
 router.get('/movie-details/:id', checkAuth, getMovieDetails)
-router.get('/total-movies',checkAdmin,checkOwner,totalMovies)
+router.get('/total-movies', checkOwnerAdmin, totalMovies)
 
 
 // -----------Review routes-----------

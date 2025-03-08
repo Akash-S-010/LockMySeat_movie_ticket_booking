@@ -28,6 +28,35 @@ export const addMovie = async (req, res) => {
 
 
 
+// -------------update movie by id (Admin only)------------
+export const updateMovie = async(req, res) => {
+
+    const movieId = req.params.id;
+    const { title, duration, genre, plot, cast, releaseDate, language, bannerImg, verticalImg } = req.body;
+
+    try {
+        
+        const updatedMovie = await Movie.findByIdAndUpdate(
+            movieId,
+            { title, duration, genre, plot, cast, releaseDate, language, bannerImg, verticalImg }, 
+            {new: true}
+        )
+
+        if(!updatedMovie){
+            res.status(404).json({ message: "No movie found" });
+        }
+
+        res.status(200).json({ message: "Movie updated successfully", data: updatedMovie });
+
+    } catch (error) {
+        console.log("Error in updateMovie controller",error);
+        res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
+    }
+};
+
+
+
+
 // -------------delete movie by id (Admin only)------------
 export const deleteMovie = async (req, res) => {
 
@@ -101,4 +130,21 @@ export const getAllMovies = async (req, res) => {
 
 
 
-// 
+// ----------------Total movies count------------
+export const totalMovies = async (req, res) => {
+    
+    try {
+        
+        const movies = await Movie.find({});
+        if(!movies){
+            res.status(404).json({ message: "No movies found" });
+        }
+
+        const totalMovies = movies.length;
+        res.json({ message: "Total movies found", data: totalMovies });
+
+    } catch (error) {
+        console.log("Error in totalMovies controller",error);
+        res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
+    }
+}
