@@ -10,6 +10,5 @@ router.post('/add-movie', checkAdmin, addMovie)
 router.delete('/delete-movie/:id', checkAdmin, deleteMovie)
 router.get('/movies',getAllMovies)
 router.get('/movie-details/:id', checkAuth, getMovieDetails)
-router.get('/show', checkAuth,)
 
 export default router
