@@ -26,7 +26,7 @@ export const addTheater = async (req, res) => {
             }
         }
 
-        const newTheater = new Theater({ name, location, ownerId, rows: numRows, columns: numCols, seats });
+        const newTheater = new Theater({ name, location, ownerId, rows: numRows, columns: numCols, seats, status: "pending" });
         await newTheater.save();
 
         if(!newTheater){
@@ -94,7 +94,7 @@ export const getTheaterDetails = async (req, res) => {
 
     try {
         
-        const theater = await Theater.findById(theaterId);
+        const theater = await Theater.findById({_id: theaterId, status: "approved"});
 
         if(!theater){
             res.status(404).json({ message: "No theater found" });
@@ -127,6 +127,60 @@ export const getTotalTheaters = async (req, res) => {
 
     } catch (error) {
         console.log("Error in getTotalTheaters controller",error);
+        res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
+    }
+};
+
+
+
+
+// -------------approve theater------------
+export const approveTheater = async (req, res) => {
+
+    const theaterId = req.params.id;
+
+    try {
+        
+        const theater = await Theater.findById(theaterId);
+
+        if(!theater){
+            res.status(404).json({ message: "No theater found" });
+        }
+
+        theater.status = "approved";
+        await theater.save();
+
+        res.status(200).json({ message: "Theater approved successfully", data: theater })
+
+    } catch (error) {
+        console.log("Error in approveTheater controller",error);
+        res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
+    }
+};
+
+
+
+
+// ------------reject theater------------
+export const rejectTheater = async (req, res) => {
+
+    const theaterId = req.params.id;
+
+    try {
+        
+        const theater = await Theater.findById(theaterId);
+
+        if(!theater){
+            res.status(404).json({ message: "No theater found" });
+        }
+
+        theater.status = "rejected";
+        await theater.save();
+
+        res.status(200).json({ message: "Theater rejected successfully", data: theater })
+
+    } catch (error) {
+        console.log("Error in rejectTheater controller",error);
         res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
     }
 };
