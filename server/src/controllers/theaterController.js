@@ -3,23 +3,31 @@ import Theater from "../models/theaterModel.js";
 
 // ----------Add theater (Owner only)------------
 export const addTheater = async (req, res) => {
-    const { name, location, ownerId, seats } = req.body;
+    const { name, location, ownerId, rows, cols } = req.body;
 
     try {
         
-        if(!name || !location || !ownerId || !seats){
+        if(!name || !location || !ownerId || !rows || !cols){
             res.status(400).json({ message: "All fields are required" });
         }
 
-        const theater = new Theater({
-            name,
-            location,
-            ownerId,
-            status: "pending",
-            seats
-        })
+        const numRows = parseInt(rows);
+        const numCols = parseInt(columns);
 
-        const newTheater = await theater.save()
+        if (isNaN(numRows) || isNaN(numCols) || numRows <= 0 || numCols <= 0) {
+            return res.status(400).json({ message: "Rows and columns must be valid positive numbers" });
+        }
+
+        // Create seats array----
+        const seats = [];
+        for (let r = 0; r < numRows; r++) {
+            for (let c = 0; c < numCols; c++) {
+                seats.push({ row: r, col: c, isBooked: false });
+            }
+        }
+
+        const newTheater = new Theater({ name, location, ownerId, rows: numRows, columns: numCols, seats });
+        await newTheater.save();
 
         if(!newTheater){
             res.status(404).json({ message: "No theater found" });
@@ -50,6 +58,28 @@ export const getAllTheaters = async (req, res) => {
 
     } catch (error) {
         console.log("Error in getAllTheaters controller",error);
+        res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
+    }
+};
+
+
+
+
+// -------------get all approved theaters------------
+export const getAllApprovedTheaters = async (req, res) => {
+    
+    try {
+        
+        const theaters = await Theater.find({ status: "approved" });
+
+        if(!theaters){
+            res.status(404).json({ message: "No theaters found" });
+        }
+
+        res.status(200).json({ message: "Theaters found", data: theaters })
+
+    } catch (error) {
+        console.log("Error in getAllApprovedTheaters controller",error);
         res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
     }
 };

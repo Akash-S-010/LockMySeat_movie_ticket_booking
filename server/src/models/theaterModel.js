@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const seatSchema = new mongoose.Schema({
     row: Number,
     col: Number,
-    isBooked: { type: Boolean, default: false } // Stores seat availability
+    isBooked: { type: Boolean, default: false } // Stores seat 
 });
 
 const theaterSchema = new mongoose.Schema({
