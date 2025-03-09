@@ -1,31 +1,41 @@
 import mongoose from 'mongoose';
 
+const seatSchema = new mongoose.Schema({
+    row: Number,
+    col: Number,
+    isBooked: { type: Boolean, default: false } // Stores seat availability
+});
+
 const theaterSchema = new mongoose.Schema({
-    name: { 
-        type: String, 
-        required: true 
+    name: {
+        type: String,
+        required: true
     },
-    location: { 
-        type: String, 
-        index: true 
+    location: {
+        type: String,
+        index: true
     },
-    ownerId: { 
-        type: mongoose.Schema.Types.ObjectId, 
+    ownerId: {
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        required: true, 
+        required: true,
 
     },
-    status: { 
-        type: String, 
-        enum: ['pending', 'approved', 'rejected'], 
-        default: 'pending' 
+    status: {
+        type: String,
+        enum: ['pending', 'approved', 'rejected'],
+        default: 'pending'
 
     },
-    seats: { 
-        type: [[Boolean]], 
-        default: Array(10).fill().map(() => Array(10).fill(false)) 
-
+    rows: {
+        type: Number,
+        required: true
     },
+    columns: {
+        type: Number,
+        required: true
+    },
+    seatPattern: [seatSchema],
 }, { timestamps: true });
 
 export default mongoose.model('Theater', theaterSchema);
