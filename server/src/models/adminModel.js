@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const userSchema = new mongoose.Schema({
+const adminSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
@@ -14,14 +14,15 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    role: {
+        type: String,
+        enum: ['theaterOwner', 'admin'],
+        default: 'admin'
+    },
     isVerified: { 
         type: Boolean, 
         default: false 
     },
-    bookings: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Booking'
-    }],
     otp: {
         type: String
       },
@@ -31,4 +32,4 @@ const userSchema = new mongoose.Schema({
       
 }, { timestamps: true })
 
-export default mongoose.model('User', userSchema);
+export default mongoose.model('Admin', adminSchema);

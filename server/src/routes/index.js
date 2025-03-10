@@ -1,14 +1,15 @@
 import express from "express";
-import authRoutes from "./authRoutes.js"
+import userRoutes from "./userRoutes.js"
+import adminRoutes from "./adminRoutes.js"
 import movieRoutes from "./movieRoutes.js"
 import showRoutes from "./showRoutes.js"
 import theaterRoutes from "./theaterRoutes.js"
 const router = express.Router();
 
-// ---Auth routes----
-router.use('/auth',authRoutes);
 // ---User routes----
-router.use('/user',authRoutes);
+router.use('/user',userRoutes);
+// ---Admin routes----
+router.use('/admin',adminRoutes);
 // ---Movie routes----
 router.use('/movie',movieRoutes);
 // ---Theater routes----

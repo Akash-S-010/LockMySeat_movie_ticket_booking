@@ -1,21 +1,21 @@
-import User from "../models/userModel.js";
+import Admin from "../models/adminModel.js";
 import bcrypt from "bcryptjs";
 import sendEmail from "../utils/sendEmail.js";
 import generateToken from "../utils/token.js";
 
 
 
-// ------------User Signup------------
+// ------------admin Signup------------
 export const signup = async (req, res) => {
 
     try {
 
         const { name, email, password, role } = req.body;
 
-        const userExists = await User.findOne({ email });
+        const adminExists = await Admin.findOne({ email });
 
-        if (userExists) {
-            return res.status(400).json({ message: "User already exists" });
+        if (adminExists) {
+            return res.status(400).json({ message: "admin already exists" });
         }
 
         // -----hash password--------
@@ -28,8 +28,8 @@ export const signup = async (req, res) => {
         // ------otp expire time ( 2 min )------
         const otpExpires = Date.now() + 2 * 60 * 1000;
 
-        const newUser = new User({ name, email, password: hashedPassword, role, otp, otpExpires, isVerified: false });
-        await newUser.save();
+        const newAdmin = new Admin({ name, email, password: hashedPassword, otp, otpExpires, isVerified: false, role });
+        await newAdmin.save();
 
         //--------- Send OTP via email------------
         await sendEmail(email, "Lock My Seat", `Your OTP for registration: ${otp}`);
@@ -51,21 +51,21 @@ export const verifyOTP = async (req, res) => {
         
         const { email, otp } = req.body;
 
-        const user = await User.findOne({ email });
+        const admin = await Admin.findOne({ email });
 
-        if (!user) {
-            return res.status(400).json({ message: "User not found" });
+        if (!admin) {
+            return res.status(400).json({ message: "admin not found" });
         }
 
-        if(user.otp !== otp || Date.now() > user.otpExpires){
+        if(admin.otp !== otp || Date.now() > admin.otpExpires){
             return res.status(400).json({ message: "Invalid or expired OTP" });
         }
 
         // OTP verified, finalize registration
-        user.isVerified = true;
-        user.otp = null;
-        user.otpExpires = null;
-        await user.save();
+        admin.isVerified = true;
+        admin.otp = null;
+        admin.otpExpires = null;
+        await admin.save();
 
         res.json({ message: "Registration successful." });
 
@@ -83,23 +83,23 @@ export const resendOTP = async (req, res) => {
     try {
         const { email } = req.body;
 
-        const user = await User.findOne({ email });
+        const admin = await Admin.findOne({ email });
 
-        if (!user) {
-            return res.status(400).json({ message: "User not found" });
+        if (!admin) {
+            return res.status(400).json({ message: "admin not found" });
         }
 
-        if (user.isVerified) {
-            return res.status(400).json({ message: "User is already verified." });
+        if (admin.isVerified) {
+            return res.status(400).json({ message: "admin is already verified." });
         }
 
         // ---------Generate new OTP------------
         const otp = Math.floor(100000 + Math.random() * 900000);
         const otpExpires = Date.now() + 2 * 60 * 1000; // Set expiration time
 
-        user.otp = otp;
-        user.otpExpires = otpExpires;
-        await user.save();
+        admin.otp = otp;
+        admin.otpExpires = otpExpires;
+        await admin.save();
 
         // -----------Send OTP via email-----------
         await sendEmail(email, "Lock My Seat", `Your new OTP for registration: ${otp}`);
@@ -116,35 +116,35 @@ export const resendOTP = async (req, res) => {
 
 
 
-// -----------user login------------
+// -----------admin login------------
 export const login = async (req, res) => {
 
     try {
         
         const { email, password } = req.body;
 
-        const user = await User.findOne({ email });
+        const admin = await Admin.findOne({ email });
 
-        if (!user) {
-            return res.status(400).json({ message: "User not found" });
+        if (!admin) {
+            return res.status(400).json({ message: "admin not found" });
         }
 
-        if (user.isVerified === false) {
+        if (admin.isVerified === false) {
             return res.status(400).json({ message: "Please verify your email before logging in." });
         }
 
-        const isMatch = await bcrypt.compare(password, user.password);
+        const isMatch = await bcrypt.compare(password, admin.password);
 
         if (!isMatch) {
             return res.status(400).json({ message: "Invalid credentials" });
         } 
 
         // Generate Token---------
-        const token = generateToken(user._id, user.role);
+        const token = generateToken(admin._id, admin.role);
 
         res.cookie("token", token)
 
-        res.status(200).json({ message: "Login successful",data: {_id: user._id, role: user.role } });
+        res.status(200).json({ message: "Login successful",data: {_id: admin._id, name: admin.name, email: admin.email, role: admin.role} });
 
     } catch (error) {
      console.log("Error in login",error);
@@ -156,7 +156,7 @@ export const login = async (req, res) => {
 
 
 
-// -----------user logout------------
+// -----------admin logout------------
 export const logout = async (req, res) => {
     try {
         res.clearCookie("token");
