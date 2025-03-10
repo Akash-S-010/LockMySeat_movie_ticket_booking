@@ -8,7 +8,7 @@ export const addTheater = async (req, res) => {
     try {
         
         if(!name || !location || !ownerId || !rows || !cols){
-            res.status(400).json({ message: "All fields are required" });
+           return res.status(400).json({ message: "All fields are required" });
         }
 
         const numRows = parseInt(rows);
