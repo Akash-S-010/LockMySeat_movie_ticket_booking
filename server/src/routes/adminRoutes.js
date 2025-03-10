@@ -1,4 +1,5 @@
 import express from "express";
+import { login, logout, resendOTP, signup, verifyOTP } from "../controllers/adminController.js";
 const router = express.Router();
 
 

@@ -1,5 +1,5 @@
 import express from "express";
-import { checkUser, getAllUsers, login, logout, resendOTP, signup, verifyOTP } from "../controllers/userControllers";
+import { checkUser, getAllUsers, login, logout, resendOTP, signup, verifyOTP } from "../controllers/userController.js";
 import checkAuth from "../middlewares/checkAuth.js";
 import checkOwnerAdmin from "../middlewares/checkOwnerAdmin.js";
 const router = express.Router();
