@@ -17,11 +17,19 @@ const showSchema = new mongoose.Schema({
         type: Date,
         required: true,
     },
-    time: String,
+    time: { 
+        type: String,
+        required: true,
+    },
     ticketPrice: {
         type: Number,
         required: true
     },
+    seats: { 
+        type: [[Boolean]], // 2D array of seats (true = booked, false = available)
+        required: true
+    }
+
 }, { timestamps: true });
 
 export default mongoose.model('Show', showSchema);
