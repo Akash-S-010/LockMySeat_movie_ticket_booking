@@ -12,7 +12,7 @@ export const addTheater = async (req, res) => {
         }
 
         const numRows = parseInt(rows);
-        const numCols = parseInt(columns);
+        const numCols = parseInt(cols);
 
         if (isNaN(numRows) || isNaN(numCols) || numRows <= 0 || numCols <= 0) {
             return res.status(400).json({ message: "Rows and columns must be valid positive numbers" });
@@ -26,7 +26,7 @@ export const addTheater = async (req, res) => {
             }
         }
 
-        const newTheater = new Theater({ name, location, ownerId, rows: numRows, columns: numCols, seats, status: "pending" });
+        const newTheater = new Theater({ name, location, ownerId, rows: numRows, cols: numCols, seats, status: "pending" });
         await newTheater.save();
 
         if(!newTheater){

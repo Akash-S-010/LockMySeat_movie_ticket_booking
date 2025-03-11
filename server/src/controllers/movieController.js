@@ -9,7 +9,7 @@ export const addMovie = async (req, res) => {
     try {
         
         if (!title || !duration || !genre || !plot || !cast || !releaseDate || !language || !bannerImg || !verticalImg) {
-            res.status(400).json({ message: "All fields are required" });
+            return res.status(400).json({ message: "All fields are required" });
         }
 
         const newMovie = new Movie({ title, duration, genre, plot, cast, releaseDate, language, bannerImg, verticalImg });

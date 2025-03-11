@@ -179,7 +179,7 @@ export const checkUser = async (req, res) => {
         const findUser = await User.findOne({ _id: user._id, role: user.role });
 
         if(!findUser){
-            res.status(404).json({ message: "User not found" });
+            return res.status(404).json({ message: "User not found" });
         }
 
         res.json({ message: "User found", data: findUser });

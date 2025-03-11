@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 
 const seatSchema = new mongoose.Schema({
-    row: Number,
-    col: Number,
+    rows: Number,
+    cols: Number,
     isBooked: { type: Boolean, default: false } // Stores seat 
 });
 
@@ -31,7 +31,7 @@ const theaterSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    columns: {
+    cols: {
         type: Number,
         required: true
     },

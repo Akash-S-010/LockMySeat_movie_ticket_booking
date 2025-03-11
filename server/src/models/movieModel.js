@@ -6,7 +6,7 @@ const movieSchema = new mongoose.Schema({
         required: true,
     },
     duration: {
-        type: Number,
+        type: String,
         required: true,
     },
     genre: [{
@@ -29,11 +29,11 @@ const movieSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    bannerImage: {
+    bannerImg: {
         type: String,
         required: true,
     }, 
-    verticalImage: {
+    verticalImg: {
         type: String,
         required: true,
     },
