@@ -172,17 +172,10 @@ export const logout = async (req, res) => {
 
 // -------------check user------------
 export const checkUser = async (req, res) => {
-    const user = req.user;
 
     try {
-        
-        const findUser = await User.findOne({ _id: user._id, role: user.role });
 
-        if(!findUser){
-            return res.status(404).json({ message: "User not found" });
-        }
-
-        res.json({ message: "User found", data: findUser });
+        res.json({ message: "user authorized"});
 
     } catch (error) {
         console.log("Error in checkUser controller",error);
