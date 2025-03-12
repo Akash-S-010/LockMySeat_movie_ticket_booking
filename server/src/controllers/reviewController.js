@@ -8,7 +8,7 @@ export const addReview = async (req, res) => {
 
     const movieId = req.params.id
     const {comment, rating} = req.body
-    const userId = req.user._id
+    const userId = req.user.userid
 
     try {
         
