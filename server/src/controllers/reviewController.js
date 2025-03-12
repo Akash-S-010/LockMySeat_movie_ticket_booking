@@ -46,15 +46,15 @@ export const getAllReviews = async (req, res) => {
 
     try {
 
-        const reviews = await Review.find({movieId})
+        const reviews = await Review.find({movie:movieId})
         .populate("user", "name")
         .select("comment rating")
 
-        if(!reviews){
+        if(!reviews.length){
             res.status(404).json({ message: "No reviews found" });
         }
 
-        res.status(200).json({ message: "Reviews found", data: reviews })
+        return res.status(200).json({ message: "Reviews found", data: reviews })
 
     } catch (error) {
         console.log("Error in getAllReviews controller",error);
