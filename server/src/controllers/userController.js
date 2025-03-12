@@ -193,7 +193,7 @@ export const getAllUsers = async (req, res) => {
         const users = await User.find({ role: "user" });
 
         if(!users){
-            res.status(404).json({ message: "No users found" });
+            return res.status(404).json({ message: "No users found" });
         }
 
         const totalUser = users.length;

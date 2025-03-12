@@ -30,7 +30,7 @@ export const addTheater = async (req, res) => {
         await newTheater.save();
 
         if(!newTheater){
-            res.status(404).json({ message: "No theater found" });
+            return res.status(404).json({ message: "No theater found" });
         }
         res.status(201).json({ message: "Theater added successfully", data: newTheater })
 
@@ -51,7 +51,7 @@ export const getAllTheaters = async (req, res) => {
         const theaters = await Theater.find({});
 
         if(!theaters){
-            res.status(404).json({ message: "No theaters found" });
+            return res.status(404).json({ message: "No theaters found" });
         }
 
         res.status(200).json({ message: "Theaters found", data: theaters })
@@ -73,7 +73,7 @@ export const getAllApprovedTheaters = async (req, res) => {
         const theaters = await Theater.find({ status: "approved" });
 
         if(!theaters){
-            res.status(404).json({ message: "No theaters found" });
+            return res.status(404).json({ message: "No theaters found" });
         }
 
         res.status(200).json({ message: "Theaters found", data: theaters })
@@ -97,7 +97,7 @@ export const getTheaterDetails = async (req, res) => {
         const theater = await Theater.findById({_id: theaterId, status: "approved"});
 
         if(!theater){
-            res.status(404).json({ message: "No theater found" });
+            return res.status(404).json({ message: "No theater found" });
         }
 
         res.status(200).json({ message: "Theater found", data: theater })
@@ -119,7 +119,7 @@ export const getTotalTheaters = async (req, res) => {
         const theaters = await Theater.find({});
 
         if(!theaters){
-            res.status(404).json({ message: "No theaters found" });
+            return res.status(404).json({ message: "No theaters found" });
         }
 
         const totalTheaters = theaters.length;
@@ -144,7 +144,7 @@ export const approveTheater = async (req, res) => {
         const theater = await Theater.findById(theaterId);
 
         if(!theater){
-            res.status(404).json({ message: "No theater found" });
+            return res.status(404).json({ message: "No theater found" });
         }
 
         theater.status = "approved";
@@ -171,7 +171,7 @@ export const rejectTheater = async (req, res) => {
         const theater = await Theater.findById(theaterId);
 
         if(!theater){
-            res.status(404).json({ message: "No theater found" });
+            return res.status(404).json({ message: "No theater found" });
         }
 
         theater.status = "rejected";

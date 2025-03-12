@@ -43,7 +43,7 @@ export const updateMovie = async(req, res) => {
         )
 
         if(!updatedMovie){
-            res.status(404).json({ message: "No movie found" });
+            return res.status(404).json({ message: "No movie found" });
         }
 
         res.status(200).json({ message: "Movie updated successfully", data: updatedMovie });
@@ -67,7 +67,7 @@ export const deleteMovie = async (req, res) => {
         const movie = await Movie.findByIdAndDelete(movieId);
 
         if(!movie){
-            res.status(404).json({ message: "No movie found" });
+            return res.status(404).json({ message: "No movie found" });
         }
 
         res.json({ message: "Movie deleted successfully"});
@@ -88,7 +88,7 @@ export const getAllMovies = async (req, res) => {
 
             const movies = await Movie.find().select("-reviews", "-cast", "-plot", "-duration", "-releaseDate");
             if (!movies) {
-                res.status(404).json({ message: "No movies found" });
+                return res.status(404).json({ message: "No movies found" });
             }
 
             res.json({ message: "Movies found", data: movies });
@@ -116,7 +116,7 @@ export const getAllMovies = async (req, res) => {
             })
 
             if (!movie) {
-                res.status(404).json({ message: "No movie found" });
+                return res.status(404).json({ message: "No movie found" });
             }
 
             res.json({ message: "Movie found", data: movie });
@@ -137,7 +137,7 @@ export const totalMovies = async (req, res) => {
         
         const movies = await Movie.find({});
         if(!movies){
-            res.status(404).json({ message: "No movies found" });
+            return res.status(404).json({ message: "No movies found" });
         }
 
         const totalMovies = movies.length;

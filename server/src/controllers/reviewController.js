@@ -13,13 +13,13 @@ export const addReview = async (req, res) => {
     try {
         
         if(!comment || !rating){
-            res.status(400).json({ message: "All fields are required" });
+            return res.status(400).json({ message: "All fields are required" });
         }
 
         const movie = await Movie.findById(movieId)
 
         if(!movie){
-            res.status(404).json({ message: "No movie found" });
+           return  res.status(404).json({ message: "No movie found" });
         }
 
         const newReview = new Review({movie:movieId, user:userId, comment, rating})
@@ -28,7 +28,7 @@ export const addReview = async (req, res) => {
         movie.reviews.push(newReview)
         await movie.save()
 
-        res.status(201).json({ message: "Review added successfully", data: newReview })
+        return res.status(201).json({ message: "Review added successfully", data: newReview })
 
     } catch (error) {
         console.log("Error in addReview controller",error);
@@ -51,10 +51,10 @@ export const getAllReviews = async (req, res) => {
         .select("comment rating")
 
         if(!reviews.length){
-            res.status(404).json({ message: "No reviews found" });
+           return res.status(404).json({ message: "No reviews found" });
         }
 
-        return res.status(200).json({ message: "Reviews found", data: reviews })
+        res.status(200).json({ message: "Reviews found", data: reviews })
 
     } catch (error) {
         console.log("Error in getAllReviews controller",error);
