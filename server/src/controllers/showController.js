@@ -120,13 +120,14 @@ export const getShowByLocation = async (req, res) => {
             return res.status(400).json({ message: "Location Not Found" });
         }
 
-        const theaters = await Theater.find({ location: location });
+        const theaters = await Theater.find({ location: { $regex: new RegExp(location, "i") } });
 
         if(!theaters.length){
             return res.status(404).json({ message: "No theaters found" });
         }
 
-        const shows = await Show.find({ theaterId: theaters.map(theater => theater._id) });
+        const shows = await Show.find({ theaterId: { $in: theaters.map(theater => theater._id) } })
+        .populate("theaterId", "name location")
 
         if(!shows.length){
             return res.status(404).json({ message: "No shows found" });
@@ -136,6 +137,28 @@ export const getShowByLocation = async (req, res) => {
 
     } catch (error) {
         console.error("Error in getShowByLocation controller", error);
+        res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
+    }
+};
+
+
+
+
+// -------------get all shows----------------
+export const getAllShows = async (req, res) => {
+    
+    try {
+        
+        const shows = await Show.find({});
+
+        if(!shows.length){
+            return res.status(404).json({ message: "No shows found" });
+        }
+
+        res.status(200).json({ message: "Shows found", data: shows });
+
+    } catch (error) {
+        console.error("Error in getAllShows controller", error);
         res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
     }
 };
