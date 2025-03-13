@@ -24,7 +24,13 @@ const showSchema = new mongoose.Schema({
     seats: { 
         type: [[Boolean]], //----------------2D array of seats (true = booked, false = available)
         required: true
+    },
+    status: {
+        type: String,
+        enum: ["notStarted", "started", "expired"],
+        default: "notStarted",
     }
+
 
 }, { timestamps: true });
 
