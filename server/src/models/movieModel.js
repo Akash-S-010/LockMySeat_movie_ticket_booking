@@ -25,10 +25,10 @@ const movieSchema = new mongoose.Schema({
         type: Date,
         required: true,
     },
-    language: {
+    language: [{
         type: String,
         required: true,
-    },
+    }],
     bannerImg: {
         type: String,
         required: true,
