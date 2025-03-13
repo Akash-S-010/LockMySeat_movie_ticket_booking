@@ -13,12 +13,8 @@ const showSchema = new mongoose.Schema({
         required: true,
 
     },
-    date: {
+    dateTime: { //-------- Combined Date & Time Field
         type: Date,
-        required: true,
-    },
-    time: { 
-        type: String,
         required: true,
     },
     ticketPrice: {
@@ -26,7 +22,7 @@ const showSchema = new mongoose.Schema({
         required: true
     },
     seats: { 
-        type: [[Boolean]], // 2D array of seats (true = booked, false = available)
+        type: [[Boolean]], //----------------2D array of seats (true = booked, false = available)
         required: true
     }
 
