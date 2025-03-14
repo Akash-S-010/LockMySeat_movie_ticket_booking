@@ -19,7 +19,7 @@ export const addMovie = async (req, res) => {
         res.json({ message: "Movie added successfully", data: newMovie });
 
     } catch (error) {
-        console.log("Error in addMovie controller",error);
+        console.error("Error in addMovie controller",error);
         res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
     }
    
@@ -49,7 +49,7 @@ export const updateMovie = async(req, res) => {
         res.status(200).json({ message: "Movie updated successfully", data: updatedMovie });
 
     } catch (error) {
-        console.log("Error in updateMovie controller",error);
+        console.error("Error in updateMovie controller",error);
         res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
     }
 };
@@ -73,7 +73,7 @@ export const deleteMovie = async (req, res) => {
         res.json({ message: "Movie deleted successfully"});
 
     } catch (error) {
-        console.log("Error in deleteMovie controller",error);
+        console.error("Error in deleteMovie controller",error);
         res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
     }
 };
@@ -94,7 +94,7 @@ export const getAllMovies = async (req, res) => {
             res.json({ message: "Movies found", data: movies });
 
         } catch (error) {
-            console.log("Error in getAllMovies controller", error);
+            console.error("Error in getAllMovies controller", error);
             res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
         }
     };
@@ -122,7 +122,7 @@ export const getAllMovies = async (req, res) => {
             res.json({ message: "Movie found", data: movie });
 
         } catch (error) {
-            console.log("Error in getMovieDetails controller", error);
+            console.error("Error in getMovieDetails controller", error);
             res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
         }
     };
@@ -144,7 +144,7 @@ export const totalMovies = async (req, res) => {
         res.json({ message: "Total movies found", data: totalMovies });
 
     } catch (error) {
-        console.log("Error in totalMovies controller",error);
+        console.error("Error in totalMovies controller",error);
         res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
     }
 }

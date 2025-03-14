@@ -19,7 +19,7 @@ const checkAuth = (req, res, next) => {
         })
 
     } catch (error) {
-        console.log("Error in checkAuth middleware",error);
+        console.error("Error in checkAuth middleware",error);
         res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
     }
 };

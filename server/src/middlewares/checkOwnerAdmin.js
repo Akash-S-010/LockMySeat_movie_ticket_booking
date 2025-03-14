@@ -24,7 +24,7 @@ const checkOwnerAdmin = (req, res, next) =>{
         })
 
     } catch (error) {
-        console.log("Error in checkOwnerAdmin middleware",error);
+        console.error("Error in checkOwnerAdmin middleware",error);
         res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
     }
 };

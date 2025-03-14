@@ -37,7 +37,7 @@ export const signup = async (req, res) => {
         res.json({ message: "OTP sent to your email. Please verify to complete registration." });
 
     } catch (error) {
-        console.log("Error in signup",error);
+        console.error("Error in signup",error);
         res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
     }
 };
@@ -70,7 +70,7 @@ export const verifyOTP = async (req, res) => {
         res.json({ message: "Registration successful." });
 
     } catch (error) {
-        console.log("Error in verifying OTP",error);
+        console.error("Error in verifying OTP",error);
         res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });F
     }
 };
@@ -107,7 +107,7 @@ export const resendOTP = async (req, res) => {
         res.json({ message: "New OTP sent to your email." });
 
     } catch (error) {
-        console.log("Error in resending OTP", error);
+        console.error("Error in resending OTP", error);
         res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
     }
 };
@@ -147,7 +147,7 @@ export const login = async (req, res) => {
         res.status(200).json({ message: "Login successful",data: {_id: admin._id, name: admin.name, email: admin.email, role: admin.role} });
 
     } catch (error) {
-     console.log("Error in login",error);
+     console.error("Error in login",error);
      res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });   
     }
 };
@@ -162,7 +162,7 @@ export const logout = async (req, res) => {
         res.clearCookie("token");
         res.json({ message: "Logout successful" });
     } catch (error) {
-        console.log("Error in logout",error);
+        console.error("Error in logout",error);
         res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
     }
 };

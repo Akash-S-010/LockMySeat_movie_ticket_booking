@@ -24,7 +24,7 @@ const checkAdmin = (req, res, next) =>{
         })
 
     } catch (error) {
-        console.log("Error in checkAdmin middleware",error);
+        console.error("Error in checkAdmin middleware",error);
         res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
     }
 };

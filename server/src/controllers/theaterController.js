@@ -35,7 +35,7 @@ export const addTheater = async (req, res) => {
         res.status(201).json({ message: "Theater added successfully", data: newTheater })
 
     } catch (error) {
-        console.log("Error in addTheater controller",error);
+        console.error("Error in addTheater controller",error);
         res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
     }
 };
@@ -57,7 +57,7 @@ export const getAllTheaters = async (req, res) => {
         res.status(200).json({ message: "Theaters found", data: theaters })
 
     } catch (error) {
-        console.log("Error in getAllTheaters controller",error);
+        console.error("Error in getAllTheaters controller",error);
         res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
     }
 };
@@ -79,7 +79,7 @@ export const getAllApprovedTheaters = async (req, res) => {
         res.status(200).json({ message: "Theaters found", data: theaters })
 
     } catch (error) {
-        console.log("Error in getAllApprovedTheaters controller",error);
+        console.error("Error in getAllApprovedTheaters controller",error);
         res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
     }
 };
@@ -103,7 +103,7 @@ export const getTheaterDetails = async (req, res) => {
         res.status(200).json({ message: "Theater found", data: theater })
 
     } catch (error) {
-        console.log("Error in getTheaterDetails controller",error);
+        console.error("Error in getTheaterDetails controller",error);
         res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
     }
 };
@@ -126,7 +126,7 @@ export const getTotalTheaters = async (req, res) => {
         res.status(200).json({ message: "Total theaters found", data: totalTheaters })
 
     } catch (error) {
-        console.log("Error in getTotalTheaters controller",error);
+        console.error("Error in getTotalTheaters controller",error);
         res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
     }
 };
@@ -153,7 +153,7 @@ export const approveTheater = async (req, res) => {
         res.status(200).json({ message: "Theater approved successfully", data: theater })
 
     } catch (error) {
-        console.log("Error in approveTheater controller",error);
+        console.error("Error in approveTheater controller",error);
         res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
     }
 };
@@ -180,7 +180,7 @@ export const rejectTheater = async (req, res) => {
         res.status(200).json({ message: "Theater rejected successfully", data: theater })
 
     } catch (error) {
-        console.log("Error in rejectTheater controller",error);
+        console.error("Error in rejectTheater controller",error);
         res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
     }
 };

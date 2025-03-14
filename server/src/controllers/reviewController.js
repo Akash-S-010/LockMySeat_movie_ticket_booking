@@ -8,7 +8,7 @@ export const addReview = async (req, res) => {
 
     const movieId = req.params.id
     const {comment, rating} = req.body
-    const userId = req.user.userid
+    const userId = req.user.userId
 
     try {
         
@@ -31,7 +31,7 @@ export const addReview = async (req, res) => {
         return res.status(201).json({ message: "Review added successfully", data: newReview })
 
     } catch (error) {
-        console.log("Error in addReview controller",error);
+        console.error("Error in addReview controller",error);
         res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
     }
 };
@@ -57,7 +57,7 @@ export const getAllReviews = async (req, res) => {
         res.status(200).json({ message: "Reviews found", data: reviews })
 
     } catch (error) {
-        console.log("Error in getAllReviews controller",error);
+        console.error("Error in getAllReviews controller",error);
         res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
     }
 };
