@@ -7,6 +7,13 @@ const paymentSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
+    stripe_payment_intent_id: {
+        type: String,
+        unique: true
+    },
+    stripe_client_secret: {
+        type: String
+    },
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',

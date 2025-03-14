@@ -11,18 +11,22 @@ const bookingSchema = new mongoose.Schema({
         ref: 'User',
         required: true,
     },
-    seats: {
-        type: [String],
-        required: true,
-    },
+    selectedSeats: [{
+        seatNumber: { type: String, required: true }, //---- Example: 'A5', 'B6'
+        status: { type: String, enum: ['pending', 'booked'], default: 'pending'}
+    }],
     totalPrice: {
         type: Number,
         required: true,
     },
+    paymentId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Payment'
+    },
     status: {
         type: String,
-        enum: ['booked', 'cancelled'],
-        default: 'booked',
+        enum: ['pending', 'booked', 'cancelled'],
+        default: 'pending',
     },
 },
     { timestamps: true }

@@ -162,3 +162,24 @@ export const getAllShows = async (req, res) => {
         res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
     }
 };
+
+
+
+
+// -------------get seats pattern with status------------
+export const getSeats = async (req, res) => {
+    try {
+        const { showId } = req.params;
+        const show = await Show.findById(showId);
+        if (!show) return res.status(404).json({ message: 'Show not found' });
+
+        if (new Date(show.dateTime) <= new Date()) {
+            return res.status(400).json({ message: 'Show has already started' });
+        }
+
+        res.status(200).json({ seats: show.seats, ticketPrice: show.ticketPrice });
+    } catch (error) {
+        console.error('Error in getSeats:', error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};

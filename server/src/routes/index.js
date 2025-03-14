@@ -4,6 +4,7 @@ import adminRoutes from "./adminRoutes.js"
 import movieRoutes from "./movieRoutes.js"
 import theaterRoutes from "./theaterRoutes.js"
 import showRoutes from "./showRoutes.js"
+import bookingRoutes from "./bookingRoutes.js"
 const router = express.Router();
 
 // ---User routes----
@@ -16,6 +17,8 @@ router.use('/movie',movieRoutes);
 router.use('/theater',theaterRoutes);
 // ---Show routes----
 router.use('/show',showRoutes);
+// ---Booking routes----
+router.use('/Booking',bookingRoutes);
 
 
 export default router
