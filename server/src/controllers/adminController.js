@@ -2,6 +2,7 @@ import Admin from "../models/adminModel.js";
 import bcrypt from "bcryptjs";
 import sendEmail from "../utils/sendEmail.js";
 import generateToken from "../utils/token.js";
+import crypto from "crypto";
 
 
 
@@ -149,6 +150,132 @@ export const login = async (req, res) => {
     } catch (error) {
      console.error("Error in login",error);
      res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });   
+    }
+};
+
+
+
+
+// -----------Forgot Password------------
+export const forgotPassword = async (req, res) => {
+    const { email } = req.body;
+
+    try {
+        
+        if (!email) {
+            return res.status(400).json({ message: "Email is required" });
+        }
+
+        const admin = await Admin.findOne({ email });
+
+        if (!admin) {
+            return res.status(400).json({ message: "admin not found" });
+        }
+
+        // ---Generate reset token
+        const resetToken = crypto.randomBytes(32).toString("hex");
+
+        // --hash the token and save to database
+        const hashedToken = crypto.createHash("sha256").update(resetToken).digest("hex");
+
+        admin.resetPasswordToken = hashedToken;
+        admin.resetPasswordExpires = Date.now() + 10 * 60 * 1000; // expires in 10 min
+
+        await admin.save();
+
+        // ---create reset password url
+        const resetUrl = `http://localhost:3000/reset-password/${resetToken}&email=${email}`;
+
+        // ---send email with url
+        await sendEmail( email, "Password Reset Request", `Click here to reset your password: ${resetUrl}`);
+
+        res.status(200).json({ message: "Password reset link sent to your email." });
+
+    } catch (error) {
+        console.error("Error in forgotPassword admin",error);
+        res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
+    }
+};
+
+
+
+
+// -----------Reset Password------------
+export const resetPassword = async (req, res) => {
+    const {email, token, newPassword} = req.body;
+
+    try {
+        
+        if (!email || !token || !newPassword) {
+            return res.status(400).json({ message: "All fields are required" });
+        }
+
+        const admin = await Admin.findOne({ email });
+
+        if (!admin) {
+            return res.status(400).json({ message: "User not found" });
+        }
+
+        // ---check if token is valid
+        const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
+
+        if (admin.resetPasswordToken !== hashedToken || admin.resetPasswordExpires < Date.now()) {
+            return res.status(400).json({ message: "Invalid or expired token" });
+        }
+
+        // ---hash the new password
+        const salt = await bcrypt.genSalt(10);
+        const hashedNewPassword = await bcrypt.hash(newPassword, salt);
+
+        admin.password = hashedNewPassword;
+        admin.resetPasswordToken = null;
+        admin.resetPasswordExpires = null;
+
+        await admin.save();
+
+        res.status(200).json({ message: "Password reset successful" });
+
+    } catch (error) {
+        console.error("Error in resetPassword",error);
+        res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
+    }
+};
+
+
+
+
+// -----------Update Profile------------
+export const updateProfile = async (req, res) => {
+    const { name, profilePic } = req.body;
+    const userId = req.user.userId;
+
+    try {
+
+        const admin = await Admin.findById(userId);
+
+        if (!admin) {
+            return res.status(400).json({ message: "User not found" });
+        }
+
+        if(name){
+            const nameExists = await Admin.findOne({ name });
+            if (nameExists && nameExists._id.toString() !== userId) {
+                return res.status(400).json({ message: "Username already taken" });
+            }
+            admin.name = name;
+        }
+
+        if(profilePic){
+            admin.profilePic = profilePic;
+        }
+
+        await admin.save();
+
+        res.status(200).json({ message: "Profile updated successfully", data: admin });
+
+    } catch (error) {
+        console.error("Error in updateProfile",error);
+        res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
     }
 };
 
