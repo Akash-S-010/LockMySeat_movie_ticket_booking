@@ -2,6 +2,7 @@ import User from "../models/userModel.js";
 import bcrypt from "bcryptjs";
 import sendEmail from "../utils/sendEmail.js";
 import generateToken from "../utils/token.js";
+import crypto from "crypto";
 
 
 
@@ -25,8 +26,8 @@ export const signup = async (req, res) => {
         // ------generate otp--------
         const otp = Math.floor(100000 + Math.random() * 900000);
 
-        // ------otp expire time ( 2 min )------
-        const otpExpires = Date.now() + 2 * 60 * 1000;
+        // ------otp expire time ( 3 min )------
+        const otpExpires = Date.now() + 3 * 60 * 1000;
 
         const newUser = new User({ name, email, password: hashedPassword, otp, otpExpires, isVerified: false });
         await newUser.save();
@@ -95,7 +96,7 @@ export const resendOTP = async (req, res) => {
 
         // ---------Generate new OTP------------
         const otp = Math.floor(100000 + Math.random() * 900000);
-        const otpExpires = Date.now() + 2 * 60 * 1000; // Set expiration time
+        const otpExpires = Date.now() + 3 * 60 * 1000; // Set an expiration time of 3 minutes
 
         user.otp = otp;
         user.otpExpires = otpExpires;
@@ -163,6 +164,132 @@ export const logout = async (req, res) => {
         res.json({ message: "Logout successful" });
     } catch (error) {
         console.error("Error in logout",error);
+        res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
+    }
+};
+
+
+
+
+// -----------Forgot Password------------
+export const forgotPassword = async (req, res) => {
+    const { email } = req.body;
+
+    try {
+        
+        if (!email) {
+            return res.status(400).json({ message: "Email is required" });
+        }
+
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(400).json({ message: "User not found" });
+        }
+
+        // ---Generate reset token
+        const resetToken = crypto.randomBytes(32).toString("hex");
+
+        // --hash the token and save to database
+        const hashedToken = crypto.createHash("sha256").update(resetToken).digest("hex");
+
+        user.resetPasswordToken = hashedToken;
+        user.resetPasswordExpires = Date.now() + 10 * 60 * 1000; // expires in 10 min
+
+        await user.save();
+
+        // ---create reset password url
+        const resetUrl = `http://localhost:3000/reset-password/${resetToken}&email=${email}`;
+
+        // ---send email with url
+        await sendEmail( email, "Password Reset Request", `Click here to reset your password: ${resetUrl}`);
+
+        res.status(200).json({ message: "Password reset link sent to your email." });
+
+    } catch (error) {
+        console.error("Error in forgotPassword",error);
+        res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
+    }
+};
+
+
+
+
+// -----------Reset Password------------
+export const resetPassword = async (req, res) => {
+    const {email, token, newPassword} = req.body;
+
+    try {
+        
+        if (!email || !token || !newPassword) {
+            return res.status(400).json({ message: "All fields are required" });
+        }
+
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(400).json({ message: "User not found" });
+        }
+
+        // ---check if token is valid
+        const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
+
+        if (user.resetPasswordToken !== hashedToken || user.resetPasswordExpires < Date.now()) {
+            return res.status(400).json({ message: "Invalid or expired token" });
+        }
+
+        // ---hash the new password
+        const salt = await bcrypt.genSalt(10);
+        const hashedNewPassword = await bcrypt.hash(newPassword, salt);
+
+        user.password = hashedNewPassword;
+        user.resetPasswordToken = null;
+        user.resetPasswordExpires = null;
+
+        await user.save();
+
+        res.status(200).json({ message: "Password reset successful" });
+
+    } catch (error) {
+        console.error("Error in resetPassword",error);
+        res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
+    }
+};
+
+
+
+
+// -----------Update Profile------------
+export const updateProfile = async (req, res) => {
+    const { name, profilePic } = req.body;
+    const userId = req.user.userId;
+
+    try {
+
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res.status(400).json({ message: "User not found" });
+        }
+
+        if(name){
+            const nameExists = await User.findOne({ name });
+            if (nameExists && nameExists._id.toString() !== userId) {
+                return res.status(400).json({ message: "Username already taken" });
+            }
+            user.name = name;
+        }
+
+        if(profilePic){
+            user.profilePic = profilePic;
+        }
+
+        await user.save();
+
+        res.status(200).json({ message: "Profile updated successfully", data: user });
+
+    } catch (error) {
+        console.error("Error in updateProfile",error);
         res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
     }
 };
