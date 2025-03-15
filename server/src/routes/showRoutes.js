@@ -9,7 +9,7 @@ router.post('/add-show', checkOwner, addShow)
 router.get('/by-date', checkAuth, getShowByDate)
 router.get('/by-location', checkAuth, getShowByLocation)
 router.get('/all-shows', checkOwner, getAllShows)
-router.get('/seats', checkAuth, getSeats)
+router.get('/seats/:showId', checkAuth, getSeats)
 
 
 

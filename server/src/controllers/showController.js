@@ -28,6 +28,7 @@ export const addShow = async (req, res) => {
             return res.status(400).json({ message: "Theater is not approved" });
         }
 
+        //-------check requested user is owner of theater---
         if (theater.ownerId.toString() !== ownerId) {
             return res.status(403).json({ message: "Unauthorized: Not your theater" });
         }
