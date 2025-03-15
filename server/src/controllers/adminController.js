@@ -271,7 +271,7 @@ export const updateProfile = async (req, res) => {
 
         await admin.save();
 
-        res.status(200).json({ message: "Profile updated successfully", data: admin });
+        res.status(200).json({ message: "Profile updated successfully", data: { _id: admin._id, name: admin.name, email: admin.email, profilePic: admin.profilePic, role: admin.role} });
 
     } catch (error) {
         console.error("Error in updateProfile",error);
