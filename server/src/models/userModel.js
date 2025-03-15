@@ -14,9 +14,13 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    isVerified: { 
-        type: Boolean, 
-        default: false 
+    profilePic: {
+        type: String,
+        default: "https://cdn-icons-png.flaticon.com/512/6596/6596121.png"
+    },
+    isVerified: {
+        type: Boolean,
+        default: false
     },
     bookings: [{
         type: mongoose.Schema.Types.ObjectId,
@@ -24,11 +28,17 @@ const userSchema = new mongoose.Schema({
     }],
     otp: {
         type: String
-      },
-      otpExpires: {
+    },
+    otpExpires: {
         type: Date
-      },
-      
+    },
+    resetPasswordToken: {
+        type: String
+    },
+    resetPasswordExpires: {
+        type: Date
+    }
+
 }, { timestamps: true })
 
 export default mongoose.model('User', userSchema);
