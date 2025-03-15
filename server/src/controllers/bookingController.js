@@ -1,5 +1,6 @@
 import Booking from "../models/bookingModel.js";
 import Show from "../models/showModel.js";
+import mongoose from "mongoose";
 
 import mongoose from "mongoose";
 
@@ -16,37 +17,35 @@ export const createBooking = async (req, res) => {
         }
 
         const show = await Show.findById(showId).session(session);
-
         if (!show) {
             await session.abortTransaction();
             session.endSession();
-            return res.status(404).json({ message: "No show found" });
+            return res.status(404).json({ message: "Show not found" });
         }
 
-        //--- Convert seat numbers to row-column indices
+        // Convert selected seats to row and column indices
         const seatIndices = selectedSeats.map(seat => {
-            const row = seat.charCodeAt(0) - 65; // 'A' -> 0, 'B' -> 1, etc.
+            const row = seat.charCodeAt(0) - 65; 
             const col = parseInt(seat.substring(1)) - 1;
             return { row, col };
         });
 
-        // ----Check if any of the selected seats are already booked
+        // Check if selected seats are available
         for (let { row, col } of seatIndices) {
-            if (show.seats[row][col]) {
+            if (show.seats[row][col] !== "available") {
                 await session.abortTransaction();
                 session.endSession();
-                return res.status(400).json({ message: `Seat ${selectedSeats} is already booked` });
+                return res.status(400).json({ message: `Seat ${selectedSeats} is already taken` });
             }
         }
 
-        //----- Mark seats as booked in the Show schema
+        //---- Lock seats temporary for payment
         seatIndices.forEach(({ row, col }) => {
-            show.seats[row][col] = true;
+            show.seats[row][col] = "locked"; 
         });
 
         await show.save({ session });
 
-        // ----Create the booking record
         const newBooking = new Booking({
             showId,
             userId,
@@ -60,14 +59,14 @@ export const createBooking = async (req, res) => {
         await session.commitTransaction();
         session.endSession();
 
-        res.status(201).json({ message: "Booking created successfully", data: newBooking._id });
+        res.status(201).json({ message: "Booking created, seats locked", bookingId: newBooking._id });
     } catch (error) {
         await session.abortTransaction();
         session.endSession();
-        console.error("Error in createBooking controller", error);
-        res.status(500).json({ message: error.message || "Internal server error" });
+        res.status(500).json({ message: "Error creating booking" });
     }
 };
+
 
 
 

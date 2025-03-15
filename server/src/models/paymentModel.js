@@ -7,11 +7,11 @@ const paymentSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
-    stripe_payment_intent_id: {
+    razorpay_payment_id: {
         type: String,
         unique: true
     },
-    stripe_client_secret: {
+    razorpay_signature: {
         type: String
     },
     userId: {

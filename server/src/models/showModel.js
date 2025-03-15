@@ -22,7 +22,7 @@ const showSchema = new mongoose.Schema({
         required: true
     },
     seats: { 
-        type: [[Boolean]], //----------------2D array of seats (true = booked, false = available)
+        type: [[String]], // Use available, booked, locked
         required: true
     },
     status: {

@@ -12,8 +12,8 @@ const bookingSchema = new mongoose.Schema({
         required: true,
     },
     selectedSeats: [{
-        seatNumber: { type: String, required: true }, //---- Example: 'A5', 'B6'
-        status: { type: String, enum: ['pending', 'booked'], default: 'pending'}
+        seatNumber: { type: String, required: true },
+        status: { type: String, enum: ['pending', 'booked'], default: 'pending' }
     }],
     totalPrice: {
         type: Number,
