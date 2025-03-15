@@ -150,7 +150,7 @@ export const getAllShows = async (req, res) => {
     
     try {
         
-        const shows = await Show.find({});
+        const shows = await Show.find({}).sort({ createdAt: -1 });
 
         if(!shows.length){
             return res.status(404).json({ message: "No shows found" });

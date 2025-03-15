@@ -86,7 +86,7 @@ export const getAllMovies = async (req, res) => {
 
         try {
 
-            const movies = await Movie.find().select("-reviews", "-cast", "-plot", "-duration", "-releaseDate");
+            const movies = await Movie.find().select("-reviews", "-cast", "-plot", "-duration", "-releaseDate").sort({ createdAt: -1 });
             if (!movies) {
                 return res.status(404).json({ message: "No movies found" });
             }

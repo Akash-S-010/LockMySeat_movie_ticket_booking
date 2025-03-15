@@ -48,7 +48,7 @@ export const getAllTheaters = async (req, res) => {
     
     try {
         
-        const theaters = await Theater.find({});
+        const theaters = await Theater.find({}).sort({ createdAt: -1 });
 
         if(!theaters){
             return res.status(404).json({ message: "No theaters found" });
