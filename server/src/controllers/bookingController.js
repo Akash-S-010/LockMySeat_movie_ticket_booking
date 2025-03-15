@@ -1,48 +1,74 @@
 import Booking from "../models/bookingModel.js";
 import Show from "../models/showModel.js";
 
+import mongoose from "mongoose";
+
 export const createBooking = async (req, res) => {
-    
-    const {showId, selectedSeats, totalPrice} = req.body;
-    const userId = req.user.userId;
+    const session = await mongoose.startSession();
+    session.startTransaction();
 
     try {
-        
-        if(!showId || !selectedSeats || !totalPrice || !userId){
+        const { showId, selectedSeats, totalPrice } = req.body;
+        const userId = req.user.userId;
+
+        if (!showId || !selectedSeats || !totalPrice || !userId) {
             return res.status(400).json({ message: "All fields are required" });
         }
 
-        const show = await Show.findById(showId);
+        const show = await Show.findById(showId).session(session);
 
-        if(!show){
+        if (!show) {
+            await session.abortTransaction();
+            session.endSession();
             return res.status(404).json({ message: "No show found" });
         }
 
-        const existingBooking = await Booking.findOne({
-            showId,
-            seats: { $elemMatch: { seatNumber: { $in: selectedSeats }, status: { $in: ['pending', 'booked'] } } }
+        //--- Convert seat numbers to row-column indices
+        const seatIndices = selectedSeats.map(seat => {
+            const row = seat.charCodeAt(0) - 65; // 'A' -> 0, 'B' -> 1, etc.
+            const col = parseInt(seat.substring(1)) - 1;
+            return { row, col };
         });
 
-        if(existingBooking){
-            return res.status(400).json({ message: "Selected seats are already booked or processing Payment" });
+        // ----Check if any of the selected seats are already booked
+        for (let { row, col } of seatIndices) {
+            if (show.seats[row][col]) {
+                await session.abortTransaction();
+                session.endSession();
+                return res.status(400).json({ message: `Seat ${selectedSeats} is already booked` });
+            }
         }
 
+        //----- Mark seats as booked in the Show schema
+        seatIndices.forEach(({ row, col }) => {
+            show.seats[row][col] = true;
+        });
+
+        await show.save({ session });
+
+        // ----Create the booking record
         const newBooking = new Booking({
             showId,
             userId,
-            seats: selectedSeats.map(seat => ({ seatNumber: seat, status: 'pending' })),
+            selectedSeats: selectedSeats.map(seat => ({ seatNumber: seat, status: "pending" })),
             totalPrice,
-            status: 'pending'
-        })
+            status: "pending"
+        });
 
-        await newBooking.save();
+        await newBooking.save({ session });
+
+        await session.commitTransaction();
+        session.endSession();
+
         res.status(201).json({ message: "Booking created successfully", data: newBooking._id });
-
     } catch (error) {
-        console.error("Error in createBooking controller",error);
-        res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
+        await session.abortTransaction();
+        session.endSession();
+        console.error("Error in createBooking controller", error);
+        res.status(500).json({ message: error.message || "Internal server error" });
     }
 };
+
 
 
 
@@ -50,7 +76,7 @@ export const createBooking = async (req, res) => {
 // --------------get all bookings of specific use------------
 export const getUserBookings = async (req, res) => {
     
-    const userId = req.params.id;
+    const userId = req.user.userId;
 
     try {
         
@@ -73,7 +99,9 @@ export const getUserBookings = async (req, res) => {
             return res.status(404).json({ message: "No bookings found" });
         }
 
-        const formattedBookings = bookings.map(booking => ({
+        // ----formatted for good structure and readability----
+        const formattedBookings = bookings.filter(booking => booking.showId) // Exclude deleted shows
+        .map(booking => ({
             bookingId: booking._id,
             movieName: booking.showId.movieId.title,
             movieImage: booking.showId.movieId.verticalImg,
