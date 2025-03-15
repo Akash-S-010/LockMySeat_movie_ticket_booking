@@ -58,8 +58,34 @@ export const getUserBookings = async (req, res) => {
             return res.status(400).json({ message: "User id is required" });
         }
 
-        const bookings = await Booking.find({userId}).populate("showId", "movieId theaterId showDate showTime",);
-        res.status(200).json({ message: "Bookings found", data: bookings });
+        const bookings = await Booking.find({ userId })
+            .populate({
+                path: "showId",
+                select: "movieId theaterId dateTime",
+                populate: [
+                    { path: "movieId", select: "title posterImage" },
+                    { path: "theaterId", select: "name location" }
+                ]
+            })
+            .select("showId selectedSeats status totalPrice createdAt");
+
+        if(!bookings.length){
+            return res.status(404).json({ message: "No bookings found" });
+        }
+
+        const formattedBookings = bookings.map(booking => ({
+            bookingId: booking._id,
+            movieName: booking.showId.movieId.title,
+            movieImage: booking.showId.movieId.verticalImg,
+            theaterName: booking.showId.theaterId.name,
+            showDate: booking.showId.dateTime.toDateString(),
+            showTime: booking.showId.dateTime.toTimeString(),
+            bookedSeats: booking.selectedSeats.map(seat => seat.seatNumber),
+            status: booking.status,
+            totalPrice: booking.totalPrice
+        }));
+
+        res.status(200).json({ message: "Bookings found", data: formattedBookings });
 
     } catch (error) {
         console.error("Error in getUserBookings controller",error);
