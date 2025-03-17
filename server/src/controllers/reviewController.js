@@ -1,5 +1,6 @@
 import Movie from "../models/movieModel.js";
 import Review from "../models/reviewModel.js";
+import Booking from "../models/bookingModel.js";
 
 
 
@@ -13,16 +14,32 @@ export const addReview = async (req, res) => {
     try {
         
         if(!comment || !rating){
-            return res.status(400).json({ message: "All fields are required" });
+            return res.status(400).json({ message: "Comment and rating are required" });
         }
 
         const movie = await Movie.findById(movieId)
 
         if(!movie){
-           return  res.status(404).json({ message: "No movie found" });
+           return  res.status(404).json({ message: "Movie not found" });
         }
 
-        const newReview = new Review({movie:movieId, user:userId, comment, rating})
+        const movieBooked = await Booking.Booking.exists({
+            userId,
+            movieId,
+            status: "booked",
+        });
+
+        if (!movieBooked) {
+            return res.status(403).json({ message: "Only booked users can add a review" });
+        }
+
+        const newReview = new Review({
+            movie:movieId, 
+            user:userId, 
+            comment, 
+            rating
+        });
+        
         await newReview.save()
 
         movie.reviews.push(newReview)
