@@ -2,7 +2,6 @@ import Booking from "../models/bookingModel.js";
 import Show from "../models/showModel.js";
 import mongoose from "mongoose";
 
-import mongoose from "mongoose";
 
 export const createBooking = async (req, res) => {
     const session = await mongoose.startSession();

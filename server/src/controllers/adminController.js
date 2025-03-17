@@ -3,6 +3,8 @@ import bcrypt from "bcryptjs";
 import sendEmail from "../utils/sendEmail.js";
 import generateToken from "../utils/token.js";
 import crypto from "crypto";
+import cloudinaryUpload from "../utils/cloudinaryUploader.js";
+
 
 
 
@@ -265,8 +267,8 @@ export const updateProfile = async (req, res) => {
             admin.name = name;
         }
 
-        if(profilePic){
-            admin.profilePic = profilePic;
+        if (req.file) {
+            admin.profilePic = await cloudinaryUpload(req.file.path);
         }
 
         await admin.save();

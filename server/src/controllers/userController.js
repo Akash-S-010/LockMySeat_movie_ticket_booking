@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import sendEmail from "../utils/sendEmail.js";
 import generateToken from "../utils/token.js";
 import crypto from "crypto";
+import cloudinaryUpload from "../utils/cloudinaryUploader.js";
 
 
 
@@ -145,7 +146,7 @@ export const login = async (req, res) => {
 
         res.cookie("token", token)
 
-        res.status(200).json({ message: "Login successful", data: { _id: user._id, name: user.name, email: user.email } });
+        res.status(200).json({ message: "Login successful", data: { _id: user._id, name: user.name, email: user.email, profilePic: user.profilePic } });
 
     } catch (error) {
         console.error("Error in login", error);
@@ -280,8 +281,8 @@ export const updateProfile = async (req, res) => {
             user.name = name;
         }
 
-        if (profilePic) {
-            user.profilePic = profilePic;
+        if (req.file) {
+            user.profilePic = await cloudinaryUpload(req.file.path);
         }
 
         await user.save();

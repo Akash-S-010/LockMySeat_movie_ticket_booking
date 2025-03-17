@@ -1,6 +1,7 @@
 import express from "express";
 import { forgotPassword, login, logout, resendOTP, resetPassword, signup, updateProfile, verifyOTP } from "../controllers/adminController.js";
 import checkOwnerAdmin from "../middlewares/checkOwnerAdmin.js";
+import { upload } from "../middlewares/multer.js";
 const router = express.Router();
 
 
@@ -11,7 +12,7 @@ router.post('/logout', logout)
 router.post('/resend-otp', resendOTP)
 router.post('/forgot-password', forgotPassword)
 router.post('/reset-password', resetPassword)
-router.put('/update-profile', checkOwnerAdmin, updateProfile)
+router.put('/update-profile', checkOwnerAdmin, upload.single('profilePic'), updateProfile)
 
 
 export default router
