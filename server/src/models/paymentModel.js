@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 
 const paymentSchema = new mongoose.Schema({
-    transaction_id: {
+    razorpay_order_id: {
         type: String,
         required: true,
         unique: true
