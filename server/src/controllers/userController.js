@@ -131,6 +131,11 @@ export const login = async (req, res) => {
             return res.status(400).json({ message: "User not found" });
         }
 
+        // Check account is deactivated
+        if (user.isActive === false) {
+            return res.status(403).json({ message: "Sorry, your account has been deactivated by admin." });
+        }
+
         if (user.isVerified === false) {
             return res.status(400).json({ message: "Please verify your email before logging in." });
         }
@@ -329,6 +334,32 @@ export const getAllUsers = async (req, res) => {
 
     } catch (error) {
         console.error("Error in getAllUsers controller", error);
+        res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
+    }
+};
+
+
+
+
+// -----------User account deactivation and activation------------
+export const isActiveToggle = async (req, res) => {
+    const { userId } = req.params
+
+    try {
+
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res.status(400).json({ message: "User not found" });
+        }
+
+        user.isActive = !user.isActive;
+        await user.save();
+
+        res.status(200).json({ message: `User ${user.isActive ? "activated" : "deactivated"} successfully` });
+
+    } catch (error) {
+        console.log("Error in isActiveToggle", error);
         res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
     }
 };

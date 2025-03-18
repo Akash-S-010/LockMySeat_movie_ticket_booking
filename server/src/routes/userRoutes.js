@@ -1,8 +1,9 @@
 import express from "express";
-import { checkUser, forgotPassword, getAllUsers, login, logout, resendOTP, resetPassword, signup, updateProfile, verifyOTP } from "../controllers/userController.js";
+import { checkUser, forgotPassword, getAllUsers, isActiveToggle, login, logout, resendOTP, resetPassword, signup, updateProfile, verifyOTP } from "../controllers/userController.js";
 import checkAuth from "../middlewares/checkAuth.js";
 import checkOwnerAdmin from "../middlewares/checkOwnerAdmin.js";
 import { upload } from "../middlewares/multer.js";
+import checkAdmin from "../middlewares/checkAdmin.js";
 const router = express.Router();
 
 router.post('/signup', signup)
@@ -15,6 +16,7 @@ router.put('/update-profile', checkAuth, upload.single('profilePic'), updateProf
 router.post('/logout', logout)
 router.get('/check-user', checkAuth, checkUser);
 router.get('/all-users', checkOwnerAdmin, getAllUsers)
+router.put('/update-status/:id', checkAdmin, isActiveToggle)
 
 
 

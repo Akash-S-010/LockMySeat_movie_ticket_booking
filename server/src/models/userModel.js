@@ -22,6 +22,10 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    isActive: {   
+        type: Boolean,
+        default: true
+    },
     bookings: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Booking'
