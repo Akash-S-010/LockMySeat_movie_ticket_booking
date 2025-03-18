@@ -14,6 +14,10 @@ export const addShow = async (req, res) => {
             return res.status(400).json({ message: "All fields are required" });
         }
 
+        if(dateTime < new Date()) {
+            return res.status(400).json({ message: "Please provide future date and time" });
+        }
+
         const movie = await Movie.findById(movieId);
         if (!movie) {
             return res.status(404).json({ message: "No movie found" });
