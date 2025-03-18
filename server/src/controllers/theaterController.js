@@ -3,7 +3,8 @@ import Theater from "../models/theaterModel.js";
 
 // ----------Add theater (Owner only)------------
 export const addTheater = async (req, res) => {
-    const { name, location, ownerId, rows, cols } = req.body;
+    const { name, location, rows, cols } = req.body;
+    const ownerId = req.user.userId
 
     try {
         
@@ -150,7 +151,7 @@ export const approveTheater = async (req, res) => {
         theater.status = "approved";
         await theater.save();
 
-        res.status(200).json({ message: "Theater approved successfully", data: theater })
+        res.status(200).json({ message: "Theater approved for add shows successfully"})
 
     } catch (error) {
         console.error("Error in approveTheater controller",error);
@@ -177,7 +178,7 @@ export const rejectTheater = async (req, res) => {
         theater.status = "rejected";
         await theater.save();
 
-        res.status(200).json({ message: "Theater rejected successfully", data: theater })
+        res.status(200).json({ message: "Theater rejected successfully" })
 
     } catch (error) {
         console.error("Error in rejectTheater controller",error);

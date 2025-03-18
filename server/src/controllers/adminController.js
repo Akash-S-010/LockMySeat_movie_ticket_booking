@@ -147,7 +147,7 @@ export const login = async (req, res) => {
 
         res.cookie("token", token)
 
-        res.status(200).json({ message: "Login successful",data: {_id: admin._id, name: admin.name, email: admin.email, role: admin.role} });
+        res.status(200).json({ message: "Login successful",data: {_id: admin._id, name: admin.name, email: admin.email, role: admin.role, profilePic: admin.profilePic} });
 
     } catch (error) {
      console.error("Error in login",error);

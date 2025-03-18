@@ -15,8 +15,8 @@ const checkOwnerAdmin = (req, res, next) =>{
                 return res.status(401).json({message:"Unauthorized"})
             }
 
-            if(decoded.role !== "theaterOwner" || decoded.role !== "admin"){
-                return res.status(403).json({message:"Access denied"})
+            if(decoded.role !== "theaterOwner" && decoded.role !== "admin"){
+                return res.status(403).json({message:"Access denied"});
             }
 
             req.user = decoded;
