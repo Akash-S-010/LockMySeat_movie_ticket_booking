@@ -44,7 +44,7 @@ export const addShow = async (req, res) => {
 
         const seats = Array(theater.rows)
         .fill()
-        .map(() => Array(theater.cols).fill(false));
+        .map(() => Array(theater.cols).fill("available"));
 
         const newShow = new Show({
             movieId,

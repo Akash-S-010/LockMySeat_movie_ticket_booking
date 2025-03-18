@@ -1,10 +1,12 @@
 import mongoose from 'mongoose';
 
-const seatSchema = new mongoose.Schema({
-    rows: Number,
-    cols: Number,
-    isBooked: { type: Boolean, default: false } // Stores seat 
-});
+const seatSchema = new mongoose.Schema(
+  {
+    seatNumber: String, // e.g., "A1", "A2", etc.
+    isBooked: { type: String, enum: ["available", "booked", "locked"], default: "available" }
+  },
+  { _id: false } 
+);
 
 const theaterSchema = new mongoose.Schema({
     name: {

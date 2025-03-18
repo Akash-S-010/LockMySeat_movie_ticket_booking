@@ -23,11 +23,12 @@ export const addTheater = async (req, res) => {
         const seats = [];
         for (let r = 0; r < numRows; r++) {
             for (let c = 0; c < numCols; c++) {
-                seats.push({ row: r, col: c, isBooked: false });
+                const seatNumber = `${String.fromCharCode(65 + r)}${c + 1}`;
+                seats.push({ seatNumber, isBooked: "available" });
             }
         }
 
-        const newTheater = new Theater({ name, location, ownerId, rows: numRows, cols: numCols, seats, status: "pending" });
+        const newTheater = new Theater({ name, location, ownerId, rows: numRows, cols: numCols, seatPattern: seats, status: "pending" });
         await newTheater.save();
 
         if(!newTheater){

@@ -128,12 +128,13 @@ export const getTotalBookings = async (req, res) => {
     try {
         
         const totalBookings = await Booking.countDocuments({});
-        res.status(200).json({ message: "Total bookings found", data: totalBookings });
-
+        
         if(!totalBookings.length){
             return res.status(404).json({ message: "No bookings found" });
         }
-
+        
+        res.status(200).json({ message: "Total bookings found", data: totalBookings });
+        
     } catch (error) {
         console.error("Error in getTotalBookings controller",error);
         res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });

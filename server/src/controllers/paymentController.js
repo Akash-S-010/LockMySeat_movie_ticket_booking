@@ -11,38 +11,47 @@ const razorpay = new Razorpay({
 });
 
 export const createOrder = async (req, res) => {
-
     const { amount, bookingId } = req.body;
     const userId = req.user.userId;
 
     try {
-        if (!amount || !bookingId) {    
+        if (!amount || !bookingId) {
             return res.status(400).json({ message: "Amount and bookingId are required" });
         }
 
         const booking = await Booking.findById(bookingId);
         if (!booking || booking.userId.toString() !== userId) {
-            return res.status(404).json({ message: 'Booking not found or unauthorized' });
+            return res.status(404).json({ message: "Booking not found or unauthorized" });
         }
 
-        // ---- Create Order
+        const existingPayment = await Payment.findOne({ bookingId });
+        if (existingPayment) {
+            return res.status(400).json({ message: "Payment already exists for this booking" });
+        }
+
         const options = {
-            amount: amount * 100, // ✅ Convert to smallest unit
+            amount: amount * 100,
             currency: "INR",
             receipt: `receipt_${bookingId}`,
             payment_capture: 1,
         };
 
         const order = await razorpay.orders.create(options);
+        if (!order || !order.id) {
+            return res.status(500).json({ message: "Failed to create Razorpay order" });
+        }
 
         const payment = new Payment({
             razorpay_order_id: order.id,
             userId,
             amount,
             bookingId,
-            status: 'pending',
+            status: "pending",
         });
+
+        console.log("Saving payment:", payment); // Debug log
         await payment.save();
+        console.log("Payment saved successfully");
 
         res.status(200).json({
             message: "Order created successfully",
@@ -51,10 +60,11 @@ export const createOrder = async (req, res) => {
             currency: order.currency,
         });
     } catch (error) {
-        console.error("Error in createOrder controller", error);
+        console.error("Error in createOrder controller:", error);
         res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
     }
 };
+
 
 
 

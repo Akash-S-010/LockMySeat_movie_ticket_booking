@@ -5,11 +5,13 @@ const paymentSchema = new mongoose.Schema({
     razorpay_order_id: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        sparse: true
     },
     razorpay_payment_id: {
         type: String,
-        unique: true
+        unique: true,
+        sparse: true
     },
     razorpay_signature: {
         type: String
