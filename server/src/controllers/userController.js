@@ -354,6 +354,7 @@ export const isActiveToggle = async (req, res) => {
         }
 
         user.isActive = !user.isActive;
+        console.log(user.isActive);
         await user.save();
 
         res.status(200).json({ message: `User ${user.isActive ? "activated" : "deactivated"} successfully` });

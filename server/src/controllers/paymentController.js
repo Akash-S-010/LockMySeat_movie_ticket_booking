@@ -30,7 +30,7 @@ export const createOrder = async (req, res) => {
         }
 
         const options = {
-            amount: amount * 100,
+            amount: amount * 100,//convert to smallest unit
             currency: "INR",
             receipt: `receipt_${bookingId}`,
             payment_capture: 1,
@@ -49,7 +49,6 @@ export const createOrder = async (req, res) => {
             status: "pending",
         });
 
-        console.log("Saving payment:", payment); // Debug log
         await payment.save();
         console.log("Payment saved successfully");
 

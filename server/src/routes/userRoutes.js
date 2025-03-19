@@ -16,7 +16,7 @@ router.put('/update-profile', checkAuth, upload.single('profilePic'), updateProf
 router.post('/logout', logout)
 router.get('/check-user', checkAuth, checkUser);
 router.get('/all-users', checkOwnerAdmin, getAllUsers)
-router.put('/update-status/:id', checkAdmin, isActiveToggle)
+router.put('/update-status/:userId', checkAdmin, isActiveToggle)
 
 
 

@@ -7,7 +7,7 @@ import Booking from "../models/bookingModel.js";
 // -------------add review------------
 export const addReview = async (req, res) => {
 
-    const movieId = req.params.id
+    const movieId = req.params.movieId
     const {comment, rating} = req.body
     const userId = req.user.userId
 
@@ -23,7 +23,7 @@ export const addReview = async (req, res) => {
            return  res.status(404).json({ message: "Movie not found" });
         }
 
-        const movieBooked = await Booking.Booking.exists({
+        const movieBooked = await Booking.exists({
             userId,
             movieId,
             status: "booked",
