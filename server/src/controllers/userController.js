@@ -308,7 +308,13 @@ export const checkUser = async (req, res) => {
 
     try {
 
-        res.json({ message: "user authorized" });
+        const user = req.user;
+
+        if (!user) {
+            return res.status(401).json({ message: "Unauthorized" });
+        }
+
+        res.json({ message: "user authorized", data:{ _id: user._id, name: user.name, email: user.email, profilePic: user.profilePic} });
 
     } catch (error) {
         console.error("Error in checkUser controller", error);
