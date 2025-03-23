@@ -4,6 +4,7 @@ import Payment from "../models/paymentModel.js";
 import mongoose from "mongoose";
 import Show from "../models/showModel.js";
 import crypto from "crypto";
+import User from "../models/userModel.js";
 
 const razorpay = new Razorpay({
     key_id: process.env.RAZORPAY_KEY_ID,
@@ -122,6 +123,11 @@ export const paymentVerification = async (req, res) => {
 
             show.markModified("seats");
             await show.save({ session });
+
+            // Push the bookingId to the user's bookings array
+            await User.findByIdAndUpdate(userId, {
+                $push: { bookings: bookingId }
+            }).session(session);
 
             await session.commitTransaction();
             session.endSession();
