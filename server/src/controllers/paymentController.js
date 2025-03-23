@@ -131,6 +131,29 @@ export const paymentVerification = async (req, res) => {
 
             await session.commitTransaction();
             session.endSession();
+
+            // if booking success send mail
+            const user = await User.findById(userId);
+            if (user) {
+                const email = user.email;
+        
+                // Construct Booking Details
+                const subject = "Booking Confirmation - Your Seats Are Reserved!";
+                const text = `
+                    Dear ${user.name},\n
+                    Your booking has been confirmed successfully!\n
+                    🎬 Movie: ${show.movieId.title}\n
+                    📍 Theater: ${show.theaterId.name} - ${show.theaterId.location}\n
+                    🗓 Date: ${show.dateTime.toDateString()}\n
+                    ⏰ Time: ${show.dateTime.toTimeString()}\n
+                    🎟 Seats: ${booking.selectedSeats.map(seat => seat.seatNumber).join(", ")}\n
+                    💰 Total Price: ₹${booking.totalPrice}\n
+                    \nEnjoy your movie! 🍿
+                `;
+        
+                // Send Email
+                await sendEmail(email, subject, text);
+            }
             return res.status(200).json({ message: "Payment verified, booking confirmed!" });
         } else {
             return res.status(400).json({ message: "Payment verification failed" });
