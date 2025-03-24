@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import Show from "../models/showModel.js";
 import crypto from "crypto";
 import User from "../models/userModel.js";
+import sendEmail from "../utils/sendEmail.js";
 
 const razorpay = new Razorpay({
     key_id: process.env.RAZORPAY_KEY_ID,
