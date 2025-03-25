@@ -1,3 +1,100 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
+
+@layer base {
+    /* 🌞 Light Mode */
+    [data-theme="light"] {
+      --primary: #f64d71; /* Custom Primary */
+      --base-100: #ffffff;
+      --base-200: #dcdcdc;  
+      --base-300: #d0cfcf;
+
+      --text-color: #111827; /* Dark text for readability */
+      color-scheme: light;
+    }
+  
+    /* 🌙 Dark Mode */
+    [data-theme="dark"] {
+      --primary: #f64d71;
+      
+      --base-100: #242b33; 
+      --base-200: #1d232a;
+      --base-300: #191e24; 
+  
+      --text-color: #ffffff; /* Light text */
+      color-scheme: dark;
+    }
+  
+
+    
+
+    /* Create Custom Tailwind Classes */
+    .bg-primary {
+      background-color: var(--primary) !important;
+    }
+
+    .bg-primary:hover {
+        background-color: #ff2856 !important;
+        transition: .3s !important;
+        transform: scale(1.02) !important;
+    }
+  
+    .text-primary {
+      color: var(--primary) !important;
+    }
+    .text-primary:hover {
+      color: var(--primary) !important;
+    }
+  
+    .bg-base-100 {
+      background-color: var(--base-100) !important;
+    }
+  
+    .bg-base-200 {
+      background-color: var(--base-200) !important;
+    }
+  
+    .bg-base-300 {
+      background-color: var(--base-300) !important;
+    }
+  
+    .text-base {
+      color: var(--text-color) !important;
+    }
+
+    .primary-btn {
+      background-color: var(--primary) !important;
+    }
+  
+    .primary-btn-hover:hover {
+      background-color: #ff2856 !important;
+      transition: .3s !important;
+    }
+
+    .border-primary {
+      border-color: var(--primary) !important;
+    }
+  }
+  
+
+  body::-webkit-scrollbar {
+    width: 0.30rem;
+  }
+  
+  body::-webkit-scrollbar-track {
+    background: #1e1e24;
+  }
+  
+  body::-webkit-scrollbar-thumb {
+    background: #f64d71;
+    border-radius: 2rem;
+  }
+  body{
+    background-color: #1e1e24;
+  }
+  
+  html{
+    scroll-behavior: smooth;
+  }
+  

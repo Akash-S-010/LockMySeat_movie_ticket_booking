@@ -1,12 +1,11 @@
-import React from 'react'
-import Header from '../../components/user/Header'
+import React from "react";
 
 const Home = () => {
   return (
-    <div>
+    <div className="bg-base-100">
       <h1>home</h1>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

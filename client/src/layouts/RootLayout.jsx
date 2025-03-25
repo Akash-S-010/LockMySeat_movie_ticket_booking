@@ -13,9 +13,9 @@ const RootLayout = () => {
   },[]);
 
   return (
-    <div>
-      {isUserAuth ? <UserHeader /> : <Header />}
-      <div className="min-h-96">
+    <div className="bg-base-100">
+      {isUserAuth ? <Header /> : <UserHeader />}
+      <div className="min-h-screen">
         <Outlet />
       </div>
       <Footer />
