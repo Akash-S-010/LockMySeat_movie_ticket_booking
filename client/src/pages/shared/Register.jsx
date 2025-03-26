@@ -1,12 +1,18 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { User, Mail, Lock, Eye, EyeOff } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import axiosInstance from "../../config/axiosInstance";
+import toast from "react-hot-toast";
 import SubmitBtn from "../../components/ui/SubmitBtn";
-import { Link } from "react-router-dom";
 
 const Register = () => {
+  const [ loading, setLoading ] = useState(false); 
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -14,23 +20,26 @@ const Register = () => {
     formState: { errors },
   } = useForm();
 
-  // Watch the password field to compare with confirm password
   const password = watch("password");
 
-  const onSubmit = (data) => {
-    // Only send name, email, and password to the backend
+  const onSubmit = async (data) => {
     const { name, email, password } = data;
     const payload = { name, email, password };
-    console.log("Data to send to backend:", payload);
-    // Add your API call here to send payload to the backend
-  };
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
+    try {
+      setLoading(true); 
+      const response = await axiosInstance.post("user/signup", payload);
+      toast.success(response.data.message || "OTP sent! Please verify.");
+      navigate(`/verify-otp?email=${email}`);
 
-  const toggleConfirmPasswordVisibility = () => {
-    setShowConfirmPassword(!showConfirmPassword);
+    } catch (error) {
+      const errorMsg = error.response?.data?.message || "Registration failed";
+      toast.error(errorMsg);
+      console.error("Registration failed:", errorMsg);
+      
+    } finally {
+      setLoading(false); // Reset loading state after request completes
+    }
   };
 
   return (
@@ -39,47 +48,45 @@ const Register = () => {
         {/* Logo and Title */}
         <div className="flex justify-center mb-6">
           <img src="Logo.png" alt="logo" className="w-12 mx-2" />
-          <h2 className="text-3xl font-bold text-primary">Register</h2>
+          <h2 className="text-3xl font-bold text-primary">Sign Up</h2>
         </div>
 
         {/* Form */}
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           {/* Name Field */}
           <div>
-            <label className="block text-base mb-2">Name</label>
+            <label className="block font-base mb-2">Name</label>
             <div className="relative">
-              <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-base w-5 h-5" />
+              <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
               <input
                 type="text"
                 placeholder="Enter your name"
-                className={`w-full pl-10 pr-4 py-2 bg-base-200 text-base rounded-md border-1 border-base-300 focus:outline-none focus:border-1 focus:border-[#f64d71] ${
-                  errors.name ? "border-red-500" : ""
-                }`}
+                className={`w-full pl-10 pr-4 py-2 bg-base-200 rounded-md border ${
+                  errors.name ? "border-red-500" : "border-base-300"
+                } focus:outline-none focus:border-[#f64d71]`}
                 {...register("name", {
                   required: "Name is required",
                   minLength: {
                     value: 2,
-                    message: "Name must be at least 2 characters long",
+                    message: "Name must be at least 2 characters",
                   },
                 })}
               />
             </div>
-            {errors.name && (
-              <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
-            )}
+            {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>}
           </div>
 
           {/* Email Field */}
           <div>
-            <label className="block text-base mb-2">Email</label>
+            <label className="block font-base mb-2">Email</label>
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-base w-5 h-5" />
+              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
               <input
                 type="email"
                 placeholder="Enter your email"
-                className={`w-full pl-10 pr-4 py-2 bg-base-200 text-base rounded-md border-1 border-base-300 focus:outline-none focus:border-1 focus:border-[#f64d71] ${
-                  errors.email ? "border-red-500" : ""
-                }`}
+                className={`w-full pl-10 pr-4 py-2 bg-base-200 rounded-md border ${
+                  errors.email ? "border-red-500" : "border-base-300"
+                } focus:outline-none focus:border-[#f64d71]`}
                 {...register("email", {
                   required: "Email is required",
                   pattern: {
@@ -89,91 +96,64 @@ const Register = () => {
                 })}
               />
             </div>
-            {errors.email && (
-              <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
-            )}
+            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
           </div>
 
           {/* Password Field */}
           <div>
-            <label className="block text-base mb-2">Password</label>
+            <label className="block font-base mb-2">Password</label>
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-base w-5 h-5" />
+              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
               <input
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter your password"
-                className={`w-full pl-10 pr-12 py-2 bg-base-200 text-base rounded-md border-1 border-base-300 focus:outline-none focus:border-1 focus:border-[#f64d71] ${
-                  errors.password ? "border-red-500" : ""
-                }`}
+                className={`w-full pl-10 pr-12 py-2 bg-base-200 rounded-md border ${
+                  errors.password ? "border-red-500" : "border-base-300"
+                } focus:outline-none focus:border-[#f64d71]`}
                 {...register("password", {
                   required: "Password is required",
                   minLength: {
                     value: 6,
-                    message: "Password must be at least 6 characters long",
+                    message: "Password must be at least 6 characters",
                   },
                 })}
               />
-              <button
-                type="button"
-                onClick={togglePasswordVisibility}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-base"
-              >
-                {showPassword ? (
-                  <EyeOff className="w-5 h-5" />
-                ) : (
-                  <Eye className="w-5 h-5" />
-                )}
+              <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
               </button>
             </div>
-            {errors.password && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.password.message}
-              </p>
-            )}
+            {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
           </div>
 
           {/* Confirm Password Field */}
           <div>
-            <label className="block text-base mb-2">Confirm Password</label>
+            <label className="block font-base mb-2">Confirm Password</label>
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-base w-5 h-5" />
+              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
               <input
                 type={showConfirmPassword ? "text" : "password"}
                 placeholder="Confirm your password"
-                className={`w-full pl-10 pr-12 py-2 bg-base-200 text-base rounded-md border-1 border-base-300 focus:outline-none focus:border-1 focus:border-[#f64d71] ${
-                  errors.confirmPassword ? "border-red-500" : ""
-                }`}
+                className={`w-full pl-10 pr-12 py-2 bg-base-200 rounded-md border ${
+                  errors.confirmPassword ? "border-red-500" : "border-base-300"
+                } focus:outline-none focus:border-[#f64d71]`}
                 {...register("confirmPassword", {
                   required: "Please confirm your password",
-                  validate: (value) =>
-                    value === password || "Passwords do not match",
+                  validate: (value) => value === password || "Passwords do not match",
                 })}
               />
-              <button
-                type="button"
-                onClick={toggleConfirmPasswordVisibility}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-base"
-              >
-                {showConfirmPassword ? (
-                  <EyeOff className="w-5 h-5" />
-                ) : (
-                  <Eye className="w-5 h-5" />
-                )}
+              <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
               </button>
             </div>
-            {errors.confirmPassword && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.confirmPassword.message}
-              </p>
-            )}
+            {errors.confirmPassword && <p className="text-red-500 text-sm mt-1">{errors.confirmPassword.message}</p>}
           </div>
 
           {/* Submit Button */}
-          <SubmitBtn title="Register" />
+          <SubmitBtn title="Register" loading={loading} />
         </form>
 
         {/* Login Link */}
-        <p className="text-center text-base mt-4">
+        <p className="text-center font-base mt-4">
           Already have an account?{" "}
           <Link to="/login" className="text-[#f64d71] hover:underline">
             Login

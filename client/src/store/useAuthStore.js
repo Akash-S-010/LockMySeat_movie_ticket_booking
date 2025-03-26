@@ -1,23 +1,24 @@
-import { create } from 'zustand'
-import toast from "react-hot-toast";
+import { create } from 'zustand';
 import axiosInstance from "../config/axiosInstance.js";
 
 export const useAuthStore = create((set) => ({
     user: null,
     isUserAuth: false,
 
+    // Check if user is authenticated (e.g., on app load)
     checkUser: async () => {
         try {
             const res = await axiosInstance.get("user/check-user");
-            console.log(res.data)
-            if (res.data.user) {
-                set({ user: res.data?.user, isUserAuth: true });
+            if (res.data) {
+                console.log(res.data.data);
+                set({ user: res.data.data, isUserAuth: true });
+            } else {
+                set({ user: null, isUserAuth: false });
             }
         } catch (err) {
-            toast.error("Failed to fetch user" );
-            console.log(err.response?.data)
+            console.error(err.response?.data?.message || "Failed to fetch user");
             set({ user: null, isUserAuth: false });
-        }
+        } 
     },
 
 }));

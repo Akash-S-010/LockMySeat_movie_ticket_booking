@@ -7,41 +7,73 @@ import Login from "../pages/shared/Login";
 import Register from "../pages/shared/Register";
 import RootLayout from "../layouts/RootLayout";
 import ProtectedRoutes from "./ProtectedRoutes";
+import AboutUs from "../pages/user/AboutUs";
+import Profile from "../pages/shared/Profile";
+import ForgotPassword from "../pages/shared/ForgotPassword";
+import VerifyOTP from "../pages/shared/VerifyOtp";
+import ResetPassword from "../pages/shared/Reset-password";
+import ErrorPage from "../pages/shared/Error";
 
 export const router = createBrowserRouter([
   {
     path: "",
     element: <RootLayout />,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: "",
         element: <Home />,
       },
-    ],
-  },
-  {
-    path: "all-movies",
-    element: <Movies />,
-  },
-  {
-    path: "login",
-    element: <Login />,
-  },
-  {
-    path: "register",
-    element: <Register />,
-  },
-
-  {
-    element: <ProtectedRoutes />,
-    children: [
       {
-        path: "movie-details/:id",
-        element: <MovieDetails />,
+        path: "all-movies",
+        element: <Movies />,
       },
       {
-        path: "show-selection",
-        element: <ShowSelection />,
+        path: "about-us",
+        element: <AboutUs />,
+      },
+      {
+        path: "login",
+        element: <Login />,
+      },
+      {
+        path: "register",
+        element: <Register />,
+      },
+      {
+        path: "verify-otp",
+        element: <VerifyOTP />,
+      },
+      {
+        path: "forgot-password",
+        element: <ForgotPassword />,
+      },
+      {
+        path: "reset-password/:token",
+        element: <ResetPassword />,
+      },
+      
+      {
+        path: "user",
+        element: <ProtectedRoutes />,
+        children: [
+          {
+            path: "movie-details/:id",
+            element: <MovieDetails />,
+          },
+          {
+            path: "show-selection",
+            element: <ShowSelection />,
+          },
+          {
+            path: "seat-selection",
+            element: <ShowSelection />,
+          },
+          {
+            path: "profile",
+            element: <Profile />,
+          },
+        ],
       },
     ],
   },

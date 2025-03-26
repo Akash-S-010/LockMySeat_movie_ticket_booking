@@ -3,7 +3,7 @@ import {  Outlet, useNavigate } from 'react-router-dom'
 import { useAuthStore } from '../store/useAuthStore.js'
 
 const ProtectedRoutes = () => {
-    const {isUserAuth, checkUser} = useAuthStore();
+  const { isUserAuth, checkUser } = useAuthStore();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -11,7 +11,7 @@ const ProtectedRoutes = () => {
         if (!isUserAuth) {
             navigate("/login");
        }
-    },[])
+    },[isUserAuth])
 
   return <Outlet />
 }
