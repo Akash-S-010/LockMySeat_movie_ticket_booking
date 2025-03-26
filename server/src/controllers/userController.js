@@ -305,16 +305,23 @@ export const updateProfile = async (req, res) => {
 
 // -------------check user------------
 export const checkUser = async (req, res) => {
-
     try {
+        const userId = req.user.userId;
 
-        const user = req.user;
-
-        if (!user) {
+        if (!userId) {
             return res.status(401).json({ message: "Unauthorized" });
         }
 
-        res.json({ message: "user authorized", data:{ _id: user._id, name: user.name, email: user.email, profilePic: user.profilePic} });
+        const user = await User.findById(userId);
+        
+        if (!user) {
+            return res.status(400).json({ message: "User not found" });
+        }
+
+        res.status(200).json({ 
+            message: "user authorized", 
+            data: { _id: user._id, name: user.name, email: user.email, profilePic: user.profilePic, role: user.role }
+        });
 
     } catch (error) {
         console.error("Error in checkUser controller", error);
