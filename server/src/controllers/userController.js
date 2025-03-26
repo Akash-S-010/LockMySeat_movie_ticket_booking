@@ -182,7 +182,6 @@ export const forgotPassword = async (req, res) => {
     const { email } = req.body;
 
     try {
-
         if (!email) {
             return res.status(400).json({ message: "Email is required" });
         }
@@ -193,64 +192,63 @@ export const forgotPassword = async (req, res) => {
             return res.status(400).json({ message: "User not found" });
         }
 
-        // ---Generate reset token
+        // --- Generate reset token
         const resetToken = crypto.randomBytes(32).toString("hex");
 
-        // --hash the token and save to database
+        // --- Hash the token before saving
         const hashedToken = crypto.createHash("sha256").update(resetToken).digest("hex");
 
         user.resetPasswordToken = hashedToken;
-        user.resetPasswordExpires = Date.now() + 10 * 60 * 1000; // expires in 10 min
+        user.resetPasswordExpires = Date.now() + 10 * 60 * 1000; // Expires in 10 min
 
         await user.save();
 
-        // ---create reset password url
-        const resetUrl = `http://localhost:5000/reset-password/${resetToken}&email=${email}`;
+        // --- Create reset password URL
+        const resetUrl = `http://localhost:5173/reset-password/${resetToken}`;
 
-        // ---send email with url
+        // --- Send email with reset link
         await sendEmail(email, "Password Reset Request", `Click here to reset your password: ${resetUrl}`);
 
         res.status(200).json({ message: "Password reset link sent to your email." });
 
     } catch (error) {
         console.error("Error in forgotPassword", error);
-        res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
+        res.status(500).json({ message: "Internal server error" });
     }
 };
 
 
 
 
-// -----------Reset Password------------
+// ------------ Reset Password (Update Password) ------------
 export const resetPassword = async (req, res) => {
-    const { email, token, newPassword } = req.body;
+    const { token, newPassword } = req.body;
 
     try {
-
-        if (!email || !token || !newPassword) {
-            return res.status(400).json({ message: "All fields are required" });
+        if (!token || !newPassword) {
+            return res.status(400).json({ message: "Token and new password are required" });
         }
 
-        const user = await User.findOne({ email });
-
-        if (!user) {
-            return res.status(400).json({ message: "User not found" });
-        }
-
-        // ---check if token is valid
+        // --- Hash the received token
         const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
 
-        if (user.resetPasswordToken !== hashedToken || user.resetPasswordExpires < Date.now()) {
+        // --- Find the user with the token & check if it's expired
+        const user = await User.findOne({
+            resetPasswordToken: hashedToken,
+            resetPasswordExpires: { $gt: Date.now() },
+        });
+
+        if (!user) {
             return res.status(400).json({ message: "Invalid or expired token" });
         }
 
-        // ---hash the new password
+        // --- Hash the new password before saving
         const salt = await bcrypt.genSalt(10);
-        const hashedNewPassword = await bcrypt.hash(newPassword, salt);
+        user.password = await bcrypt.hash(newPassword, salt);
 
-        user.password = hashedNewPassword;
-        user.resetPasswordToken = null;
-        user.resetPasswordExpires = null;
+        // --- Remove reset token from DB
+        user.resetPasswordToken = undefined;
+        user.resetPasswordExpires = undefined;
 
         await user.save();
 
@@ -258,9 +256,10 @@ export const resetPassword = async (req, res) => {
 
     } catch (error) {
         console.error("Error in resetPassword", error);
-        res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
+        res.status(500).json({ message: "Internal server error" });
     }
 };
+
 
 
 
