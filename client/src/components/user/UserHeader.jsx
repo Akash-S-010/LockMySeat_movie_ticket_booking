@@ -31,7 +31,7 @@ const UserHeader = () => {
             <Link to="/all-movies">Movies</Link>
           </li>
           <li className="font-base text-primary list font-medium transition-colors duration-200 text-lg">
-            <Link to="/about-us">About Us</Link>
+            <Link to="/about-us">About</Link>
           </li>
         </ul>
       </div>

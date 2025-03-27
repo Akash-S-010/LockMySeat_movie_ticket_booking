@@ -3,8 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import Avatar from "../../assets/Avatar.png";
 import toast from "react-hot-toast";
 import axiosInstance from "../../config/axiosInstance.js";
+import { useAuthStore } from "../../store/useAuthStore.js";
 
 const AvatarDropdown = () => {
+
+  const { user } = useAuthStore();
+
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -55,8 +59,8 @@ const AvatarDropdown = () => {
         onMouseLeave={() => setIsDropdownOpen(false)}
       >
         <div className="flex items-center gap-1">
-          <div className={`btn btn-ghost btn-circle avatar ${theme === "light" ? "bg-base-100" : "bg-base-200"} p-1`}>
-            <img src={Avatar} alt="User Avatar" className="w-10 h-10 rounded-full" />
+          <div className={'btn btn-ghost btn-circle avatar bg-gray-500'}>
+            <img src={user?.profilePic || Avatar} alt="User Avatar" className="w-10 h-10 rounded-full object-top" />
           </div>
           <svg className="w-4 h-4 font-base-content" fill="currentColor" viewBox="0 0 20 20">
             <path
@@ -106,13 +110,13 @@ const AvatarDropdown = () => {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="lg:hidden absolute top-16 left-0 right-0 bg-base-100 shadow-lg z-50">
+        <div className="lg:hidden absolute top-16 right-0 bg-base-100 shadow-lg z-50 w-50">
           <ul className="menu p-4">
-            <li><Link to="/" className="hover:bg-base-200" onClick={() => setIsOpen(false)}>Home</Link></li>
-            <li><Link to="/all-movies" className="hover:bg-base-200" onClick={() => setIsOpen(false)}>Movies</Link></li>
-            <li><Link to="/about-us" className="hover:bg-base-200" onClick={() => setIsOpen(false)}>About Us</Link></li>
-            <li><Link to="/profile" className="hover:bg-base-200" onClick={() => setIsOpen(false)}>Profile</Link></li>
-            <li><Link to="/my-bookings" className="hover:bg-base-200" onClick={() => setIsOpen(false)}>My Bookings</Link></li>
+            <li><Link to="/" className="hover:bg-base-300" onClick={() => setIsOpen(false)}>Home</Link></li>
+            <li><Link to="/all-movies" className="hover:bg-base-300" onClick={() => setIsOpen(false)}>Movies</Link></li>
+            <li><Link to="/about" className="hover:bg-base-300" onClick={() => setIsOpen(false)}>About Us</Link></li>
+            <li><Link to="/profile" className="hover:bg-base-300" onClick={() => setIsOpen(false)}>Profile</Link></li>
+            <li><Link to="/my-bookings" className="hover:bg-base-300" onClick={() => setIsOpen(false)}>My Bookings</Link></li>
             <li>
               <div
                 onClick={toggleTheme}
