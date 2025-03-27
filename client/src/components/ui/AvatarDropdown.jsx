@@ -74,12 +74,12 @@ const AvatarDropdown = () => {
         {isDropdownOpen && (
           <ul className="menu dropdown-content absolute right-0 top-full w-56 p-2 shadow-lg bg-base-100 rounded-box z-50 border border-primary">
             <li>
-              <Link to="/profile" className="hover:bg-base-300" onClick={() => setIsDropdownOpen(false)}>
+              <Link to="/user/profile" className="hover:bg-base-300" onClick={() => setIsDropdownOpen(false)}>
                 Profile
               </Link>
             </li>
             <li>
-              <Link to="/my-bookings" className="hover:bg-base-300" onClick={() => setIsDropdownOpen(false)}>
+              <Link to="/user/bookings" className="hover:bg-base-300" onClick={() => setIsDropdownOpen(false)}>
                 My Bookings
               </Link>
             </li>
@@ -115,8 +115,8 @@ const AvatarDropdown = () => {
             <li><Link to="/" className="hover:bg-base-300" onClick={() => setIsOpen(false)}>Home</Link></li>
             <li><Link to="/all-movies" className="hover:bg-base-300" onClick={() => setIsOpen(false)}>Movies</Link></li>
             <li><Link to="/about" className="hover:bg-base-300" onClick={() => setIsOpen(false)}>About Us</Link></li>
-            <li><Link to="/profile" className="hover:bg-base-300" onClick={() => setIsOpen(false)}>Profile</Link></li>
-            <li><Link to="/my-bookings" className="hover:bg-base-300" onClick={() => setIsOpen(false)}>My Bookings</Link></li>
+            <li><Link to="/user/profile" className="hover:bg-base-300" onClick={() => setIsOpen(false)}>Profile</Link></li>
+            <li><Link to="/user/bookings" className="hover:bg-base-300" onClick={() => setIsOpen(false)}>My Bookings</Link></li>
             <li>
               <div
                 onClick={toggleTheme}

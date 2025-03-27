@@ -13,6 +13,7 @@ import ForgotPassword from "../pages/shared/ForgotPassword";
 import VerifyOTP from "../pages/shared/VerifyOtp";
 import ResetPassword from "../pages/shared/Reset-password";
 import ErrorPage from "../pages/shared/Error";
+import Bookings from "../pages/user/Bookings";
 
 export const router = createBrowserRouter([
   {
@@ -72,6 +73,10 @@ export const router = createBrowserRouter([
           {
             path: "profile",
             element: <Profile />,
+          },
+          {
+            path: "bookings",
+            element: <Bookings />,
           },
         ],
       },
