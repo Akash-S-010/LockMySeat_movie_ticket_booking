@@ -4,6 +4,7 @@ import sendEmail from "../utils/sendEmail.js";
 import generateToken from "../utils/token.js";
 import crypto from "crypto";
 import cloudinaryUpload from "../utils/cloudinaryUploader.js";
+import { create } from "domain";
 
 
 
@@ -319,7 +320,7 @@ export const checkUser = async (req, res) => {
 
         res.status(200).json({ 
             message: "user authorized", 
-            data: { _id: user._id, name: user.name, email: user.email, profilePic: user.profilePic, role: user.role }
+            data: { _id: user._id, name: user.name, email: user.email, profilePic: user.profilePic, role: user.role, status: user.isActive, isVerified: user.isVerified, createdAt: user.createdAt }
         });
 
     } catch (error) {
