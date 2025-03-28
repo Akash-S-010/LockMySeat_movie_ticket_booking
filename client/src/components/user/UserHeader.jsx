@@ -7,11 +7,11 @@ import { useAuthStore } from "../../store/useAuthStore";
 
 const UserHeader = () => {
   const navigate = useNavigate();
-  const { checkUser, isUserAuth, user } = useAuthStore();
+  const { checkUser, isUserAuth } = useAuthStore();
 
   useEffect(() => {
     checkUser();
-  }, [isUserAuth, user]);
+  }, []);
   
 
   return (
