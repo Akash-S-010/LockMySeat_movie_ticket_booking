@@ -1,17 +1,23 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
-import {SubmitBtn} from "../../components/ui/Buttons";
+import { SubmitBtn } from "../../components/ui/Buttons";
 import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../../config/axiosInstance";
 import toast from "react-hot-toast";
+import { useAuthStore } from "../../store/useAuthStore.js";
 
 const Login = () => {
+  const { login } = useAuthStore();
+
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   const onSubmit = async (data) => {
     setIsLoading(true);
@@ -22,9 +28,10 @@ const Login = () => {
         password: data.password,
       });
 
+      login(response.data.user);
+
       toast.success("Login successful");
       navigate("/");
-
     } catch (error) {
       toast.error(error.response?.data?.message || "Login failed. Try again.");
     } finally {
@@ -63,7 +70,11 @@ const Login = () => {
                 })}
               />
             </div>
-            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.email.message}
+              </p>
+            )}
           </div>
 
           {/* Password Field */}
@@ -79,7 +90,10 @@ const Login = () => {
                 }`}
                 {...register("password", {
                   required: "Password is required",
-                  minLength: { value: 6, message: "Password must be at least 6 characters" },
+                  minLength: {
+                    value: 6,
+                    message: "Password must be at least 6 characters",
+                  },
                 })}
               />
               <button
@@ -87,12 +101,23 @@ const Login = () => {
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-1/2 transform -translate-y-1/2 font-base"
               >
-                {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                {showPassword ? (
+                  <EyeOff className="w-5 h-5" />
+                ) : (
+                  <Eye className="w-5 h-5" />
+                )}
               </button>
             </div>
-            {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
+            {errors.password && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.password.message}
+              </p>
+            )}
             <div className="text-right mt-2">
-              <Link to="/forgot-password" className="text-primary text-sm hover:underline">
+              <Link
+                to="/forgot-password"
+                className="text-primary text-sm hover:underline"
+              >
                 Forgot Password?
               </Link>
             </div>
@@ -100,7 +125,6 @@ const Login = () => {
 
           {/* Submit Button */}
           <SubmitBtn title="Login" isLoading={isLoading} />
-
         </form>
 
         {/* Register Link */}

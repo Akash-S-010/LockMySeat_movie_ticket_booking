@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, {  useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../../assets/AppLogo.png";
 import AvatarDropdown from "../ui/AvatarDropdown";
@@ -7,11 +7,11 @@ import { useAuthStore } from "../../store/useAuthStore";
 
 const UserHeader = () => {
   const navigate = useNavigate();
-  const { isUserAuth, checkUser } = useAuthStore();
+  const { checkUser, isUserAuth, user } = useAuthStore();
 
   useEffect(() => {
     checkUser();
-  }, []);
+  }, [isUserAuth, user]);
   
 
   return (

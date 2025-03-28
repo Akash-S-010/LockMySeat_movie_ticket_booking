@@ -10,7 +10,6 @@ export const useAuthStore = create((set) => ({
         try {
             const res = await axiosInstance.get("user/check-user");
             if (res.data) {
-                console.log(res.data.data);
                 set({ user: res.data.data, isUserAuth: true });
             } else {
                 set({ user: null, isUserAuth: false });
@@ -19,6 +18,10 @@ export const useAuthStore = create((set) => ({
             console.error(err.response?.data?.message || "Failed to fetch user");
             set({ user: null, isUserAuth: false });
         } 
+    },
+
+    login: (userData) => {
+        set({ user: userData, isUserAuth: true }); // Updates Zustand state immediately
     },
 
 }));
