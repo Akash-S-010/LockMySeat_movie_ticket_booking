@@ -69,7 +69,7 @@ const MovieDetails = () => {
             <div className="flex items-center justify-center md:justify-start gap-4">
               <button
                 className="bg-primary cursor-pointer font-semibold px-10 py-3 rounded-lg"
-                onClick={() => navigate("/user/show-selection")}
+                onClick={() => navigate(`/user/show-selection/${id}`)}
               >
                 Book Tickets
               </button>

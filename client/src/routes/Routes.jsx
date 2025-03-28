@@ -14,6 +14,7 @@ import VerifyOTP from "../pages/shared/VerifyOtp";
 import ResetPassword from "../pages/shared/Reset-password";
 import ErrorPage from "../pages/shared/Error";
 import Bookings from "../pages/user/Bookings";
+import SeatSelection from "../pages/user/SeatSelection";
 
 export const router = createBrowserRouter([
   {
@@ -63,12 +64,12 @@ export const router = createBrowserRouter([
             element: <MovieDetails />,
           },
           {
-            path: "show-selection",
+            path: "show-selection/:movieId",
             element: <ShowSelection />,
           },
           {
-            path: "seat-selection",
-            element: <ShowSelection />,
+            path: "seat-selection/:showId",
+            element: <SeatSelection />,
           },
           {
             path: "profile",

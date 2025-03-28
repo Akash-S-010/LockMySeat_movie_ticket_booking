@@ -5,7 +5,6 @@ const MovieCard = ({ movie }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    console.log("Navigating to movie details:", movie.id); // Debugging
     navigate(`/user/movie-details/${movie.id}`);
   };
 
