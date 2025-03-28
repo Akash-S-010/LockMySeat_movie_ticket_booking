@@ -1,7 +1,18 @@
 import React from "react";
 import { Loader } from "lucide-react";
 
-const SubmitBtn = ({ title, width, loading }) => {
+export const Button = ({ title, className, onClick }) => {
+  return (
+    <button
+      onClick={onClick}
+      className={className ? className : "primary-btn primary-btn-hover text-white font-semibold py-2 px-4 rounded-md hover:bg-opacity-90 transition cursor-pointer"}
+    >
+      {title}
+    </button>
+  );
+};
+
+export const SubmitBtn = ({ title, width, loading }) => {
   return (
     <button
       type="submit"
@@ -13,5 +24,3 @@ const SubmitBtn = ({ title, width, loading }) => {
     </button>
   );
 };
-
-export default SubmitBtn;

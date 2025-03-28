@@ -4,7 +4,7 @@ import { User, Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../../config/axiosInstance";
 import toast from "react-hot-toast";
-import SubmitBtn from "../../components/ui/SubmitBtn";
+import {SubmitBtn} from "../../components/ui/Buttons";
 
 const Register = () => {
   const [ loading, setLoading ] = useState(false); 

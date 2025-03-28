@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Mail } from "lucide-react";
-import SubmitBtn from "../../components/ui/SubmitBtn";
+import {SubmitBtn} from "../../components/ui/Buttons";
 import { useNavigate, useLocation } from "react-router-dom";
 import axiosInstance from "../../config/axiosInstance";
 import toast from "react-hot-toast";
