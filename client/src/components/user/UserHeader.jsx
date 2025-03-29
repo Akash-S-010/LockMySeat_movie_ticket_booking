@@ -1,18 +1,17 @@
-import React, {  useEffect } from "react";
+import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../../assets/AppLogo.png";
 import AvatarDropdown from "../ui/AvatarDropdown";
-import {Button} from "../ui/Buttons"; 
+import { Button } from "../ui/Buttons";
 import { useAuthStore } from "../../store/useAuthStore";
 
 const UserHeader = () => {
   const navigate = useNavigate();
-  const { checkUser, isUserAuth } = useAuthStore();
+  const { checkUser, isUserAuth, isLoading } = useAuthStore();
 
   useEffect(() => {
     checkUser();
-  }, []);
-  
+  }, [checkUser]); // Add checkUser as a dependency to avoid stale closures
 
   return (
     <nav className="navbar bg-base-300 shadow-lg px-6 py-2 sm:px-6 md:px-10 lg:px-20">
@@ -37,15 +36,12 @@ const UserHeader = () => {
       </div>
 
       <div className="navbar-end flex items-center space-x-4">
-        {isUserAuth ? (
+        {isLoading ? (
+          null // leave it blank when loading
+        ) : isUserAuth ? (
           <AvatarDropdown />
         ) : (
-          <>
-            <Button
-              title="Login"
-              onClick={() => navigate("/login")}
-            />
-          </>
+          <Button title="Login" onClick={() => navigate("/login")} />
         )}
       </div>
     </nav>
