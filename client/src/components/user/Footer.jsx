@@ -18,7 +18,7 @@ const Footer = () => {
                 href="#"
                 rel="noreferrer"
                 target="_blank"
-                className="text-base transition hover:opacity-75"
+                className="text-base transition hover:text-primary"
               >
                 <span className="sr-only">Facebook</span>
   
@@ -37,7 +37,7 @@ const Footer = () => {
                 href="#"
                 rel="noreferrer"
                 target="_blank"
-                className="text-base transition hover:opacity-75"
+                className="text-base transition hover:text-primary"
               >
                 <span className="sr-only">Instagram</span>
   
@@ -56,7 +56,7 @@ const Footer = () => {
                 href="#"
                 rel="noreferrer"
                 target="_blank"
-                className="text-base transition hover:opacity-75"
+                className="text-base transition hover:text-primary"
               >
                 <span className="sr-only">Twitter</span>
   
@@ -73,7 +73,7 @@ const Footer = () => {
                 href="#"
                 rel="noreferrer"
                 target="_blank"
-                className="text-base transition hover:opacity-75"
+                className="text-base transition hover:text-primary"
               >
                 <span className="sr-only">GitHub</span>
   

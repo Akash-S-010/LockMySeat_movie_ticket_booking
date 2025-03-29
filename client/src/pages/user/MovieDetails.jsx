@@ -68,7 +68,7 @@ const MovieDetails = () => {
             </p>
             <div className="flex items-center justify-center md:justify-start gap-4">
               <button
-                className="bg-primary cursor-pointer font-semibold px-10 py-3 rounded-lg"
+                className="bg-primary cursor-pointer font-semibold px-10 py-3 rounded-lg hover:bg-[var(--color-primaryHover)] hover:scale-[1.01] transition"
                 onClick={() => navigate(`/user/show-selection/${id}`)}
               >
                 Book Tickets
@@ -79,21 +79,21 @@ const MovieDetails = () => {
       </div>
 
       {/* About the Movie Section */}
-      <div className="container mx-auto px-6 py-2 sm:px-6 md:px-10 lg:px-20 mt-8">
-        <h2 className="text-3xl font-bold text-base mb-4">About the Movie</h2>
+      <div className="container mx-auto px-6 py-8 sm:px-6 md:px-10 lg:px-20 mt-8  border-b border-base-300">
+        <h2 className="text-3xl font-bold mb-4">About the Movie</h2>
         <p className="text-gray-400 leading-relaxed">
           {movie?.plot || "No description available."}
         </p>
       </div>
 
       {/* Cast & Crew Section */}
-      <div className="container mx-auto px-6 py-2 sm:px-6 md:px-10 lg:px-20 mt-8">
+      <div className="container mx-auto px-6 py-8 sm:px-6 md:px-10 lg:px-20 mt-8">
         <h2 className="text-3xl font-bold mb-6">Cast & Crew</h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
           {movie?.cast?.length > 0 ? (
             movie.cast.map((actor, index) => (
               <div key={index} className="flex items-center justify-center">
-                <div className="w-24 h-24 rounded-full bg-base-300 text-base flex items-center justify-center text-center px-2 text-sm font-semibold shadow-md">
+                <div className="w-24 h-24 rounded-full bg-base-300 flex items-center justify-center text-center px-2 text-sm font-semibold shadow-md">
                   {actor}
                 </div>
               </div>
@@ -105,8 +105,8 @@ const MovieDetails = () => {
       </div>
 
       {/* Reviews Section */}
-      <div className="container mx-auto px-6 py-2 sm:px-6 md:px-10 lg:px-20 mt-8">
-        <h2 className="text-3xl font-bold text-base mb-6">User Reviews</h2>
+      <div className="container mx-auto my-8 px-6 py-10 sm:px-6 md:px-10 lg:px-20 mt-8 border-t  border-base-300">
+        <h2 className="text-3xl font-bold  mb-6">User Reviews</h2>
         {movie?.reviews?.length > 0 ? (
           <div className="space-y-6">
             {movie.reviews.map((review, index) => (

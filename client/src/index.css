@@ -41,16 +41,4 @@
   html::-webkit-scrollbar {
     width: 0.4rem;
   }
-  
-  html::-webkit-scrollbar-track {
-    background: #1e1e24;
-  }
-  
-  html::-webkit-scrollbar-thumb {
-    background: #f64d71;
-    border-radius: 2rem;
-  }
-  
-  html::-webkit-scrollbar-thumb:hover {
-    background: #ff1b49;
-  }
+
