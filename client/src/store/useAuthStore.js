@@ -24,8 +24,17 @@ export const useAuthStore = create((set) => ({
         }
     },
 
-    login: (userData) => {
-        set({ user: userData, isUserAuth: true }); // Updates Zustand state immediately
+    login: async (userData) => {
+        set({ user: userData, isUserAuth: true });
+        try {
+            const res = await axiosInstance.get("user/check-user");
+            if (res.data) {
+                set({ user: res.data.data, isUserAuth: true });
+            }
+        } catch (err) {
+            console.error("Error fetching updated user:", err);
+        }
     },
+    
 
 }));

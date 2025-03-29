@@ -14,18 +14,21 @@ const AvatarDropdown = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [theme, setTheme] = useState("dark");
 
+
+  // Toggle Theme---
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
     document.documentElement.setAttribute("data-theme", newTheme);
   };
 
-  // Logout Function
+  // Logout Function---
   const handleLogout = async () => {
     try {
       const response = await axiosInstance.post("user/logout");
-      toast.success(response.data.message);
       navigate("/login");
+      window.location.reload();  //refresh page to clear user data
+
     } catch (error) {
       toast.error("Logout failed");
       console.error("Logout failed:", error);
