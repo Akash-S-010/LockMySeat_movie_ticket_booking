@@ -32,7 +32,7 @@ const MovieCard = ({ movie }) => {
               {movie.languages.map((lang, index) => (
                 <span
                   key={index}
-                  className="badge bg-transparent border border-blue-600 text-blue-600 text-xs"
+                  className="badge bg-transparent border border-primary text-primary text-xs"
                 >
                   {lang}
                 </span>
@@ -48,7 +48,7 @@ const MovieCard = ({ movie }) => {
               {movie.genres.map((genre, index) => (
                 <span
                   key={index}
-                  className="badge bg-transparent border border-blue-600 text-blue-600 text-xs"
+                  className="badge bg-transparent border border-primary text-primary text-xs"
                 >
                   {genre}
                 </span>

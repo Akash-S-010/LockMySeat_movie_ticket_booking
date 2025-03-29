@@ -7,7 +7,7 @@ export const Button = ({ title, className, onClick }) => {
       onClick={onClick}
       className={`btn btn-primary text-white font-semibold py-2 px-4 rounded-md transition cursor-pointer ${
         className ? className : ""
-      } hover:bg-[var(--color-primaryHover)] hover:scale-[1.02]`}
+      } hover:bg-[var(--color-primaryHover)] hover:scale-102`}
     >
       {title}
     </button>
@@ -18,7 +18,7 @@ export const SubmitBtn = ({ title, width, loading }) => {
   return (
     <button
       type="submit"
-      className="btn btn-primary text-white font-semibold py-2 rounded-md transition cursor-pointer flex items-center justify-center disabled:opacity-50 hover:bg-[var(--color-primaryHover)] hover:scale-[1.01]"
+      className="btn btn-primary text-white font-semibold py-2 rounded-md transition cursor-pointer flex items-center justify-center disabled:opacity-50 hover:bg-[var(--color-primaryHover)] hover:scale-102"
       style={{ width: width || "100%" }}
       disabled={loading}
     >

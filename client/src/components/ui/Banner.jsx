@@ -35,7 +35,7 @@ const BannerSlider = () => {
   }, [slides.length]);
 
   return (
-    <div className="relative w-full h-[400px] overflow-hidden mt-10 rounded-md border-2 border-base-200">
+    <div className="relative w-full h-[400px] overflow-hidden mt-10 rounded-md border-2 border-base-200 my-20">
       {/* BannerSlider Container */}
       <div
         className="flex transition-transform duration-500 ease-in-out"

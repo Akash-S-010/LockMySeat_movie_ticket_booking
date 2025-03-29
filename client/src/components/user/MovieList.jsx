@@ -35,9 +35,9 @@ const MoviesList = () => {
   if (error) return <div className="text-center text-red-500">{error}</div>;
 
   return (
-    <div className="mx-auto min-h-screen my-30 px-4">
+    <div className="mx-auto min-h-screen my-10 px-4">
       <h1 className="font-bold text-3xl mb-6">Now Showing</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mb-20">
         {loading
           ? // Render skeletons while loading
             Array(4)

@@ -89,7 +89,7 @@ const Profile = () => {
             </div>
             <button
               onClick={handlePenClick}
-              className="absolute bottom-0 right-1 btn primary-btn btn-circle btn-sm btn-primary"
+              className="absolute bottom-0 right-1 btn btn-primary btn-circle btn-sm"
               disabled={loading} // Disable the button while loading
             >
               <Pencil className="w-4 h-4" />{" "}
@@ -122,7 +122,7 @@ const Profile = () => {
               <div className="flex gap-2">
                 <button
                   onClick={handleNameUpdate}
-                  className="btn primary-btn btn-md w-full sm:w-auto"
+                  className="btn btn-primary btn-md w-full sm:w-auto"
                 >
                   Save
                 </button>

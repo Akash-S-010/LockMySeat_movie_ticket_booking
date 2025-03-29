@@ -2,14 +2,14 @@
 @plugin "daisyui";
 
 :root {
-  --color-primary: #f64d71;
+  --color-primary: #fd5479;
   --color-primaryHover: #fa315c;
 }
 
 @layer base {
     /* 🌞 Light Mode */
     [data-theme="light"] {
-      --color-primary: #f64d71; 
+      --color-primary: #fd5479; 
       --color-base-100: #ffffff;
       --color-base-200: #f2f2f2; 
       --color-base-300: #d0cfcf; 
