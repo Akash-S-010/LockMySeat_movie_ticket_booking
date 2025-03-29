@@ -23,13 +23,13 @@ const UserHeader = () => {
 
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1 space-x-2">
-          <li className="text-base hover:text-primary list font-medium transition-colors duration-200 text-lg">
+          <li className="hover:text-primary list font-medium transition-colors duration-200 text-lg">
             <Link to="/">Home</Link>
           </li>
-          <li className="text-base hover:text-primary list font-medium transition-colors duration-200 text-lg">
+          <li className="hover:text-primary list font-medium transition-colors duration-200 text-lg">
             <Link to="/all-movies">Movies</Link>
           </li>
-          <li className="text-base hover:text-primary list font-medium transition-colors duration-200 text-lg">
+          <li className="hover:text-primary list font-medium transition-colors duration-200 text-lg">
             <Link to="/about-us">About</Link>
           </li>
         </ul>

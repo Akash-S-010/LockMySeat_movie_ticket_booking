@@ -35,7 +35,7 @@ const MoviesList = () => {
   if (error) return <div className="text-center text-red-500">{error}</div>;
 
   return (
-    <div className="mx-auto min-h-screen mt-10 px-4">
+    <div className="mx-auto min-h-screen my-30 px-4">
       <h1 className="font-bold text-3xl mb-6">Now Showing</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {loading
@@ -47,9 +47,6 @@ const MoviesList = () => {
             movies.map((movie) => (
               <MovieCard key={movie.id || movie._id} movie={movie} />
             ))}
-      </div>
-      <div className="text-center mt-8">
-        <button className="btn btn-outline btn-error">Load More</button>
       </div>
     </div>
   );

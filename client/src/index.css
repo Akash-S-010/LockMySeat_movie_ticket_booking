@@ -3,7 +3,7 @@
 
 :root {
   --color-primary: #f64d71;
-  --color-primaryHover: #cc334d;
+  --color-primaryHover: #fa315c;
 }
 
 @layer base {
@@ -29,7 +29,6 @@
       color-scheme: dark;
     }
 }
-    
 
   
 

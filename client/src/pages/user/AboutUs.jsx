@@ -1,10 +1,15 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import {SubmitBtn} from "../../components/ui/Buttons";
 
 const AboutUs = () => {
+
+  const navigate = useNavigate();
+
   return (
-    <div className="bg-base-100">
+    <div className="bg-base-100 px-6 py-2 sm:px-6 md:px-10 lg:px-20">
       {/* Banner Section */}
-      <div className="hero min-h-[60vh] bg-gradient-to-r from-gray-700 to-secondary-700">
+      <div className="hero min-h-[60vh] bg-gradient-to-r from-gray-600 to-secondary-700">
         <div className="hero-overlay bg-opacity-60"></div>
         <div className="hero-content text-center text-neutral-content">
           <div className="max-w-2xl">
@@ -14,19 +19,19 @@ const AboutUs = () => {
             <p className="mb-5 text-lg md:text-xl">
               Your Ultimate Movie Ticket Booking Experience
             </p>
-            <button className="btn btn-primary mt-4">Get Started</button>
+            <button className="btn btn-primary mt-4" onClick={() => navigate('/')}>Get Started</button>
           </div>
         </div>
       </div>
 
       {/* About Description */}
-      <div className="container mx-auto px-4 py-20">
-        <div className="text-center mb-16">
+      <div className="container mx-auto px-4 py-26">
+        <div className="text-center mb-20">
           <h2 className="text-3xl md:text-4xl font-semibold text-base-content">
-            Why Choose lockMySeat?
+            Why Choose LockMySeat?
           </h2>
           <p className="mt-4 text-lg text-base-content/80 max-w-3xl mx-auto">
-            At <span className="font-bold text-primary">lockMySeat</span>, we’re
+            At <span className="font-bold text-primary">LockMySeat</span>, we’re
             dedicated to transforming how you experience movies. From
             blockbuster premieres to indie gems, we make booking your tickets
             effortless with real-time seat selection, exclusive deals, and a
@@ -35,8 +40,8 @@ const AboutUs = () => {
         </div>
 
         {/* Feature Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-20">
-          <div className="card bg-base-200 shadow-xl hover:shadow-2xl transition-shadow">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-30">
+          <div className="card bg-base-300 shadow-xl hover:shadow-2xl transition-shadow">
             <div className="card-body items-center text-center">
               <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center">
                 <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -47,7 +52,7 @@ const AboutUs = () => {
               <p>Secure your seats instantly with live updates.</p>
             </div>
           </div>
-          <div className="card bg-base-200 shadow-xl hover:shadow-2xl transition-shadow">
+          <div className="card bg-base-300 shadow-xl hover:shadow-2xl transition-shadow">
             <div className="card-body items-center text-center">
               <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center">
                 <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -58,7 +63,7 @@ const AboutUs = () => {
               <p>Enjoy special discounts and promotions.</p>
             </div>
           </div>
-          <div className="card bg-base-200 shadow-xl hover:shadow-2xl transition-shadow">
+          <div className="card bg-base-300 shadow-xl hover:shadow-2xl transition-shadow">
             <div className="card-body items-center text-center">
               <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center">
                 <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -69,7 +74,7 @@ const AboutUs = () => {
               <p>Book tickets with a simple, intuitive design.</p>
             </div>
           </div>
-          <div className="card bg-base-200 shadow-xl hover:shadow-2xl transition-shadow">
+          <div className="card bg-base-300 shadow-xl hover:shadow-2xl transition-shadow">
             <div className="card-body items-center text-center">
               <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center">
                 <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -83,10 +88,10 @@ const AboutUs = () => {
         </div>
 
         {/* Our Mission */}
-        <div className="flex flex-col md:flex-row items-center gap-10 mb-20">
+        <div className="flex flex-col md:flex-row items-center gap-10 mb-30">
           <div className="md:w-1/2">
             <img
-              src="https://via.placeholder.com/600x400?text=Movie+Theater"
+              src="https://media.gettyimages.com/id/1136613594/video/red-seats-in-theather-horizontal-slider-move.jpg?s=640x640&k=20&c=bfIqS9ilZiorY0_gZCA8aqwYm2VNBbhYob6V8TBnkGQ="
               alt="Movie Theater"
               className="rounded-lg shadow-lg w-full"
             />
@@ -96,14 +101,33 @@ const AboutUs = () => {
             <p className="text-base-content/80">
               We aim to bring the magic of cinema closer to you. With
               cutting-edge technology and a passion for movies,{" "}
-              <span className="font-bold text-primary">lockMySeat</span> ensures
+              <span className="font-bold text-primary">LockMySeat</span> ensures
               every ticket you book is the start of a memorable adventure.
             </p>
           </div>
         </div>
 
+        <div className="flex flex-col md:flex-row items-center gap-10 mb-30">
+          <div className="md:w-1/2 text-center md:text-left">
+            <h3 className="text-2xl md:text-3xl font-bold mb-4">Our Mission</h3>
+            <p className="text-base-content/80">
+              We aim to bring the magic of cinema closer to you. With
+              cutting-edge technology and a passion for movies,{" "}
+              <span className="font-bold text-primary">LockMySeat</span> ensures
+              every ticket you book is the start of a memorable adventure.
+            </p>
+          </div>
+          <div className="md:w-1/2">
+            <img
+              src="https://media.gettyimages.com/id/1136613594/video/red-seats-in-theather-horizontal-slider-move.jpg?s=640x640&k=20&c=bfIqS9ilZiorY0_gZCA8aqwYm2VNBbhYob6V8TBnkGQ="
+              alt="Movie Theater"
+              className="rounded-lg shadow-lg w-full"
+            />
+          </div>
+        </div>
+
         {/* New Eye-Catching Banner Section */}
-        <div className="hero min-h-[50vh] bg-gradient-to-l from-red-500 to-orange-500 mb-20">
+        <div className="hero min-h-[50vh] bg-gradient-to-l from-red-500 to-orange-500 mb-30">
           <div className="hero-content flex-col md:flex-row items-center gap-10">
             <div className="text-center md:text-left text-neutral-content max-w-md">
               <h2 className="text-4xl md:text-5xl font-bold mb-4">
@@ -124,42 +148,6 @@ const AboutUs = () => {
           </div>
         </div>
 
-        {/* Slider/Carousel for Movie Highlights */}
-        <div className="carousel w-full rounded-lg mb-20 h-98 ">
-          <div id="slide1" className="carousel-item relative w-full">
-            <img
-              src="https://images.pexels.com/photos/7991579/pexels-photo-7991579.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-              className="w-full"
-              alt="Blockbuster Movies"
-            />
-            <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-              <a href="#slide3" className="btn btn-circle">❮</a>
-              <a href="#slide2" className="btn btn-circle">❯</a>
-            </div>
-          </div>
-          <div id="slide2" className="carousel-item relative w-full">
-            <img
-              src="https://images.pexels.com/photos/7991161/pexels-photo-7991161.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-              className="w-full"
-              alt="Latest Releases"
-            />
-            <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-              <a href="#slide1" className="btn btn-circle">❮</a>
-              <a href="#slide3" className="btn btn-circle">❯</a>
-            </div>
-          </div>
-          <div id="slide3" className="carousel-item relative w-full">
-            <img
-              src="https://images.pexels.com/photos/7991486/pexels-photo-7991486.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-              className="w-full"
-              alt="Special Events"
-            />
-            <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-              <a href="#slide2" className="btn btn-circle">❮</a>
-              <a href="#slide1" className="btn btn-circle">❯</a>
-            </div>
-          </div>
-        </div>
 
         {/* Reviews Section */}
         <div className="mb-20">
@@ -167,21 +155,21 @@ const AboutUs = () => {
             What Our Users Say
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="card bg-base-200 shadow-lg p-6">
+            <div className="card bg-base-300 shadow-lg p-6">
               <p className="italic text-base-content/80">
                 "Booking tickets has never been this easy! I love how I can pick
                 my seats in real-time."
               </p>
               <p className="mt-4 font-bold">- Sarah K.</p>
             </div>
-            <div className="card bg-base-200 shadow-lg p-6">
+            <div className="card bg-base-300 shadow-lg p-6">
               <p className="italic text-base-content/80">
                 "The exclusive offers saved me money on my last movie night.
                 Highly recommend!"
               </p>
               <p className="mt-4 font-bold">- James P.</p>
             </div>
-            <div className="card bg-base-200 shadow-lg p-6">
+            <div className="card bg-base-300 shadow-lg p-6">
               <p className="italic text-base-content/80">
                 "Super intuitive app. I booked tickets for my whole family in
                 minutes."
@@ -191,8 +179,8 @@ const AboutUs = () => {
           </div>
         </div>
 
-        {/* Enhanced Contact Section */}
-        <div className="bg-base-200 py-20 mb-20">
+        {/*  Contact Section */}
+        <div className="bg-base-300 py-16 px-8 mb-10">
           <div className="container mx-auto px-4">
             <h2 className="text-3xl md:text-4xl font-semibold text-center mb-12">
               Let’s Connect
@@ -209,7 +197,7 @@ const AboutUs = () => {
                     <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
-                    <a href="mailto:support@lockmyseat.com" className="text-primary">support@lockmyseat.com</a>
+                    <a href="mailto:support@Lockmyseat.com" className="text-primary">support@Lockmyseat.com</a>
                   </li>
                   <li className="flex items-center gap-2">
                     <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -260,9 +248,7 @@ const AboutUs = () => {
                       className="textarea textarea-bordered w-full h-32 focus:textarea-primary"
                     ></textarea>
                   </div>
-                  <button type="submit" className="btn btn-primary w-full hover:btn-accent">
-                    Submit Message
-                  </button>
+                 <SubmitBtn title="Send Message" />
                 </form>
               </div>
             </div>
@@ -276,10 +262,10 @@ const AboutUs = () => {
           </h3>
           <p className="text-base-content/80 mb-8 max-w-2xl mx-auto">
             Join thousands of movie lovers who trust{" "}
-            <span className="font-bold text-primary">lockMySeat</span> for
+            <span className="font-bold text-primary">LockMySeat</span> for
             unforgettable cinema experiences.
           </p>
-          <button className="btn btn-primary btn-lg">Book Now</button>
+          <button className="btn btn-primary btn-lg" onClick={() => navigate('/')}>Book Now</button>
         </div>
       </div>
     </div>
