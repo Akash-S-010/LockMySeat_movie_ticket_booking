@@ -55,7 +55,7 @@ const Register = () => {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           {/* Name Field */}
           <div>
-            <label className="block font-base mb-2">Name</label>
+            <label className="block text-base mb-2">Name</label>
             <div className="relative">
               <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
               <input
@@ -78,7 +78,7 @@ const Register = () => {
 
           {/* Email Field */}
           <div>
-            <label className="block font-base mb-2">Email</label>
+            <label className="block text-base mb-2">Email</label>
             <div className="relative">
               <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
               <input
@@ -101,7 +101,7 @@ const Register = () => {
 
           {/* Password Field */}
           <div>
-            <label className="block font-base mb-2">Password</label>
+            <label className="block text-base mb-2">Password</label>
             <div className="relative">
               <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
               <input
@@ -127,7 +127,7 @@ const Register = () => {
 
           {/* Confirm Password Field */}
           <div>
-            <label className="block font-base mb-2">Confirm Password</label>
+            <label className="block text-base mb-2">Confirm Password</label>
             <div className="relative">
               <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
               <input
@@ -153,7 +153,7 @@ const Register = () => {
         </form>
 
         {/* Login Link */}
-        <p className="text-center font-base mt-4">
+        <p className="text-center text-base mt-4">
           Already have an account?{" "}
           <Link to="/login" className="text-[#f64d71] hover:underline">
             Login

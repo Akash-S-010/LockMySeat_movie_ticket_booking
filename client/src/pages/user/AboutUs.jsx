@@ -4,12 +4,12 @@ const AboutUs = () => {
   return (
     <div className="bg-base-100">
       {/* Banner Section */}
-      <div className="hero min-h-[60vh] bg-gradient-to-r from-purple-500 to-indigo-600">
+      <div className="hero min-h-[60vh] bg-gradient-to-r from-gray-700 to-secondary-700">
         <div className="hero-overlay bg-opacity-60"></div>
         <div className="hero-content text-center text-neutral-content">
           <div className="max-w-2xl">
-            <h1 className="mb-5 text-5xl md:text-6xl font-bold">
-              Welcome to lockMySeat
+            <h1 className="mb-5 text-xl md:text-6xl font-bold">
+              Welcome to <span className='text-primary text-xl md:text-8xl'>LockMySeat</span>
             </h1>
             <p className="mb-5 text-lg md:text-xl">
               Your Ultimate Movie Ticket Booking Experience

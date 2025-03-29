@@ -52,13 +52,13 @@ const Login = () => {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           {/* Email Field */}
           <div>
-            <label className="block font-base mb-2">Email</label>
+            <label className="block text-base mb-2">Email</label>
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 font-base w-5 h-5" />
+              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-base w-5 h-5" />
               <input
                 type="email"
                 placeholder="Enter your email"
-                className={`w-full pl-10 pr-4 py-2 bg-base-200 font-base rounded-md border border-base-300 focus:outline-none focus:border-[#f64d71] ${
+                className={`w-full pl-10 pr-4 py-2 bg-base-200 text-base rounded-md border border-base-300 focus:outline-none focus:border-[#f64d71] ${
                   errors.email ? "border-red-500" : ""
                 }`}
                 {...register("email", {
@@ -79,13 +79,13 @@ const Login = () => {
 
           {/* Password Field */}
           <div>
-            <label className="block font-base mb-2">Password</label>
+            <label className="block text-base mb-2">Password</label>
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 font-base w-5 h-5" />
+              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-base w-5 h-5" />
               <input
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter your password"
-                className={`w-full pl-10 pr-12 py-2 bg-base-200 font-base rounded-md border border-base-300 focus:outline-none focus:border-[#f64d71] ${
+                className={`w-full pl-10 pr-12 py-2 bg-base-200 text-base rounded-md border border-base-300 focus:outline-none focus:border-[#f64d71] ${
                   errors.password ? "border-red-500" : ""
                 }`}
                 {...register("password", {
@@ -99,7 +99,7 @@ const Login = () => {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 font-base"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-base"
               >
                 {showPassword ? (
                   <EyeOff className="w-5 h-5" />
@@ -128,7 +128,7 @@ const Login = () => {
         </form>
 
         {/* Register Link */}
-        <p className="text-center font-base mt-4">
+        <p className="text-center text-base mt-4">
           Don't have an account?{" "}
           <Link to="/register" className="text-primary hover:underline">
             Register

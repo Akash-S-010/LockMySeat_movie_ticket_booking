@@ -73,25 +73,25 @@ const VerifyOTP = () => {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           {/* Email Display */}
           <div>
-            <label className="block font-base mb-2">Email</label>
+            <label className="block text-base mb-2">Email</label>
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 font-base w-5 h-5" />
+              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-base w-5 h-5" />
               <input
                 type="email"
                 value={email}
                 readOnly
-                className="w-full pl-10 pr-4 py-2 bg-base-200 font-base rounded-md border border-base-300 focus:outline-none cursor-not-allowed"
+                className="w-full pl-10 pr-4 py-2 bg-base-200 text-base rounded-md border border-base-300 focus:outline-none cursor-not-allowed"
               />
             </div>
           </div>
 
           {/* OTP Input */}
           <div>
-            <label className="block font-base mb-2">Enter OTP</label>
+            <label className="block text-base mb-2">Enter OTP</label>
             <input
               type="text"
               placeholder="6-digit OTP"
-              className={`w-full pl-4 pr-4 py-2 bg-base-200 font-base rounded-md border border-base-300 focus:outline-none focus:border-[#f64d71] ${
+              className={`w-full pl-4 pr-4 py-2 bg-base-200 text-base rounded-md border border-base-300 focus:outline-none focus:border-[#f64d71] ${
                 errors.otp ? "border-red-500" : ""
               }`}
               {...register("otp", {
@@ -108,7 +108,7 @@ const VerifyOTP = () => {
         </form>
 
         {/* Resend OTP */}
-        <p className="text-center font-base mt-4">
+        <p className="text-center text-base mt-4">
           Didn’t receive OTP?{" "}
           <button
             onClick={handleResendOTP}

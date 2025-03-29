@@ -65,7 +65,7 @@ const AvatarDropdown = () => {
           <div className={'btn btn-ghost btn-circle avatar bg-gray-500'}>
             <img src={user?.profilePic || Avatar} alt="User Avatar" className="w-10 h-10 rounded-full object-top" />
           </div>
-          <svg className="w-4 h-4 font-base-content" fill="currentColor" viewBox="0 0 20 20">
+          <svg className="w-4 h-4 text-base-content" fill="currentColor" viewBox="0 0 20 20">
             <path
               fillRule="evenodd"
               d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"

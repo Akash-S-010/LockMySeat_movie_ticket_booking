@@ -6,7 +6,7 @@ import { Toaster } from "react-hot-toast";
 const App = () => {
   return (
     <>
-      <Toaster position="top-left"/>
+      <Toaster position="top-right"/>
       <RouterProvider router={router} />
     </>
   );

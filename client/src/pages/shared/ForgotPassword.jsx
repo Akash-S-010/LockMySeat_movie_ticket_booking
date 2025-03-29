@@ -32,7 +32,7 @@ const ForgotPassword = () => {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           {/* Email Field */}
           <div>
-            <label className="block font-base">Email</label>
+            <label className="block text-base">Email</label>
             <div className="relative">
               <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 w-5 h-5" />
               <input

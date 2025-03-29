@@ -80,7 +80,7 @@ const MovieDetails = () => {
 
       {/* About the Movie Section */}
       <div className="container mx-auto px-6 py-2 sm:px-6 md:px-10 lg:px-20 mt-8">
-        <h2 className="text-3xl font-bold font-base mb-4">About the Movie</h2>
+        <h2 className="text-3xl font-bold text-base mb-4">About the Movie</h2>
         <p className="text-gray-400 leading-relaxed">
           {movie?.plot || "No description available."}
         </p>
@@ -93,7 +93,7 @@ const MovieDetails = () => {
           {movie?.cast?.length > 0 ? (
             movie.cast.map((actor, index) => (
               <div key={index} className="flex items-center justify-center">
-                <div className="w-24 h-24 rounded-full bg-base-300 font-base flex items-center justify-center text-center px-2 text-sm font-semibold shadow-md">
+                <div className="w-24 h-24 rounded-full bg-base-300 text-base flex items-center justify-center text-center px-2 text-sm font-semibold shadow-md">
                   {actor}
                 </div>
               </div>
@@ -106,7 +106,7 @@ const MovieDetails = () => {
 
       {/* Reviews Section */}
       <div className="container mx-auto px-6 py-2 sm:px-6 md:px-10 lg:px-20 mt-8">
-        <h2 className="text-3xl font-bold font-base mb-6">User Reviews</h2>
+        <h2 className="text-3xl font-bold text-base mb-6">User Reviews</h2>
         {movie?.reviews?.length > 0 ? (
           <div className="space-y-6">
             {movie.reviews.map((review, index) => (

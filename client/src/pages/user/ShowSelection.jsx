@@ -130,7 +130,7 @@ const ShowSelection = () => {
   return (
     <div className="min-h-screen bg-base-100 mt-10">
       {/* Movie Title */}
-      <h1 className="text-4xl font-extrabold font-base mb-6 text-center">
+      <h1 className="text-4xl font-extrabold text-base mb-6 text-center">
         {movieLoading
           ? "Loading Movie..."
           : movie
@@ -231,10 +231,10 @@ const ShowSelection = () => {
               key={index}
               className="mb-6 p-6 bg-base-300 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
             >
-              <h2 className="text-2xl font-bold font-base mb-2">
+              <h2 className="text-2xl font-bold text-base mb-2">
                 {group.theater.name}
               </h2>
-              <p className="text-sm font-base mb-4">{group.theater.location}</p>
+              <p className="text-sm text-base mb-4">{group.theater.location}</p>
               <div className="flex gap-3 flex-wrap">
                 {group.shows.map((show) => (
                   <button

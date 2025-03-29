@@ -1,87 +1,42 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
+:root {
+  --color-primary: #f64d71;
+  --color-primaryHover: #cc334d;
+}
 
 @layer base {
     /* 🌞 Light Mode */
     [data-theme="light"] {
-      --primary: #f64d71; /* Custom Primary */
-      --base-100: #ffffff;
-      --base-200: #e8e5e5;  
-      --base-300: #c8c7c7;
+      --color-primary: #f64d71; 
+      --color-base-100: #ffffff;
+      --color-base-200: #f2f2f2; 
+      --color-base-300: #d0cfcf; 
 
-      --text-color: #111827; /* Dark text for readability */
+      --color-base-content: #111827; /* Dark text for readability */
       color-scheme: light;
     }
   
     /* 🌙 Dark Mode */
     [data-theme="dark"] {
-      --primary: #fd5479;
-      
-      --base-100: #242b33; 
-      --base-200: #1d232a;
-      --base-300: #191e24; 
+      --color-primary: #fd5479;
+      --color-base-100: #242b33; 
+      --color-base-200: #1d232a;
+      --color-base-300: #191e24; 
   
-      --text-color: #ffffff; /* Light text */
+      ----color-base-content: #ffffff; /* Light text */
       color-scheme: dark;
     }
-  
-
+}
     
 
-    /* Create Custom Tailwind Classes */
-    .bg-primary {
-      background-color: var(--primary) !important;
-    }
-
-    .bg-primary:hover {
-        background-color: #ff2856 !important;
-        transition: .3s !important;
-        transform: scale(1.02) !important;
-    }
-  
-    .text-primary {
-      color: var(--primary) !important;
-    }
-    .text-primary:hover {
-      color: var(--primary) !important;
-    }
-  
-    .bg-base-100 {
-      background-color: var(--base-100) !important;
-    }
-  
-    .bg-base-200 {
-      background-color: var(--base-200) !important;
-    }
-  
-    .bg-base-300 {
-      background-color: var(--base-300) !important;
-    }
-  
-    .font-base {
-      color: var(--text-color) !important;
-    }
-
-    .primary-btn {
-      background-color: var(--primary) !important;
-    }
-  
-    .primary-btn-hover:hover {
-      background-color: #ff2856 !important;
-      transition: .3s !important;
-    }
-
-    .border-primary {
-      border-color: var(--primary) !important;
-    }
-  }
   
 
   html {
     scroll-behavior: smooth;
     scrollbar-width: thin;
-    scrollbar-color: #f64d71 var(--base-100);
+    scrollbar-color: #f64d71 var(--color-base-100);
   }
   
   html::-webkit-scrollbar {
@@ -99,24 +54,4 @@
   
   html::-webkit-scrollbar-thumb:hover {
     background: #ff1b49;
-  }
-  
-  @layer base {
-    /* ... existing theme and classes ... */
-  
-    /* Custom underline style for <li> */
-    .list:hover {
-      position: relative; /* Needed for pseudo-element positioning */
-    }
-  
-    .list:hover::after {
-      content: '';
-      position: absolute;
-      bottom: -2px; /* Adjust distance from text */
-      left: 0;
-      width: 100%;
-      height: 2px; /* Thickness of underline */
-      background-color: var(--primary); /* Matches #f64d71 */
-      transition: all 0.3s ease-in-out; /* Smooth animation */
-    }
   }
