@@ -21,7 +21,7 @@ const MovieCard = ({ movie }) => {
         />
       </figure>
       <div className="card-body p-4">
-        <h2 className="card-title text-lg font-bold text-base">
+        <h2 className="card-title text-lg font-bold">
           {movie.title}
         </h2>
 
