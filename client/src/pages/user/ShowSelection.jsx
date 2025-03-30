@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axiosInstance from "../../config/axiosInstance.js";
+import { Search, Loader2, AlertCircle } from "lucide-react";
 
 const ShowSelection = () => {
   const { movieId } = useParams();
@@ -27,11 +28,7 @@ const ShowSelection = () => {
         }
         setMovie(response.data.data);
       } catch (err) {
-        if (err.response && err.response.status === 404) {
-          setError("Movie not found.");
-        } else {
-          setError("Failed to fetch movie details. Please try again later.");
-        }
+        setError("Failed to fetch movie details. Please try again later.");
       } finally {
         setMovieLoading(false);
       }
@@ -47,27 +44,10 @@ const ShowSelection = () => {
         `/show/by-date?movieId=${movieId}&date=${formattedDate}`
       );
       setShows(response.data.data);
-      setLoading(false);
     } catch (err) {
       setError("No shows found for this date.");
       setShows([]);
-      setLoading(false);
-    }
-  };
-
-  const fetchShowsByLocation = async (location) => {
-    try {
-      setLoading(true);
-      const response = await axiosInstance.get(
-        `/show/by-location?location=${location}`
-      );
-      const allShows = response.data.data;
-      const filteredShows = allShows.filter((show) => show.movieId === movieId);
-      setShows(filteredShows);
-      setLoading(false);
-    } catch (err) {
-      setError("No shows found for this location.");
-      setShows([]);
+    } finally {
       setLoading(false);
     }
   };
@@ -77,13 +57,11 @@ const ShowSelection = () => {
   }, [selectedDate, movieId]);
 
   const getNextFiveDays = () => {
-    const days = [];
-    for (let i = 0; i < 5; i++) {
+    return Array.from({ length: 5 }, (_, i) => {
       const date = new Date();
       date.setDate(date.getDate() + i);
-      days.push(date);
-    }
-    return days;
+      return date;
+    });
   };
 
   const days = getNextFiveDays();
@@ -95,7 +73,7 @@ const ShowSelection = () => {
   const handleLocationSearch = (e) => {
     e.preventDefault();
     if (location.trim()) {
-      fetchShowsByLocation(location);
+      fetchShowsByDate(selectedDate);
     }
   };
 
@@ -103,22 +81,14 @@ const ShowSelection = () => {
     navigate(`/user/seat-selection/${showId}`);
   };
 
-  const groupShowsByTheater = () => {
-    const grouped = {};
-    shows.forEach((show) => {
-      const theaterId = show.theaterId._id;
-      if (!grouped[theaterId]) {
-        grouped[theaterId] = {
-          theater: show.theaterId,
-          shows: [],
-        };
-      }
-      grouped[theaterId].shows.push(show);
-    });
-    return Object.values(grouped);
-  };
-
-  const groupedShows = groupShowsByTheater();
+  const groupedShows = shows.reduce((acc, show) => {
+    const theaterId = show.theaterId._id;
+    if (!acc[theaterId]) {
+      acc[theaterId] = { theater: show.theaterId, shows: [] };
+    }
+    acc[theaterId].shows.push(show);
+    return acc;
+  }, {});
 
   if (error && !movie)
     return (
@@ -129,16 +99,10 @@ const ShowSelection = () => {
 
   return (
     <div className="min-h-screen bg-base-100 mt-10">
-      {/* Movie Title */}
       <h1 className="text-4xl font-extrabold mb-6 text-center">
-        {movieLoading
-          ? "Loading Movie..."
-          : movie
-          ? movie.title
-          : "Movie Not Found"}
+        {movieLoading ? "Loading Movie..." : movie ? movie.title : "Movie Not Found"}
       </h1>
 
-      {/* Date Picker and Location Search */}
       <div className="mb-8 max-w-4xl mx-auto">
         <div className="flex justify-center gap-3 mb-6 flex-wrap">
           {days.map((day, index) => (
@@ -148,99 +112,50 @@ const ShowSelection = () => {
               className={`px-4 py-2 rounded-lg shadow-md transition-all duration-300 cursor-pointer ${
                 selectedDate.toDateString() === day.toDateString()
                   ? "bg-primary text-white"
-                  : "bg-gray-700  text-white hover:bg-indigo-500 hover:text-white"
+                  : "bg-base-300 text-gray-500 hover:bg-primary hover:text-white"
               }`}
             >
               <div className="text-sm font-semibold">
-                {day.toLocaleDateString("en-US", {
-                  day: "numeric",
-                  month: "short",
-                })}
+                {day.toLocaleDateString("en-US", { day: "numeric", month: "short" })}
               </div>
               <div className="text-xs">
-                {day
-                  .toLocaleDateString("en-US", { weekday: "short" })
-                  .toUpperCase()}
+                {day.toLocaleDateString("en-US", { weekday: "short" }).toUpperCase()}
               </div>
             </button>
           ))}
         </div>
 
-        <form
-          onSubmit={handleLocationSearch}
-          className="flex justify-center gap-3"
-        >
+        <form onSubmit={handleLocationSearch} className="flex justify-center gap-3">
           <input
             type="text"
             placeholder="Search Location (e.g., MAHE)"
             value={location}
             onChange={(e) => setLocation(e.target.value)}
-            className="input input-bordered w-full max-w-xs bg-gray-700 text-white placeholder-gray-400 border-gray-600 focus:outline-none focus:border-primary"
+            className="input input-bordered w-full max-w-xs bg-base-300 text-white placeholder-gray-500 border-gray-600"
           />
-          <button
-            type="submit"
-            className="btn  bg-primary hover:bg-indigo-700 border-none"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              />
-            </svg>
+          <button type="submit" className="btn bg-primary hover:bg-primaryHover border-none">
+            <Search size={20} className="text-white" />
           </button>
         </form>
       </div>
 
-      {/* Show Listings */}
       <div className="max-w-4xl mx-auto">
         {loading ? (
           <div className="text-center text-gray-400 text-lg">
-            <svg
-              className="animate-spin h-8 w-8 mx-auto mb-2 text-indigo-500"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <circle
-                className="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                strokeWidth="4"
-              />
-              <path
-                className="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8v8H4z"
-              />
-            </svg>
+            <Loader2 size={32} className="animate-spin mx-auto mb-2 text-primary" />
             Loading shows...
           </div>
-        ) : groupedShows.length > 0 ? (
-          groupedShows.map((group, index) => (
-            <div
-              key={index}
-              className="mb-6 p-6 bg-base-300 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
-            >
-              <h2 className="text-2xl font-bold mb-2">
-                {group.theater.name}
-              </h2>
+        ) : Object.values(groupedShows).length > 0 ? (
+          Object.values(groupedShows).map((group, index) => (
+            <div key={index} className="mb-6 p-6 bg-base-300 rounded-lg shadow-lg">
+              <h2 className="text-2xl font-bold mb-2">{group.theater.name}</h2>
               <p className="text-sm mb-4">{group.theater.location}</p>
               <div className="flex gap-3 flex-wrap">
                 {group.shows.map((show) => (
                   <button
                     key={show._id}
                     onClick={() => handleShowClick(show._id)}
-                    className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-indigo-700 transition-colors duration-300 cursor-pointer"
+                    className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-rose-500 transition cursor-pointer"
                   >
                     {show.formattedTime}
                   </button>
@@ -249,24 +164,9 @@ const ShowSelection = () => {
             </div>
           ))
         ) : (
-          <div className="text-center text-gray-400 bg-gray-800 p-6 rounded-lg shadow-md">
-            <svg
-              className="h-12 w-12 mx-auto mb-4 text-gray-500"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-            <p className="text-lg">
-              No shows available for this date or location.
-            </p>
+          <div className="text-center text-gray-400 bg-base-300 p-6 rounded-lg">
+            <AlertCircle size={32} className="mx-auto mb-4 text-gray-500" />
+            <p className="text-lg">No shows available for this date or location.</p>
           </div>
         )}
       </div>
