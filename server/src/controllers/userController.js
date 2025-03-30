@@ -10,40 +10,53 @@ const NODE_ENV = process.env.NODE_ENV
 
 // ------------User Signup------------
 export const signup = async (req, res) => {
-
     try {
-
         const { name, email, password } = req.body;
 
-        const userExists = await User.findOne({ email });
+        let user = await User.findOne({ email });
 
-        if (userExists) {
+        if (user) {
+            if (!user.isVerified) {
+                // If user exists but is not verified, update their details
+                user.name = name; // Ensure updated name
+                user.password = await bcrypt.hash(password, 10); // Update password
+                user.otp = Math.floor(100000 + Math.random() * 900000);
+                user.otpExpires = Date.now() + 3 * 60 * 1000;
+
+                await user.save();
+                await sendEmail(email, "OTP Verification", user.otp);
+
+                return res.json({ message: "New OTP sent to your email." });
+            } 
             return res.status(400).json({ message: "User already exists" });
         }
 
-        // -----hash password--------
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
-
-        // ------generate otp--------
+        // Create a new user only if no existing record is found
+        const hashedPassword = await bcrypt.hash(password, 10);
         const otp = Math.floor(100000 + Math.random() * 900000);
-
-        // ------otp expire time ( 3 min )------
         const otpExpires = Date.now() + 3 * 60 * 1000;
 
-        const newUser = new User({ name, email, password: hashedPassword, otp, otpExpires, isVerified: false });
+        const newUser = new User({ 
+            name, 
+            email, 
+            password: hashedPassword, 
+            otp, 
+            otpExpires, 
+            isVerified: false 
+        });
         await newUser.save();
 
-        //--------- Send OTP via email------------
         await sendEmail(email, "OTP Verification", otp);
 
         res.json({ message: "OTP sent to your email. Please verify to complete registration." });
 
     } catch (error) {
         console.error("Error in signup", error);
-        res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
+        res.status(500).json({ message: "Internal server error" });
     }
 };
+
+
 
 
 
