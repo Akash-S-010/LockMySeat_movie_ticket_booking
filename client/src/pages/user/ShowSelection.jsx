@@ -130,7 +130,7 @@ const ShowSelection = () => {
   return (
     <div className="min-h-screen bg-base-100 mt-10">
       {/* Movie Title */}
-      <h1 className="text-4xl font-extrabold text-base mb-6 text-center">
+      <h1 className="text-4xl font-extrabold mb-6 text-center">
         {movieLoading
           ? "Loading Movie..."
           : movie
