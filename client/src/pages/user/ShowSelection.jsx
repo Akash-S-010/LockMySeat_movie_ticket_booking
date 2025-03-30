@@ -231,10 +231,10 @@ const ShowSelection = () => {
               key={index}
               className="mb-6 p-6 bg-base-300 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
             >
-              <h2 className="text-2xl font-bold text-base mb-2">
+              <h2 className="text-2xl font-bold mb-2">
                 {group.theater.name}
               </h2>
-              <p className="text-sm text-base mb-4">{group.theater.location}</p>
+              <p className="text-sm mb-4">{group.theater.location}</p>
               <div className="flex gap-3 flex-wrap">
                 {group.shows.map((show) => (
                   <button
