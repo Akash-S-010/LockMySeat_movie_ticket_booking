@@ -22,7 +22,7 @@ export const SubmitBtn = ({ title, width, loading }) => {
       style={{ width: width || "100%" }}
       disabled={loading}
     >
-      {loading ? <Loader className="animate-spin w-5 h-5" /> : title}
+      {loading ? <Loader className="animate-spin w-5 h-5 text-primary" /> : title}
     </button>
   );
 };
