@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Mail } from "lucide-react";
-import {SubmitBtn} from "../../components/ui/Buttons";
+import {SubmitBtn} from "../../components/ui/Buttons.jsx";
 import { useNavigate, useLocation } from "react-router-dom";
 import axiosInstance from "../../config/axiosInstance.js";
 import toast from "react-hot-toast";
 
-const VerifyOTP = () => {
+const Verification = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [email, setEmail] = useState("");
@@ -123,4 +123,4 @@ const VerifyOTP = () => {
   );
 };
 
-export default VerifyOTP;
+export default Verification;
