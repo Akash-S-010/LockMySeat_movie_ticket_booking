@@ -25,22 +25,30 @@ const Register = () => {
   const onSubmit = async (data) => {
     const { name, email, password } = data;
     const payload = { name, email, password };
-
+  
     try {
-      setLoading(true); 
+      setLoading(true);
       const response = await axiosInstance.post("user/signup", payload);
-      toast.success(response.data.message || "OTP sent! Please verify.");
+      
+      // Handle scenario where user is unverified but can continue
+      if (response.data.message.includes("New OTP sent")) {
+        toast.success("Account already exists but is unverified. OTP sent!");
+      } else {
+        toast.success(response.data.message || "OTP sent! Please verify.");
+      }
+  
       navigate(`/verify-otp?email=${email}`);
-
+  
     } catch (error) {
       const errorMsg = error.response?.data?.message || "Registration failed";
       toast.error(errorMsg);
       console.error("Registration failed:", errorMsg);
       
     } finally {
-      setLoading(false); // Reset loading state after request completes
+      setLoading(false);
     }
   };
+  
 
   return (
     <div className="min-h-screen bg-base-100 flex items-center justify-center">

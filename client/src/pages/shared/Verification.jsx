@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { set, useForm } from "react-hook-form";
 import { Mail } from "lucide-react";
-import {SubmitBtn} from "../../components/ui/Buttons.jsx";
+import { SubmitBtn } from "../../components/ui/Buttons.jsx";
 import { useNavigate, useLocation } from "react-router-dom";
 import axiosInstance from "../../config/axiosInstance.js";
 import toast from "react-hot-toast";
@@ -13,7 +13,11 @@ const Verification = () => {
   const [isResending, setIsResending] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   // Extract and store email on mount
   useEffect(() => {
@@ -38,15 +42,20 @@ const Verification = () => {
 
     try {
       setLoading(true);
-      const response = await axiosInstance.post("user/verify-otp", { email, otp: data.otp });
+      const response = await axiosInstance.post("user/verify-otp", {
+        email,
+        otp: data.otp,
+      });
       toast.success(response.data.message);
 
       // Clear email storage and redirect to login
       localStorage.removeItem("userEmail");
-      setTimeout(() => navigate("/login"), 2000);
-      setLoading(false)
+      navigate("/login");
+      setLoading(false);
     } catch (error) {
-      toast.error(error.response?.data?.message || "Invalid OTP, please try again.");
+      toast.error(
+        error.response?.data?.message || "Invalid OTP, please try again."
+      );
     }
   };
 
@@ -71,7 +80,9 @@ const Verification = () => {
   return (
     <div className="min-h-screen bg-base-100 flex items-center justify-center">
       <div className="bg-base-300 p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h2 className="text-3xl font-bold text-primary text-center mb-6">Verify OTP</h2>
+        <h2 className="text-3xl font-bold text-primary text-center mb-6">
+          Verify OTP
+        </h2>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           {/* Email Display */}
@@ -99,15 +110,19 @@ const Verification = () => {
               }`}
               {...register("otp", {
                 required: "OTP is required",
-                pattern: { value: /^[0-9]{6}$/, message: "OTP must be 6 digits" }
+                pattern: {
+                  value: /^[0-9]{6}$/,
+                  message: "OTP must be 6 digits",
+                },
               })}
             />
-            {errors.otp && <p className="text-red-500 text-sm mt-1">{errors.otp.message}</p>}
+            {errors.otp && (
+              <p className="text-red-500 text-sm mt-1">{errors.otp.message}</p>
+            )}
           </div>
 
           {/* Submit Button */}
           <SubmitBtn title="Verify OTP" loading={loading} />
-
         </form>
 
         {/* Resend OTP */}
