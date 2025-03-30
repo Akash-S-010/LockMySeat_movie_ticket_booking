@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { Mail } from "lucide-react";
 import {SubmitBtn} from "../../components/ui/Buttons.jsx";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -11,6 +11,7 @@ const Verification = () => {
   const location = useLocation();
   const [email, setEmail] = useState("");
   const [isResending, setIsResending] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const { register, handleSubmit, formState: { errors } } = useForm();
 
@@ -36,12 +37,14 @@ const Verification = () => {
     }
 
     try {
+      setLoading(true);
       const response = await axiosInstance.post("user/verify-otp", { email, otp: data.otp });
       toast.success(response.data.message);
 
       // Clear email storage and redirect to login
       localStorage.removeItem("userEmail");
       setTimeout(() => navigate("/login"), 2000);
+      setLoading(false)
     } catch (error) {
       toast.error(error.response?.data?.message || "Invalid OTP, please try again.");
     }
@@ -103,7 +106,7 @@ const Verification = () => {
           </div>
 
           {/* Submit Button */}
-          <SubmitBtn title="Verify OTP" />
+          <SubmitBtn title="Verify OTP" loading={loading} />
 
         </form>
 

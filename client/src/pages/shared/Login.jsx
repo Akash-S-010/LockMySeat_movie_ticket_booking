@@ -20,9 +20,9 @@ const Login = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    setIsLoading(true);
-
+    
     try {
+      setIsLoading(true);
       const response = await axiosInstance.post("user/login", {
         email: data.email,
         password: data.password,
@@ -124,7 +124,7 @@ const Login = () => {
           </div>
 
           {/* Submit Button */}
-          <SubmitBtn title="Login" isLoading={isLoading} />
+          <SubmitBtn title="Login" loading={isLoading} />
         </form>
 
         {/* Register Link */}
