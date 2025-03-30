@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axiosInstance from "../../config/axiosInstance.js";
+import MovieDetailsSkeleton from "../../components/ui/MovieDetailsSkeleton";
 
 const MovieDetails = () => {
   const { id } = useParams();
@@ -24,7 +25,7 @@ const MovieDetails = () => {
     fetchMovieDetails();
   }, [id]);
 
-  if (loading) return <div className="text-center text-white">Loading...</div>;
+  if (loading) return <MovieDetailsSkeleton />;
   if (error) return <div className="text-center text-red-500">{error}</div>;
 
   return (
@@ -86,7 +87,7 @@ const MovieDetails = () => {
         </p>
       </div>
 
-      {/* Cast & Crew Section */}
+      {/* Crew Section */}
       <div className="container mx-auto px-6 py-8 sm:px-6 md:px-10 lg:px-20 mt-8">
         <h2 className="text-3xl font-bold mb-6">Cast & Crew</h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
