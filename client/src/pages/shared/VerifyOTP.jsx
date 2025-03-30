@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { Mail } from "lucide-react";
 import {SubmitBtn} from "../../components/ui/Buttons";
 import { useNavigate, useLocation } from "react-router-dom";
-import axiosInstance from "../../config/axiosInstance";
+import axiosInstance from "../../config/axiosInstance.js";
 import toast from "react-hot-toast";
 
 const VerifyOTP = () => {
