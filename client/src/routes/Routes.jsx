@@ -10,7 +10,7 @@ import ProtectedRoutes from "./ProtectedRoutes";
 import AboutUs from "../pages/user/AboutUs";
 import Profile from "../pages/shared/Profile";
 import ForgotPassword from "../pages/shared/ForgotPassword";
-import VerifyOTP from "../pages/shared/VerifyOtp";
+import VerifyOTP from "../pages/shared/VerifyOTP";
 import ResetPassword from "../pages/shared/Reset-password";
 import ErrorPage from "../pages/shared/Error";
 import Bookings from "../pages/user/Bookings";
