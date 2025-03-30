@@ -18,6 +18,9 @@ app.use(cors({
     credentials: true
 }))
 
+app.get("/", (req, res) => {
+    res.send("Hello Welcome To LockMySeat");
+});
 
 app.use('/api', apiRoutes)
 app.all("*", (req, res) => res.status(404).json({ message: "Route not found" }));

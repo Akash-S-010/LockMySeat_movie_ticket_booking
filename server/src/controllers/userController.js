@@ -150,7 +150,11 @@ export const login = async (req, res) => {
         // Generate Token---------
         const token = generateToken(user._id);
 
-        res.cookie("token", token)
+        res.cookie("token", token, {
+            sameSite: NODE_ENV === "production" ? "None" : "Lax",
+            secure: NODE_ENV === "production",
+            httpOnly: NODE_ENV === "production",
+        });
 
         res.status(200).json({ message: "Login successful", data: { _id: user._id, name: user.name, email: user.email, profilePic: user.profilePic } });
 
@@ -167,7 +171,12 @@ export const login = async (req, res) => {
 // -----------user logout------------
 export const logout = async (req, res) => {
     try {
-        res.clearCookie("token");
+        res.clearCookie("token", {
+            sameSite: NODE_ENV === "production" ? "None" : "Lax",
+            secure: NODE_ENV === "production",
+            httpOnly: NODE_ENV === "production",
+        });
+
         res.json({ message: "Logout successful" });
     } catch (error) {
         console.error("Error in logout", error);
@@ -313,13 +322,13 @@ export const checkUser = async (req, res) => {
         }
 
         const user = await User.findById(userId);
-        
+
         if (!user) {
             return res.status(400).json({ message: "User not found" });
         }
 
-        res.status(200).json({ 
-            message: "user authorized", 
+        res.status(200).json({
+            message: "user authorized",
             data: { _id: user._id, name: user.name, email: user.email, profilePic: user.profilePic, role: user.role, status: user.isActive, isVerified: user.isVerified, createdAt: user.createdAt }
         });
 

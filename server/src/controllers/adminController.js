@@ -145,7 +145,11 @@ export const login = async (req, res) => {
         // Generate Token---------
         const token = generateToken(admin._id, admin.role);
 
-        res.cookie("token", token)
+        res.cookie("token", token, {
+            sameSite: NODE_ENV === "production" ? "None" : "Lax",
+            secure: NODE_ENV === "production",
+            httpOnly: NODE_ENV === "production",
+        });
 
         res.status(200).json({ message: "Login successful",data: {_id: admin._id, name: admin.name, email: admin.email, role: admin.role, profilePic: admin.profilePic} });
 
@@ -186,7 +190,7 @@ export const forgotPassword = async (req, res) => {
         await admin.save();
 
         // ---create reset password url
-        const resetUrl = `http://localhost:3000/reset-password/${resetToken}&email=${email}`;
+        const resetUrl = `http://localhost:5173/reset-password/${resetToken}&email=${email}`;
 
         // ---send email with url
         await sendEmail( email, "Password Reset Request", `Click here to reset your password: ${resetUrl}`);
@@ -288,7 +292,12 @@ export const updateProfile = async (req, res) => {
 // -----------admin logout------------
 export const logout = async (req, res) => {
     try {
-        res.clearCookie("token");
+        res.clearCookie("token",{
+            sameSite: NODE_ENV === "production" ? "None" : "Lax",
+            secure: NODE_ENV === "production",
+            httpOnly: NODE_ENV === "production",
+        });;
+        
         res.json({ message: "Logout successful" });
     } catch (error) {
         console.error("Error in logout",error);
