@@ -2,7 +2,7 @@ import express from "express";
 import checkAuth from "../middlewares/checkAuth.js";
 import checkAdmin from "../middlewares/checkAdmin.js";
 import checkOwnerAdmin from "../middlewares/checkOwnerAdmin.js";
-import { addMovie, deleteMovie, getAllMovies, getMovieDetails, totalMovies, updateMovie } from "../controllers/MovieController.js";
+import { addMovie, deleteMovie, getAllMovies, getMovieDetails, totalMovies, updateMovie } from "../controllers/movieController.js";
 import { addReview, getAllReviews } from "../controllers/reviewController.js";
 const router = express.Router();
 

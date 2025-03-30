@@ -4,8 +4,8 @@ import sendEmail from "../utils/sendEmail.js";
 import generateToken from "../utils/token.js";
 import crypto from "crypto";
 import cloudinaryUpload from "../utils/cloudinaryUploader.js";
-import { create } from "domain";
 
+const NODE_ENV = process.env.NODE_ENV
 
 
 // ------------User Signup------------
@@ -35,7 +35,7 @@ export const signup = async (req, res) => {
         await newUser.save();
 
         //--------- Send OTP via email------------
-        await sendEmail(email, "Lock My Seat", `Your OTP for registration: ${otp}`);
+        await sendEmail(email, "OTP Verification", otp);
 
         res.json({ message: "OTP sent to your email. Please verify to complete registration." });
 
