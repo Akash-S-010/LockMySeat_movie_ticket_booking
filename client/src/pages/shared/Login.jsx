@@ -58,7 +58,7 @@ const Login = () => {
               <input
                 type="email"
                 placeholder="Enter your email"
-                className={`w-full pl-10 pr-4 py-2 bg-base-200 text-base rounded-md border border-base-300 focus:outline-none focus:border-[#f64d71] ${
+                className={`w-full pl-10 pr-4 py-2 bg-base-200 text-base rounded-md border border-base-300 focus:outline-none focus:border-primary ${
                   errors.email ? "border-red-500" : ""
                 }`}
                 {...register("email", {
@@ -85,7 +85,7 @@ const Login = () => {
               <input
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter your password"
-                className={`w-full pl-10 pr-12 py-2 bg-base-200 text-base rounded-md border border-base-300 focus:outline-none focus:border-[#f64d71] ${
+                className={`w-full pl-10 pr-12 py-2 bg-base-200 text-base rounded-md border border-base-300 focus:outline-none focus:border-primary ${
                   errors.password ? "border-red-500" : ""
                 }`}
                 {...register("password", {

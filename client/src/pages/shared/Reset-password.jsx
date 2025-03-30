@@ -47,7 +47,7 @@ const ResetPassword = () => {
               <input
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter new password"
-                className={`w-full pl-10 pr-12 py-2 border rounded-md outline-none focus:border-[#f64d71] ${
+                className={`w-full pl-10 pr-12 py-2 border rounded-md outline-none focus:border-primary ${
                   errors.newPassword ? "border-red-500" : "border-base-100"
                 }`}
                 {...register("newPassword", {

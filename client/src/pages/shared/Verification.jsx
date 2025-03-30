@@ -94,7 +94,7 @@ const Verification = () => {
             <input
               type="text"
               placeholder="6-digit OTP"
-              className={`w-full pl-4 pr-4 py-2 bg-base-200 text-base rounded-md border border-base-300 focus:outline-none focus:border-[#f64d71] ${
+              className={`w-full pl-4 pr-4 py-2 bg-base-200 text-base rounded-md border border-base-300 focus:outline-none focus:border-primary ${
                 errors.otp ? "border-red-500" : ""
               }`}
               {...register("otp", {
@@ -116,7 +116,7 @@ const Verification = () => {
           <button
             onClick={handleResendOTP}
             disabled={isResending}
-            className="text-[#f64d71] hover:underline cursor-pointer"
+            className="text-primary hover:underline cursor-pointer"
           >
             {isResending ? "Resending..." : "Resend OTP"}
           </button>

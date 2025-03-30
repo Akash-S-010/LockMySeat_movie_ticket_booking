@@ -38,7 +38,7 @@ const ForgotPassword = () => {
               <input
                 type="email"
                 placeholder="Enter your email"
-                className={`w-full pl-10 pr-4 py-2 border rounded-md outline-none focus:border-[#f64d71] ${
+                className={`w-full pl-10 pr-4 py-2 border rounded-md outline-none focus:border-primary ${
                   errors.email ? "border-red-500" : "border-base-100"
                 }`}
                 {...register("email", {
