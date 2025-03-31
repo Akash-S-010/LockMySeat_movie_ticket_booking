@@ -39,7 +39,8 @@ const ShowSelection = () => {
   const fetchShowsByDate = async (date) => {
     try {
       setLoading(true);
-      const formattedDate = date.toISOString().split("T")[0];
+      // Format the date as YYYY-MM-DD in UTC
+      const formattedDate = date.toISOString().split("T")[0]; // e.g., "2025-03-31"
       const response = await axiosInstance.get(
         `/show/by-date?movieId=${movieId}&date=${formattedDate}`
       );
