@@ -1,17 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, SubmitBtn } from "../../components/ui/Buttons";
-import {
-  CalendarCheck,
-  Tag,
-  CheckCircle,
-  User,
-} from "lucide-react";
+import { CalendarCheck, Tag, CheckCircle, User } from "lucide-react";
 import ContactForm from "../../components/user/ContactForm.jsx";
+import BannerSlider from "../../components/ui/Banner.jsx";
 
 const AboutUs = () => {
   const navigate = useNavigate();
-
 
   return (
     <div className="bg-base-100">
@@ -141,7 +136,8 @@ const AboutUs = () => {
               />
             </div>
           </div>
-
+          {/* BannerSlider Section */}
+          <BannerSlider />
           {/* Reviews Section */}
           <div className="mb-20">
             <h2 className="text-3xl md:text-4xl font-semibold text-center mb-12">
