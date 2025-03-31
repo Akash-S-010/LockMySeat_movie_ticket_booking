@@ -174,17 +174,67 @@ export const getAllShows = async (req, res) => {
 // -------------get seats pattern with status------------
 export const getSeats = async (req, res) => {
     try {
-        const { showId } = req.params;
-        const show = await Show.findById(showId);
-        if (!show) return res.status(404).json({ message: 'Show not found' });
-
-        if (new Date(show.dateTime) <= new Date()) {
-            return res.status(400).json({ message: 'Show has already started' });
+      const { showId } = req.params;
+      const show = await Show.findById(showId)
+        .populate('movieId') // Populate movie details
+        .populate('theaterId'); // Populate theater details
+  
+      if (!show) {
+        return res.status(404).json({ message: 'Show not found' });
+      }
+  
+      if (new Date(show.dateTime) <= new Date()) {
+        return res.status(400).json({ message: 'Show has already started' });
+      }
+  
+      // Check if populated fields exist
+      if (!show.movieId || !show.theaterId) {
+        return res.status(500).json({ message: 'Invalid show data: Missing movie or theater details' });
+      }
+  
+      // Format the dateTime field using Intl.DateTimeFormat
+      const date = new Date(show.dateTime);
+  
+      // Format the date (e.g., "April 1, 2025")
+      const formattedShowDate = new Intl.DateTimeFormat("en-US", { dateStyle: "long" }).format(date);
+  
+      // Format the time (e.g., "05:30 AM")
+      const formattedShowTime = new Intl.DateTimeFormat("en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+      }).format(date);
+  
+      // Get seat layout from theater
+      const rows = show.theaterId.rows || 7; // Fallback to 7 if missing
+      const columns = show.theaterId.cols || 10; // Fallback to 10 if missing
+  
+      // Transform the 2D seats array into an array of objects
+      const transformedSeats = [];
+      for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < columns; col++) {
+          const seatId = `${String.fromCharCode(65 + row)}${col + 1}`; // e.g., "A1", "A2", ...
+          const seatStatus = show.seats[row]?.[col] || 'available'; // Fallback to 'available' if missing
+          transformedSeats.push({
+            id: seatId,
+            isBooked: seatStatus === 'booked' || seatStatus === 'locked', // Treat "locked" as booked for the frontend
+          });
         }
-
-        res.status(200).json({ seats: show.seats, ticketPrice: show.ticketPrice });
+      }
+  
+      res.status(200).json({
+        seats: transformedSeats,
+        ticketPrice: show.ticketPrice || 0,
+        movieTitle: show.movieId.title || 'Unknown Movie',
+        theaterName: show.theaterId.name || 'Unknown Theater',
+        theaterLocation: show.theaterId.location || 'Unknown Location',
+        showDate: formattedShowDate, // e.g., "April 1, 2025"
+        showTime: formattedShowTime, // e.g., "05:30 AM"
+        dateTime: show.dateTime, // Raw dateTime for reference
+        seatLayout: { rows, columns },
+      });
     } catch (error) {
-        console.error('Error in getSeats:', error);
-        res.status(500).json({ message: 'Internal server error' });
+      console.error('Error in getSeats:', error);
+      res.status(500).json({ message: 'Internal server error' });
     }
-};
+  };
