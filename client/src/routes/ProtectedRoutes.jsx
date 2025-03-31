@@ -16,7 +16,7 @@ const ProtectedRoutes = () => {
   if (isLoading)
     return (
       <div className="flex items-center justify-center h-screen">
-        <Loader className="animate-spin size-20 text-primary" />
+        <Loader className="animate-spin size-16 text-primary" />
       </div>
     ); // Show loading until checkUser completes
 

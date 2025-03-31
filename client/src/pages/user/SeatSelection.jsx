@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axiosInstance from "../../config/axiosInstance.js";
-import { Loader2, AlertCircle } from "lucide-react";
+import { AlertCircle, Loader2 } from "lucide-react"; 
 import { SubmitBtn } from "../../components/ui/Buttons.jsx";
+import toast from "react-hot-toast";
 
 const SeatSelection = () => {
   const { showId } = useParams();
   const navigate = useNavigate();
 
-  const [seats, setSeats] = useState([]); 
+  const [seats, setSeats] = useState([]);
   const [ticketPrice, setTicketPrice] = useState(0);
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [movieTitle, setMovieTitle] = useState("");
@@ -33,7 +34,7 @@ const SeatSelection = () => {
         setTheaterName(data.theaterName || "Unknown Theater");
         setTheaterLocation(data.theaterLocation || "Unknown Location");
         setShowTime(data.showTime || "Unknown Time");
-        setSeatLayout(data.seatLayout || { rows: 10, columns: 10 }); // if no layout, default to 10x10 seats------
+        setSeatLayout(data.seatLayout || { rows: 10, columns: 10 }); // Default to 10x10 if no layout
       } catch (err) {
         setError(err.response?.data?.message || "Failed to fetch seats.");
       } finally {
@@ -59,19 +60,19 @@ const SeatSelection = () => {
   // Calculate total price
   const totalPrice = selectedSeats.length * ticketPrice;
 
-  // Handle payment (you can expand this to integrate with a payment gateway)
+  // Handle payment
   const handlePayment = () => {
     if (selectedSeats.length === 0) {
-      alert("Please select at least one seat.");
+      // Show toast notification if no seats are selected
+      toast.error("Please select at least one seat to proceed with payment.", {
+        duration: 3000, // Toast duration in milliseconds
+        position: "top-center", // Position of the toast
+      });
       return;
     }
+
     // Navigate to a payment page or process payment here
-    console.log(
-      "Proceeding to payment for seats:",
-      selectedSeats,
-      "Total:",
-      totalPrice
-    );
+    console.log("Proceeding to payment for seats:", selectedSeats, "Total:", totalPrice);
     // Example: navigate(`/payment/${showId}`, { state: { selectedSeats, totalPrice } });
   };
 
@@ -82,7 +83,12 @@ const SeatSelection = () => {
   const columns = Array.from({ length: seatLayout.columns }, (_, i) => i + 1); // 1, 2, 3, ..., based on columns
 
   if (loading) {
-    return 
+    return (
+      <div className="min-h-screen bg-base-100 flex flex-col items-center justify-center py-10 px-6 sm:px-6 md:px-10 lg:px-20">
+        <Loader2 size={40} className="animate-spin text-primary mb-4" />
+        <p className="text-lg text-gray-400">Loading seats...</p>
+      </div>
+    );
   }
 
   if (error) {
@@ -119,7 +125,6 @@ const SeatSelection = () => {
         </div>
       </div>
 
-
       {/* Seat Grid */}
       <div
         className="grid gap-2 mb-6"
@@ -155,13 +160,19 @@ const SeatSelection = () => {
       </div>
 
       {/* Screen Indicator */}
-     <img src="https://www.libertycinemas.in/assets/img/ss.svg" alt="screen" className="mt-4" />
+      <img
+        src="https://www.libertycinemas.in/assets/img/ss.svg"
+        alt="screen"
+        className="mt-4"
+      />
 
       {/* Total and Payment */}
       <div className="flex items-center gap-6 justify-between w-1/2 mt-10">
         <div>
           <p className="text-lg font-semibold text-primary mb-3">TOTAL</p>
-          <p className="text-2xl font-bold base">₹ <span className="base">{totalPrice}</span></p>
+          <p className="text-2xl font-bold base">
+            ₹ <span className="base">{totalPrice}</span>
+          </p>
         </div>
         <div>
           <p className="text-lg font-semibold text-primary mb-3">Selected SEATS</p>
@@ -169,7 +180,11 @@ const SeatSelection = () => {
             {selectedSeats.join(", ") || "None"}
           </p>
         </div>
-        <SubmitBtn title={`Pay ${totalPrice} rs`} width={"150px"} />
+        <SubmitBtn
+          title={`Pay ${totalPrice} rs`}
+          width={"150px"}
+          onClick={handlePayment} // Attach the handlePayment function to the button
+        />
       </div>
     </div>
   );
