@@ -193,7 +193,7 @@ export const forgotPassword = async (req, res) => {
         await admin.save();
 
         // ---create reset password url
-        const resetUrl = `http://localhost:5173/reset-password/${resetToken}&email=${email}`;
+        const resetUrl = `https://lock-my-seat.vercel.app/reset-password/${resetToken}&email=${email}`;
 
         // ---send email with url
         await sendEmail( email, "Password Reset Request", `Click here to reset your password: ${resetUrl}`);
