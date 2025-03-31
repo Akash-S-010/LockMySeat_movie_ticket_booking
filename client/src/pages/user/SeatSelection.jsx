@@ -34,13 +34,14 @@ const SeatSelection = () => {
         setTheaterName(data.theaterName || "Unknown Theater");
         setTheaterLocation(data.theaterLocation || "Unknown Location");
         setShowTime(data.showTime || "Unknown Time");
-        setSeatLayout(data.seatLayout || { rows: 10, columns: 10 }); // Default to 10x10 if no layout
+        setSeatLayout(data.seatLayout || { rows: 10, columns: 10 });
       } catch (err) {
         setError(err.response?.data?.message || "Failed to fetch seats.");
       } finally {
         setLoading(false);
       }
     };
+
     fetchSeats();
   }, [showId]);
 
@@ -67,7 +68,9 @@ const SeatSelection = () => {
       return;
     }
 
-    navigate(`/user/payment/${showId}`, { state: { selectedSeats, totalPrice } });
+    navigate(`/user/payment/${showId}`, {
+      state: { selectedSeats, totalPrice },
+    });
   };
 
   // Generate seat grid dynamically based on seatLayout
