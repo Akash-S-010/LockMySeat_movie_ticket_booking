@@ -117,7 +117,7 @@ const AvatarDropdown = () => {
           <ul className="menu p-4">
             <li><Link to="/" className="hover:bg-base-300" onClick={() => setIsOpen(false)}>Home</Link></li>
             <li><Link to="/all-movies" className="hover:bg-base-300" onClick={() => setIsOpen(false)}>Movies</Link></li>
-            <li><Link to="/about" className="hover:bg-base-300" onClick={() => setIsOpen(false)}>About Us</Link></li>
+            <li><Link to="/user/about" className="hover:bg-base-300" onClick={() => setIsOpen(false)}>About</Link></li>
             <li><Link to="/user/profile" className="hover:bg-base-300" onClick={() => setIsOpen(false)}>Profile</Link></li>
             <li><Link to="/user/bookings" className="hover:bg-base-300" onClick={() => setIsOpen(false)}>My Bookings</Link></li>
             <li>
