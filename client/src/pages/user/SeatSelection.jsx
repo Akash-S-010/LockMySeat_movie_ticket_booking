@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axiosInstance from "../../config/axiosInstance.js";
-import { AlertCircle, Loader2 } from "lucide-react"; 
-import { SubmitBtn } from "../../components/ui/Buttons.jsx";
+import { AlertCircle, Loader2 } from "lucide-react";
+import { Button } from "../../components/ui/Buttons";
 import toast from "react-hot-toast";
 
 const SeatSelection = () => {
@@ -63,17 +63,11 @@ const SeatSelection = () => {
   // Handle payment
   const handlePayment = () => {
     if (selectedSeats.length === 0) {
-      // Show toast notification if no seats are selected
-      toast.error("Please select at least one seat to proceed with payment.", {
-        duration: 3000, // Toast duration in milliseconds
-        position: "top-center", // Position of the toast
-      });
+      toast.error("Please select at least one seat.");
       return;
     }
 
-    // Navigate to a payment page or process payment here
-    console.log("Proceeding to payment for seats:", selectedSeats, "Total:", totalPrice);
-    // Example: navigate(`/payment/${showId}`, { state: { selectedSeats, totalPrice } });
+    navigate(`/user/payment/${showId}`, { state: { selectedSeats, totalPrice } });
   };
 
   // Generate seat grid dynamically based on seatLayout
@@ -127,7 +121,7 @@ const SeatSelection = () => {
 
       {/* Seat Grid */}
       <div
-        className="grid gap-2 mb-6"
+        className="grid gap-2 mb-6 "
         style={{
           gridTemplateColumns: `repeat(${seatLayout.columns}, minmax(0, 1fr))`,
         }}
@@ -144,7 +138,7 @@ const SeatSelection = () => {
               <button
                 key={seatId}
                 onClick={() => handleSeatClick(seat)}
-                className={`w-10 h-10 rounded text-sm font-semibold transition-colors ${
+                className={`w-10 h-10 rounded text-sm font-semibold transition-colors cursor-pointer ${
                   seat.isBooked
                     ? "bg-black text-white cursor-not-allowed"
                     : isSelected
@@ -175,15 +169,15 @@ const SeatSelection = () => {
           </p>
         </div>
         <div>
-          <p className="text-lg font-semibold text-primary mb-3">Selected SEATS</p>
+          <p className="text-lg font-semibold text-primary mb-3">SEATS</p>
           <p className="text-lg base font-bold">
             {selectedSeats.join(", ") || "None"}
           </p>
         </div>
-        <SubmitBtn
-          title={`Pay ${totalPrice} rs`}
-          width={"150px"}
-          onClick={handlePayment} // Attach the handlePayment function to the button
+        <Button
+          title={`Pay ₹ ${totalPrice}`}
+          className="w-[150px]"
+          onClick={handlePayment}
         />
       </div>
     </div>
