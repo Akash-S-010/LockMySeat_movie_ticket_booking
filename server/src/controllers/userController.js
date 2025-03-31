@@ -4,6 +4,7 @@ import sendEmail from "../utils/sendEmail.js";
 import generateToken from "../utils/token.js";
 import crypto from "crypto";
 import cloudinaryUpload from "../utils/cloudinaryUploader.js";
+import nodemailer from "nodemailer";
 
 const NODE_ENV = process.env.NODE_ENV
 
@@ -27,7 +28,7 @@ export const signup = async (req, res) => {
                 await sendEmail(email, "OTP Verification", user.otp);
 
                 return res.json({ message: "New OTP sent to your email." });
-            } 
+            }
             return res.status(400).json({ message: "User already exists" });
         }
 
@@ -36,13 +37,13 @@ export const signup = async (req, res) => {
         const otp = Math.floor(100000 + Math.random() * 900000);
         const otpExpires = Date.now() + 3 * 60 * 1000;
 
-        const newUser = new User({ 
-            name, 
-            email, 
-            password: hashedPassword, 
-            otp, 
-            otpExpires, 
-            isVerified: false 
+        const newUser = new User({
+            name,
+            email,
+            password: hashedPassword,
+            otp,
+            otpExpires,
+            isVerified: false
         });
         await newUser.save();
 
@@ -397,5 +398,36 @@ export const isActiveToggle = async (req, res) => {
     } catch (error) {
         console.log("Error in isActiveToggle", error);
         res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
+    }
+};
+
+
+
+
+// -----------User contact form------------
+const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
+
+export const contact = async (req, res) => {
+    const { name, email, message } = req.body;
+
+    const mailOptions = {
+        from: email,
+        to: "lockmyseats@gmail.com",
+        subject: `New Contact Message from ${name}`,
+        text: `You received a new message:\n\nName: ${name}\nEmail: ${email}\nMessage:\n${message}`,
+    };
+
+    try {
+        await transporter.sendMail(mailOptions);
+        res.status(200).json({ success: true, message: "Email sent successfully!" });
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Error sending email." });
+        console.log("Error in contact", error);
     }
 };

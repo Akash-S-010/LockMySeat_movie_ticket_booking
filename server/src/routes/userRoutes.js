@@ -1,5 +1,5 @@
 import express from "express";
-import { checkUser, forgotPassword, getAllUsers, isActiveToggle, login, logout, resendOTP, resetPassword, signup, updateProfile, verifyOTP } from "../controllers/userController.js";
+import { checkUser, contact, forgotPassword, getAllUsers, isActiveToggle, login, logout, resendOTP, resetPassword, signup, updateProfile, verifyOTP } from "../controllers/userController.js";
 import checkAuth from "../middlewares/checkAuth.js";
 import checkOwnerAdmin from "../middlewares/checkOwnerAdmin.js";
 import { upload } from "../middlewares/multer.js";
@@ -17,6 +17,7 @@ router.post('/logout', logout)
 router.get('/check-user', checkAuth, checkUser);
 router.get('/all-users', checkOwnerAdmin, getAllUsers)
 router.put('/update-status/:userId', checkAdmin, isActiveToggle)
+router.post('/contact', contact)
 
 
 
