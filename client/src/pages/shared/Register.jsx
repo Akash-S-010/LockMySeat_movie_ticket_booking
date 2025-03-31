@@ -54,8 +54,7 @@ const Register = () => {
     <div className="min-h-screen bg-base-100 flex items-center justify-center">
       <div className="bg-base-300 p-8 rounded-lg shadow-lg w-full max-w-md">
         {/* Logo and Title */}
-        <div className="flex justify-center mb-6">
-          <img src="Logo.png" alt="logo" className="w-12 mx-2" />
+        <div className="flex justify-center items-center mb-6">
           <h2 className="text-3xl font-bold text-primary">Sign Up</h2>
         </div>
 
