@@ -62,15 +62,29 @@ const SeatSelection = () => {
   const totalPrice = selectedSeats.length * ticketPrice;
 
   // Handle payment
-  const handlePayment = () => {
+  const handlePayment = async () => {
     if (selectedSeats.length === 0) {
       toast.error("Please select at least one seat.");
       return;
     }
-
-    navigate(`/user/payment/${showId}`, {
-      state: { selectedSeats, totalPrice },
-    });
+  
+    try {
+      // Call the createBooking API
+      const response = await axiosInstance.post("/booking/create", {
+        showId,
+        selectedSeats,
+        totalPrice,
+      });
+  
+      const { bookingId } = response.data;
+  
+      // Navigate to the payment page with booking details
+      navigate(`/user/payment/${showId}`, {
+        state: { selectedSeats, totalPrice, bookingId },
+      });
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to initiate booking.");
+    }
   };
 
   // Generate seat grid dynamically based on seatLayout
@@ -90,7 +104,7 @@ const SeatSelection = () => {
 
   if (error) {
     return (
-      <div className="text-center text-red-500 bg-red-100 p-4 rounded-lg shadow-md">
+      <div className="text-center text-red-500 bg-red-100 p-4 rounded-lg shadow-md h-screen">
         <AlertCircle size={32} className="mx-auto mb-2 text-red-500" />
         {error}
       </div>
@@ -98,7 +112,7 @@ const SeatSelection = () => {
   }
 
   return (
-    <div className="min-h-screen bg-base-100 flex flex-col items-center py-10 px-6 py-2 sm:px-6 md:px-10 lg:px-20">
+    <div className="min-h-screen bg-base-100 flex flex-col items-center py-12 px-6 sm:px-6 md:px-10 lg:px-20">
       {/* Movie and Show Details */}
       <div className="flex justify-between items-center mb-6 w-full">
         <div>
@@ -172,7 +186,7 @@ const SeatSelection = () => {
       />
 
       {/* Total and Payment */}
-      <div className="flex items-center gap-6 justify-between w-1/2 mt-10">
+      <div className="flex items-center gap-6 justify-between w-1/2 mt-10 bg-base-200 p-6 rounded-lg">
         <div>
           <p className="text-lg font-semibold text-primary mb-3">TOTAL</p>
           <p className="text-2xl font-bold base">
