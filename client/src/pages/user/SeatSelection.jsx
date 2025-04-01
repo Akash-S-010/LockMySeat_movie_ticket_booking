@@ -109,6 +109,14 @@ const SeatSelection = () => {
           </p>
         </div>
 
+        {/* Ticket Price */}
+        <div>
+          <h1 className="text-3xl font-bold base">Ticket Price</h1>
+          <p className="text-md font-bold text-primary mb-6 text-center">
+            {ticketPrice > 0 ? `₹ ${ticketPrice}` : "Free"}
+          </p>
+        </div>
+
         {/* Seat Status Legend */}
         <div className="flex gap-4 mb-6">
           <div className="flex items-center gap-2">
