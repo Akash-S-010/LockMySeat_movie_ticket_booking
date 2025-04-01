@@ -22,35 +22,13 @@ export const createBooking = async (req, res) => {
             return res.status(404).json({ message: "Show not found" });
         }
 
-        // Convert selected seats to row and column indices
-        const seatIndices = selectedSeats.map(seat => {
-            const row = seat.charCodeAt(0) - 65; 
-            const col = parseInt(seat.substring(1)) - 1;
-            return { row, col };
-        });
-
-        // Check if selected seats are available
-        for (let { row, col } of seatIndices) {
-            if (show.seats[row][col] !== "available") {
-                await session.abortTransaction();
-                session.endSession();
-                return res.status(400).json({ message: `Seat ${selectedSeats} is already taken` });
-            }
-        }
-
-        //---- Lock seats temporary for payment
-        seatIndices.forEach(({ row, col }) => {
-            show.seats[row][col] = "locked"; 
-        });
-
-        await show.save({ session });
-
         const newBooking = new Booking({
             showId,
             userId,
             selectedSeats: selectedSeats.map(seat => ({ seatNumber: seat, status: "pending" })),
             totalPrice,
-            status: "pending"
+            status: "pending",
+            createdAt: new Date() // Store timestamp
         });
 
         await newBooking.save({ session });
@@ -58,13 +36,17 @@ export const createBooking = async (req, res) => {
         await session.commitTransaction();
         session.endSession();
 
-        res.status(201).json({ message: "Booking created, seats locked", bookingId: newBooking._id });
+        res.status(201).json({ 
+            message: "Booking created, awaiting payment", 
+            bookingId: newBooking._id 
+        });
     } catch (error) {
         await session.abortTransaction();
         session.endSession();
         res.status(500).json({ message: "Error creating booking" });
     }
 };
+
 
 
 

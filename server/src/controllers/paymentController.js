@@ -84,7 +84,7 @@ export const paymentVerification = async (req, res) => {
         }
 
         const booking = await Booking.findById(bookingId).session(session);
-        if (!booking || booking.userId.toString() !== req.user.userId) { // ✅ Check User Ownership
+        if (!booking || booking.userId.toString() !== req.user.userId) {
             await session.abortTransaction();
             session.endSession();
             return res.status(404).json({ message: "Booking not found or unauthorized" });
@@ -97,15 +97,16 @@ export const paymentVerification = async (req, res) => {
             return res.status(404).json({ message: "Show not found" });
         }
 
-        // **Verify Razorpay Signature**
         const body = razorpay_order_id + "|" + razorpay_payment_id;
         const expectedSignature = crypto.createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
             .update(body)
             .digest("hex");
 
         if (expectedSignature === razorpay_signature) {
+            // ✅ Mark seats as "booked" ONLY after successful payment
             booking.status = "booked";
             booking.selectedSeats.forEach(seat => seat.status = "booked");
+
             await booking.save({ session });
 
             const payment = await Payment.findOne({ razorpay_order_id }).session(session);
@@ -125,7 +126,6 @@ export const paymentVerification = async (req, res) => {
             show.markModified("seats");
             await show.save({ session });
 
-            // Push the bookingId to the user's bookings array
             await User.findByIdAndUpdate(userId, {
                 $push: { bookings: bookingId }
             }).session(session);
@@ -133,28 +133,6 @@ export const paymentVerification = async (req, res) => {
             await session.commitTransaction();
             session.endSession();
 
-            // if booking success send mail
-            const user = await User.findById(userId);
-            if (user) {
-                const email = user.email;
-        
-                // Construct Booking Details
-                const subject = "Booking Confirmation - Your Seats Are Reserved!";
-                const text = `
-                    Dear ${user.name},\n
-                    Your booking has been confirmed successfully!\n
-                    🎬 Movie: ${show.movieId.title}\n
-                    📍 Theater: ${show.theaterId.name} - ${show.theaterId.location}\n
-                    🗓 Date: ${show.dateTime.toDateString()}\n
-                    ⏰ Time: ${show.dateTime.toTimeString()}\n
-                    🎟 Seats: ${booking.selectedSeats.map(seat => seat.seatNumber).join(", ")}\n
-                    💰 Total Price: ₹${booking.totalPrice}\n
-                    \nEnjoy your movie! 🍿
-                `;
-        
-                // Send Email
-                await sendEmail(email, subject, text);
-            }
             return res.status(200).json({ message: "Payment verified, booking confirmed!" });
         } else {
             return res.status(400).json({ message: "Payment verification failed" });
@@ -164,5 +142,4 @@ export const paymentVerification = async (req, res) => {
         session.endSession();
         res.status(500).json({ message: "Error verifying payment", error: error.message });
     }
-
 };

@@ -4,8 +4,8 @@ import checkAuth from "../middlewares/checkAuth.js";
 const router = express.Router();
 
 
-router.post('/create-order', checkAuth, createOrder)
-router.post('/payment-verification', checkAuth, paymentVerification)
+router.post('/createOrder', checkAuth, createOrder)
+router.post('/paymentVerification', checkAuth, paymentVerification)
 
 
 export default router
