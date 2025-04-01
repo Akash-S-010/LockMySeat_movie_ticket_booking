@@ -13,6 +13,7 @@ const SeatSelection = () => {
   const [ticketPrice, setTicketPrice] = useState(0);
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [movieTitle, setMovieTitle] = useState("");
+  const [poster, setPoster] = useState("");
   const [theaterName, setTheaterName] = useState("");
   const [theaterLocation, setTheaterLocation] = useState("");
   const [showTime, setShowTime] = useState("");
@@ -31,6 +32,7 @@ const SeatSelection = () => {
         setSeats(data.seats || []);
         setTicketPrice(data.ticketPrice || 0);
         setMovieTitle(data.movieTitle || "Unknown Movie");
+        setPoster(data.poster || "");
         setTheaterName(data.theaterName || "Unknown Theater");
         setTheaterLocation(data.theaterLocation || "Unknown Location");
         setShowTime(data.showTime || "Unknown Time");
@@ -80,7 +82,7 @@ const SeatSelection = () => {
   
       // Navigate to the payment page with booking details
       navigate(`/user/payment/${showId}`, {
-        state: { selectedSeats, totalPrice, bookingId },
+        state: { selectedSeats, totalPrice, bookingId, movieTitle, theaterName, theaterLocation, showTime, poster },
       });
     } catch (error) {
       toast.error(error.response?.data?.message || "Failed to initiate booking.");

@@ -1,7 +1,7 @@
 import React from "react";
 import { Loader } from "lucide-react";
 
-export const Button = ({ title, className, onClick }) => {
+export const Button = ({ title, className, onClick, loading }) => {
   return (
     <button
       onClick={onClick}
@@ -9,7 +9,7 @@ export const Button = ({ title, className, onClick }) => {
         className ? className : ""
       } hover:bg-[var(--color-primaryHover)] hover:scale-102`}
     >
-      {title}
+      {loading ? <Loader className="animate-spin w-5 h-5 text-primary" /> : title}
     </button>
   );
 };
@@ -22,7 +22,7 @@ export const SubmitBtn = ({ title, width, loading }) => {
       style={{ width: width || "100%" }}
       disabled={loading}
     >
-      {loading ? <Loader className="animate-spin w-5 h-5 text-primary" /> : title}
+      {loading ? <Loader className="animate-spin w-5 h-5 text-white" /> : title}
     </button>
   );
 };
