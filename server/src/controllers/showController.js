@@ -233,6 +233,7 @@ export const getSeats = async (req, res) => {
         showTime: formattedShowTime, // e.g., "05:30 AM"
         dateTime: show.dateTime, // Raw dateTime for reference
         seatLayout: { rows, columns },
+        poster: show.movieId.verticalImg || '',
       });
     } catch (error) {
       console.error('Error in getSeats:', error);
