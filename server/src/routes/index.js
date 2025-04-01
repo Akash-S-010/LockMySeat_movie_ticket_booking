@@ -24,7 +24,7 @@ router.use('/theater',theaterRoutes);
 router.use('/show',showRoutes);
 
 // ---Booking routes----
-router.use('/Booking',bookingRoutes);
+router.use('/booking',bookingRoutes);
 
 // ---Payment routes----
 router.use('/payment',paymentRoutes);
