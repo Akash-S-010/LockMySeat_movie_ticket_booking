@@ -14,7 +14,7 @@ const UserHeader = () => {
   }, [checkUser]); // Add checkUser as a dependency to avoid stale closures
 
   return (
-    <nav className="navbar bg-base-300 shadow-lg px-6 py-2 sm:px-6 md:px-10 lg:px-20">
+    <nav className="navbar bg-base-300 shadow-lg px-6 py-2 sm:px-6 md:px-10 lg:px-20 sticky top-0 z-10">
       <div className="navbar-start">
         <Link to="/" className="flex items-center">
           <img src={Logo} alt="App Logo" className="w-42 object-contain" />
