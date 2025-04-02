@@ -12,10 +12,10 @@ import Profile from "../pages/shared/Profile";
 import ForgotPassword from "../pages/shared/ForgotPassword";
 import ResetPassword from "../pages/shared/Reset-password";
 import ErrorPage from "../pages/shared/Error";
-import Bookings from "../pages/user/Bookings";
 import SeatSelection from "../pages/user/SeatSelection";
 import VerifyOtp from "../pages/shared/Verification";
 import Payment from "../pages/user/Payment";
+import Bookings from "../pages/user/Bookings";
 export const router = createBrowserRouter([
   {
     path: "",

@@ -41,4 +41,7 @@
   html::-webkit-scrollbar {
     width: 0.4rem;
   }
+  body{
+    scroll-behavior: smooth;
+  }
 
