@@ -112,7 +112,7 @@ export const getAllMovies = async (req, res) => {
             const movie = await Movie.findById(movieId).populate({
                 path: "reviews",
                 select: "comment rating", // ✅ Fetch only comment and rating
-                populate: { path: "user", select: "name" } // ✅ Fetch only user name
+                populate: { path: "userId", select: "name" } // ✅ Fetch only user name
             })
 
             if (!movie) {

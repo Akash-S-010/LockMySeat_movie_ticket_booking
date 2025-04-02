@@ -85,6 +85,7 @@ export const getUserBookings = async (req, res) => {
         const formattedBookings = bookings.filter(booking => booking.showId) // Exclude deleted shows
             .map(booking => ({
                 bookingId: booking._id,
+                movieId: booking.showId.movieId._id,
                 movieName: booking.showId.movieId.title,
                 moviePoster: booking.showId.movieId.verticalImg,
                 movieImage: booking.showId.movieId.verticalImg,

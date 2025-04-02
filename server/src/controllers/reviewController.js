@@ -1,6 +1,5 @@
 import Movie from "../models/movieModel.js";
 import Review from "../models/reviewModel.js";
-import Booking from "../models/bookingModel.js";
 
 
 
@@ -11,8 +10,18 @@ export const addReview = async (req, res) => {
     const {comment, rating} = req.body
     const userId = req.user.userId
 
+    console.log("Received Data: ", { movieId, userId, comment, rating });
+
     try {
         
+        if(!movieId){
+            return res.status(400).json({ message: "Movie id is required" });
+        }
+
+        if(!userId){
+            return res.status(400).json({ message: "User id is required" });
+        }
+
         if(!comment || !rating){
             return res.status(400).json({ message: "Comment and rating are required" });
         }
@@ -23,19 +32,19 @@ export const addReview = async (req, res) => {
            return  res.status(404).json({ message: "Movie not found" });
         }
 
-        const movieBooked = await Booking.exists({
-            userId,
-            movieId,
-            status: "booked",
-        });
+        // const movieBooked = await Booking.exists({
+        //     userId,
+        //     movieId,
+        //     status: "booked",
+        // });
 
-        if (!movieBooked) {
-            return res.status(403).json({ message: "Only booked users can add a review" });
-        }
+        // if (!movieBooked) {
+        //     return res.status(403).json({ message: "Only booked users can add a review" });
+        // }
 
         const newReview = new Review({
-            movie:movieId, 
-            user:userId, 
+            movieId, 
+            userId, 
             comment, 
             rating
         });
