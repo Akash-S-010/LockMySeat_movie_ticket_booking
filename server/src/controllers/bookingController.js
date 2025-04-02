@@ -36,9 +36,9 @@ export const createBooking = async (req, res) => {
         await session.commitTransaction();
         session.endSession();
 
-        res.status(201).json({ 
-            message: "Booking created, awaiting payment", 
-            bookingId: newBooking._id 
+        res.status(201).json({
+            message: "Booking created, awaiting payment",
+            bookingId: newBooking._id
         });
     } catch (error) {
         await session.abortTransaction();
@@ -55,12 +55,12 @@ export const createBooking = async (req, res) => {
 
 // --------------get all bookings of specific use------------
 export const getUserBookings = async (req, res) => {
-    
+
     const userId = req.user.userId;
 
     try {
-        
-        if(!userId){
+
+        if (!userId) {
             return res.status(400).json({ message: "User id is required" });
         }
 
@@ -69,34 +69,37 @@ export const getUserBookings = async (req, res) => {
                 path: "showId",
                 select: "movieId theaterId dateTime",
                 populate: [
-                    { path: "movieId", select: "title posterImage" },
+                    { path: "movieId", select: "title verticalImg" },
                     { path: "theaterId", select: "name location" }
                 ]
             })
-            .select("showId selectedSeats status totalPrice createdAt");
+            .select("showId selectedSeats status totalPrice createdAt")
+            .sort({ createdAt: -1 }); 
 
-        if(!bookings.length){
+        if (!bookings.length) {
             return res.status(404).json({ message: "No bookings found" });
         }
 
+
         // ----formatted for good structure and readability----
         const formattedBookings = bookings.filter(booking => booking.showId) // Exclude deleted shows
-        .map(booking => ({
-            bookingId: booking._id,
-            movieName: booking.showId.movieId.title,
-            movieImage: booking.showId.movieId.verticalImg,
-            theaterName: booking.showId.theaterId.name,
-            showDate: booking.showId.dateTime.toDateString(),
-            showTime: booking.showId.dateTime.toTimeString(),
-            bookedSeats: booking.selectedSeats.map(seat => seat.seatNumber),
-            status: booking.status,
-            totalPrice: booking.totalPrice
-        }));
+            .map(booking => ({
+                bookingId: booking._id,
+                movieName: booking.showId.movieId.title,
+                moviePoster: booking.showId.movieId.verticalImg,
+                movieImage: booking.showId.movieId.verticalImg,
+                theaterName: booking.showId.theaterId.name,
+                showDate: booking.showId.dateTime.toDateString(),
+                showTime: booking.showId.dateTime.toTimeString(),
+                bookedSeats: booking.selectedSeats.map(seat => seat.seatNumber),
+                status: booking.status,
+                totalPrice: booking.totalPrice
+            }));
 
         res.status(200).json({ message: "Bookings found", data: formattedBookings });
 
     } catch (error) {
-        console.error("Error in getUserBookings controller",error);
+        console.error("Error in getUserBookings controller", error);
         res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
     }
 };
@@ -106,19 +109,19 @@ export const getUserBookings = async (req, res) => {
 
 // --------------get total bookings------------
 export const getTotalBookings = async (req, res) => {
-    
+
     try {
-        
+
         const totalBookings = await Booking.countDocuments({});
-        
-        if(!totalBookings.length){
+
+        if (!totalBookings.length) {
             return res.status(404).json({ message: "No bookings found" });
         }
-        
+
         res.status(200).json({ message: "Total bookings found", data: totalBookings });
-        
+
     } catch (error) {
-        console.error("Error in getTotalBookings controller",error);
+        console.error("Error in getTotalBookings controller", error);
         res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
     }
 };
