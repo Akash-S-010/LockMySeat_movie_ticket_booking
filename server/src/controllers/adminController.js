@@ -32,7 +32,7 @@ export const signup = async (req, res) => {
         const otp = Math.floor(100000 + Math.random() * 900000);
 
         // ------otp expire time ( 2 min )------
-        const otpExpires = Date.now() + 2 * 60 * 1000;
+        const otpExpires = Date.now() + 4 * 60 * 1000;
 
         const newAdmin = new Admin({ name, email, password: hashedPassword, otp, otpExpires, isVerified: false, role });
         await newAdmin.save();
@@ -101,7 +101,7 @@ export const resendOTP = async (req, res) => {
 
         // ---------Generate new OTP------------
         const otp = Math.floor(100000 + Math.random() * 900000);
-        const otpExpires = Date.now() + 2 * 60 * 1000; // Set expiration time
+        const otpExpires = Date.now() + 4 * 60 * 1000; // Set expiration time
 
         admin.otp = otp;
         admin.otpExpires = otpExpires;

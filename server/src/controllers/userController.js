@@ -35,7 +35,7 @@ export const signup = async (req, res) => {
         // Create a new user only if no existing record is found
         const hashedPassword = await bcrypt.hash(password, 10);
         const otp = Math.floor(100000 + Math.random() * 900000);
-        const otpExpires = Date.now() + 3 * 60 * 1000;
+        const otpExpires = Date.now() + 4 * 60 * 1000;
 
         const newUser = new User({
             name,
@@ -112,7 +112,7 @@ export const resendOTP = async (req, res) => {
 
         // ---------Generate new OTP------------
         const otp = Math.floor(100000 + Math.random() * 900000);
-        const otpExpires = Date.now() + 3 * 60 * 1000; // Set an expiration time of 3 minutes
+        const otpExpires = Date.now() + 4 * 60 * 1000; // Set an expiration time of 4 minutes
 
         user.otp = otp;
         user.otpExpires = otpExpires;
