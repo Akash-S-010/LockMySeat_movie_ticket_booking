@@ -38,7 +38,7 @@ export const signup = async (req, res) => {
         await newAdmin.save();
 
         //--------- Send OTP via email------------
-        await sendEmail(email, "OTP Verification", otp);
+        await sendEmail(email, "otp", { otp });
 
         res.json({ message: "OTP sent to your email. Please verify to complete registration." });
 
@@ -196,7 +196,7 @@ export const forgotPassword = async (req, res) => {
         const resetUrl = `https://lock-my-seat.vercel.app/reset-password/${resetToken}&email=${email}`;
 
         // ---send email with url
-        await sendEmail( email, "Password Reset Request", `Click here to reset your password: ${resetUrl}`);
+        await sendEmail(email, "reset", { resetUrl });
 
         res.status(200).json({ message: "Password reset link sent to your email." });
 

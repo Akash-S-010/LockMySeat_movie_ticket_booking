@@ -90,12 +90,18 @@ export const paymentVerification = async (req, res) => {
             return res.status(404).json({ message: "Booking not found or unauthorized" });
         }
 
-        const show = await Show.findById(booking.showId).session(session);
+        // Populate movieId and theaterId to get movie name, theater name, and location
+        const show = await Show.findById(booking.showId)
+            .populate("movieId", "title") 
+            .populate("theaterId", "name location") 
+            .session(session);
         if (!show) {
             await session.abortTransaction();
             session.endSession();
             return res.status(404).json({ message: "Show not found" });
         }
+
+        const user = await User.findById(userId).session(session);
 
         const body = razorpay_order_id + "|" + razorpay_payment_id;
         const expectedSignature = crypto.createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
@@ -103,10 +109,8 @@ export const paymentVerification = async (req, res) => {
             .digest("hex");
 
         if (expectedSignature === razorpay_signature) {
-            // ✅ Mark seats as "booked" ONLY after successful payment
             booking.status = "booked";
             booking.selectedSeats.forEach(seat => seat.status = "booked");
-
             await booking.save({ session });
 
             const payment = await Payment.findOne({ razorpay_order_id }).session(session);
@@ -132,6 +136,23 @@ export const paymentVerification = async (req, res) => {
 
             await session.commitTransaction();
             session.endSession();
+
+            // Format dateTime for display
+            const showDateTime = new Date(show.dateTime);
+            const showDate = showDateTime.toDateString(); 
+            const showTime = showDateTime.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }); 
+
+            const bookingDetails = {
+                movieName: show.movieId.title,
+                theaterName: show.theaterId.name, 
+                location: show.theaterId.location, 
+                showTime: showTime, 
+                showDate: showDate, 
+                selectedSeats: booking.selectedSeats.map(seat => seat.seatNumber),
+                totalPrice: booking.totalPrice,
+            };
+
+            await sendEmail(user.email, "booking", bookingDetails);
 
             return res.status(200).json({ message: "Payment verified, booking confirmed!" });
         } else {
