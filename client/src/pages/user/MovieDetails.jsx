@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axiosInstance from "../../config/axiosInstance.js";
 import MovieDetailsSkeleton from "../../components/ui/MovieDetailsSkeleton";
+import MovieReviews from "../../components/user/MovieReviews";
 
 const MovieDetails = () => {
   const { id } = useParams();
@@ -30,8 +31,8 @@ const MovieDetails = () => {
 
   return (
     <div className="bg-base-100 min-h-screen">
+      {/* Banner Section */}
       <div className="relative bg-black min-h-[500px] flex items-center justify-center overflow-hidden w-full">
-        {/* Background Image */}
         <div className="absolute inset-0">
           <img
             src={movie?.bannerImg || "/placeholder.jpg"}
@@ -41,7 +42,7 @@ const MovieDetails = () => {
         </div>
 
         {/* Centered Content */}
-        <div className="relative container mx-auto px-6 py-2 sm:px-6 md:px-10 lg:px-20 flex flex-col md:flex-row  gap-10 z-10 items-center">
+        <div className="relative container mx-auto px-6 py-2 sm:px-6 md:px-10 lg:px-20 flex flex-col md:flex-row gap-10 z-2 items-center">
           {/* Movie Poster */}
           <div className="w-full md:w-1/5">
             <img
@@ -67,7 +68,7 @@ const MovieDetails = () => {
                 ? new Date(movie.releaseDate).toDateString()
                 : "N/A"}
             </p>
-            <div className="flex items-center justify-center md:justify-start gap-4">
+            <div className="flex items-center justify-center md:justify-start gap-4 pb-10">
               <button
                 className="bg-primary cursor-pointer font-semibold px-10 py-3 rounded-lg hover:bg-[var(--color-primaryHover)] hover:scale-[1.01] transition"
                 onClick={() => navigate(`/user/show-selection/${id}`)}
@@ -80,7 +81,7 @@ const MovieDetails = () => {
       </div>
 
       {/* About the Movie Section */}
-      <div className="container mx-auto px-6 py-8 sm:px-6 md:px-10 lg:px-20 mt-8  border-b border-base-300">
+      <div className="container mx-auto px-6 py-8 sm:px-6 md:px-10 lg:px-20 mt-8 border-b border-base-300">
         <h2 className="text-3xl font-bold mb-4">About the Movie</h2>
         <p className="text-gray-400 leading-relaxed">
           {movie?.plot || "No description available."}
@@ -106,31 +107,7 @@ const MovieDetails = () => {
       </div>
 
       {/* Reviews Section */}
-      <div className="container mx-auto my-8 px-6 py-10 sm:px-6 md:px-10 lg:px-20 mt-8 border-t  border-base-300">
-        <h2 className="text-3xl font-bold  mb-6">User Reviews</h2>
-        {movie?.reviews?.length > 0 ? (
-          <div className="space-y-6">
-            {movie.reviews.map((review, index) => (
-              <div
-                key={index}
-                className="p-4 border rounded-lg shadow-sm bg-white"
-              >
-                <p className="font-bold text-gray-800">
-                  {review?.user || "Anonymous"}
-                </p>
-                <p className="text-sm text-gray-500">
-                  ⭐ {review?.rating ? `${review.rating}/5` : "N/A"}
-                </p>
-                <p className="mt-2 text-gray-600">
-                  {review?.comment || "No comment provided."}
-                </p>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p className="text-gray-600">No reviews yet.</p>
-        )}
-      </div>
+      <MovieReviews reviews={movie?.reviews || []} />
     </div>
   );
 };

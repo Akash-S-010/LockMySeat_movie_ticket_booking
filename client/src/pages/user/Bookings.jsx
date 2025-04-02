@@ -1,12 +1,15 @@
+// Bookings.jsx
 import { useEffect, useState } from "react";
 import axiosInstance from "../../config/axiosInstance";
-import BookingSkeleton from "../../components/ui/BookingSkeletons";
-import {Button} from "../../components/ui/Buttons";
+import BookingSkeleton from "../../components/ui/bookingSkeletons";
+import { Button } from "../../components/ui/Buttons";
+import ReviewModal from "../../components/user/ReviewModal";
 
 const Bookings = () => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedBooking, setSelectedBooking] = useState(null);
 
   useEffect(() => {
     const fetchBookings = async () => {
@@ -22,6 +25,19 @@ const Bookings = () => {
 
     fetchBookings();
   }, []);
+
+  const handleAddReview = (booking) => {
+    if (!booking.movieId) {
+      console.error("No movieId found in booking:", booking);
+      setError("Cannot add review: Movie ID missing");
+      return;
+    }
+    setSelectedBooking(booking);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedBooking(null);
+  };
 
   if (loading) return <BookingSkeleton />;
   if (error)
@@ -49,16 +65,12 @@ const Bookings = () => {
               key={booking.bookingId}
               className="flex items-center gap-5 p-4 bg-base-300 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300"
             >
-              {/* Movie Poster */}
               <img
                 src={booking.moviePoster}
                 alt={booking.movieName}
                 className="w-24 h-34 object-cover rounded-lg shadow-md"
               />
-
-              {/* Booking Details and Button Container */}
               <div className="flex-1 flex justify-between items-start">
-                {/* Booking Details */}
                 <div className="flex-1">
                   <h3 className="text-xl font-semibold text-primary mb-1">
                     {booking.movieName}
@@ -96,16 +108,26 @@ const Bookings = () => {
                     </p>
                   </div>
                 </div>
-
-                {/* Add Review Button */}
                 <div className="my-auto">
-                  <Button title="Add Review" />
+                  <Button
+                    title="Add Review"
+                    onClick={() => handleAddReview(booking)}
+                  />
                 </div>
               </div>
             </div>
           ))}
         </div>
       </div>
+
+      {selectedBooking && (
+        <ReviewModal
+          isOpen={!!selectedBooking}
+          onClose={handleCloseModal}
+          movieId={selectedBooking.movieId}
+          movieName={selectedBooking.movieName}
+        />
+      )}
     </div>
   );
 };
