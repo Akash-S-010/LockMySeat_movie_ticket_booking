@@ -1,7 +1,7 @@
 // Bookings.jsx
 import { useEffect, useState } from "react";
 import axiosInstance from "../../config/axiosInstance";
-import BookingSkeleton from "../../components/ui/bookingSkeletons";
+import BookingSkeleton from "../../components/ui/BookingSkeletons";
 import { Button } from "../../components/ui/Buttons";
 import ReviewModal from "../../components/user/ReviewModal";
 
