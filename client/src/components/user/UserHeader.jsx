@@ -28,7 +28,7 @@ const UserHeader = () => {
   return (
     <nav
       className={`navbar px-6 sm:px-6 md:px-10 lg:px-20 sticky top-0 z-20 transition-all duration-300 ${
-        isScrolled ? "bg-base-300 shadow-md py-2" : "bg-transparent py-5"
+        isScrolled ? "bg-base-300 shadow-md py-2" : "bg-transparent py-4"
       }`}
     >
       <div className="navbar-start">
@@ -38,7 +38,7 @@ const UserHeader = () => {
       </div>
 
       <div className="navbar-center hidden lg:flex">
-        <ul className="flex gap-10 px-1 space-x-2">
+        <ul className="flex gap-8 px-1 space-x-2">
           <li className="relative font-medium text-lg group">
             <Link to="/" className="py-2">
               Home
