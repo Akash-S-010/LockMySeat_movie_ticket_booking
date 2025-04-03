@@ -26,7 +26,7 @@ const HeroSection = () => {
     <div className="relative w-full h-screen bg-base-100 flex items-center justify-center overflow-hidden">
       {/* Decorative Elements */}
       <motion.div
-        className="absolute top-0 left-0 w-64 h-64 bg-primary bg-opacity-20 rounded-full blur-3xl"
+        className="absolute top-28 left-0 w-64 h-64 bg-primary bg-opacity-20 rounded-full blur-3xl"
         initial={{ opacity: 0 }}
         animate={{ opacity: 0.3 }}
         transition={{ duration: 2 }}

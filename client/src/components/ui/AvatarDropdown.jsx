@@ -113,7 +113,7 @@ const AvatarDropdown = () => {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="lg:hidden absolute top-16 right-0 bg-base-100 shadow-lg z-50 w-50">
+        <div className="lg:hidden absolute top-16 right-0 bg-base-100 shadow-lg z-50 w-50 border border-primary">
           <ul className="menu p-4">
             <li><Link to="/" className="hover:bg-base-300" onClick={() => setIsOpen(false)}>Home</Link></li>
             <li><Link to="/all-movies" className="hover:bg-base-300" onClick={() => setIsOpen(false)}>Movies</Link></li>

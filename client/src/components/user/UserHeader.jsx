@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import Logo from "../../assets/AppLogo.png";
 import AvatarDropdown from "../ui/AvatarDropdown";
 import { Button } from "../ui/Buttons";
@@ -7,14 +7,30 @@ import { useAuthStore } from "../../store/useAuthStore";
 
 const UserHeader = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { checkUser, isUserAuth, isLoading } = useAuthStore();
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     checkUser();
-  }, [checkUser]); // Add checkUser as a dependency to avoid stale closures
+  }, [checkUser]);
+
+  // Handle scroll effect
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 0);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
-    <nav className="navbar bg-base-300 shadow-lg px-6 py-2 sm:px-6 md:px-10 lg:px-20 sticky top-0 z-20">
+    <nav
+      className={`navbar px-6 sm:px-6 md:px-10 lg:px-20 sticky top-0 z-20 transition-all duration-300 ${
+        isScrolled ? "bg-base-300 shadow-md py-2" : "bg-transparent py-5"
+      }`}
+    >
       <div className="navbar-start">
         <Link to="/" className="flex items-center">
           <img src={Logo} alt="App Logo" className="w-42 object-contain" />
@@ -22,23 +38,48 @@ const UserHeader = () => {
       </div>
 
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1 space-x-2">
-          <li className="hover:text-primary list font-medium transition-colors duration-200 text-lg">
-            <Link to="/">Home</Link>
+        <ul className="flex gap-10 px-1 space-x-2">
+          <li className="relative font-medium text-lg group">
+            <Link to="/" className="py-2">
+              Home
+            </Link>
+            <span
+              className={`absolute bottom-0 left-0 w-full h-0.5 bg-primary transform origin-center transition-all duration-300 ${
+                location.pathname === "/"
+                  ? "scale-x-100"
+                  : "scale-x-0 group-hover:scale-x-100"
+              }`}
+            ></span>
           </li>
-          <li className="hover:text-primary list font-medium transition-colors duration-200 text-lg">
-            <Link to="/all-movies">Movies</Link>
+          <li className="relative font-medium text-lg group">
+            <Link to="/all-movies" className="py-2">
+              Movies
+            </Link>
+            <span
+              className={`absolute bottom-0 left-0 w-full h-0.5 bg-primary transform origin-center transition-all duration-300 ${
+                location.pathname === "/all-movies"
+                  ? "scale-x-100"
+                  : "scale-x-0 group-hover:scale-x-100"
+              }`}
+            ></span>
           </li>
-          <li className="hover:text-primary list font-medium transition-colors duration-200 text-lg">
-            <Link to="/about-us">About</Link>
+          <li className="relative font-medium text-lg group">
+            <Link to="/about-us" className="py-2">
+              About
+            </Link>
+            <span
+              className={`absolute bottom-0 left-0 w-full h-0.5 bg-primary transform origin-center transition-all duration-300 ${
+                location.pathname === "/about-us"
+                  ? "scale-x-100"
+                  : "scale-x-0 group-hover:scale-x-100"
+              }`}
+            ></span>
           </li>
         </ul>
       </div>
 
       <div className="navbar-end flex items-center space-x-4">
-        {isLoading ? (
-          null // leave it blank when loading
-        ) : isUserAuth ? (
+        {isLoading ? null : isUserAuth ? (
           <AvatarDropdown />
         ) : (
           <Button title="Login" onClick={() => navigate("/login")} />
