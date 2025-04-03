@@ -14,7 +14,7 @@ const AboutUs = () => {
       <div
         className="relative text-center min-h-screen flex flex-col justify-center items-center bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: `url('https://images.pexels.com/photos/7991486/pexels-photo-7991486.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')`,
+          backgroundImage: `url('https://img.freepik.com/free-photo/view-3d-cinema-theatre-room_23-2150866053.jpg?t=st=1743406705~exp=1743410305~hmac=66e93c9cfa1ee0baaa2dc431c1e28332b78e8c81dc58b0f75f0611263015903e&w=1060')`,
         }}
       >
         <div className="absolute inset-0  backdrop-blur-sm"></div>

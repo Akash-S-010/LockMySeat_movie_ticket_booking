@@ -4,10 +4,11 @@ import { User, Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../../config/axiosInstance";
 import toast from "react-hot-toast";
-import {SubmitBtn} from "../../components/ui/Buttons";
+import { SubmitBtn } from "../../components/ui/Buttons";
+import { motion } from "framer-motion";
 
 const Register = () => {
-  const [ loading, setLoading ] = useState(false); 
+  const [loading, setLoading] = useState(false);
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -25,33 +26,42 @@ const Register = () => {
   const onSubmit = async (data) => {
     const { name, email, password } = data;
     const payload = { name, email, password };
-  
+
     try {
       setLoading(true);
       const response = await axiosInstance.post("user/signup", payload);
-      
+
       // Handle scenario where user is unverified but can continue
       if (response.data.message.includes("New OTP sent")) {
         toast.success("Account already exists but is unverified. OTP sent!");
       } else {
         toast.success(response.data.message || "OTP sent! Please verify.");
       }
-  
+
       navigate(`/verify-otp?email=${email}`);
-  
     } catch (error) {
       const errorMsg = error.response?.data?.message || "Registration failed";
       toast.error(errorMsg);
       console.error("Registration failed:", errorMsg);
-      
     } finally {
       setLoading(false);
     }
   };
-  
 
   return (
-    <div className="min-h-screen bg-base-100 flex items-center justify-center">
+    <div className="min-h-screen relative bg-base-100 flex items-center justify-center">
+      <motion.div
+        className="absolute top-0 left-0 w-64 h-64 bg-primary bg-opacity-20 rounded-full blur-3xl"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.2 }}
+        transition={{ duration: 3 }}
+      />
+      <motion.div
+        className="absolute bottom-0 right-0 w-96 h-96 bg-secondary rounded-full blur-3xl"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.2 }}
+        transition={{ duration: 3 }}
+      />
       <div className="bg-base-300 p-8 rounded-lg shadow-lg w-full max-w-md">
         {/* Logo and Title */}
         <div className="flex justify-center items-center mb-6">
@@ -70,7 +80,7 @@ const Register = () => {
                 placeholder="Enter your name"
                 className={`w-full pl-10 pr-4 py-2 bg-base-200 rounded-md border ${
                   errors.name ? "border-red-500" : "border-base-300"
-                } focus:outline-none focus:border-[#f64d71]`}
+                } focus:outline-none focus:border-primary`}
                 {...register("name", {
                   required: "Name is required",
                   minLength: {
@@ -80,7 +90,9 @@ const Register = () => {
                 })}
               />
             </div>
-            {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>}
+            {errors.name && (
+              <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
+            )}
           </div>
 
           {/* Email Field */}
@@ -93,7 +105,7 @@ const Register = () => {
                 placeholder="Enter your email"
                 className={`w-full pl-10 pr-4 py-2 bg-base-200 rounded-md border ${
                   errors.email ? "border-red-500" : "border-base-300"
-                } focus:outline-none focus:border-[#f64d71]`}
+                } focus:outline-none focus:border-primary`}
                 {...register("email", {
                   required: "Email is required",
                   pattern: {
@@ -103,7 +115,11 @@ const Register = () => {
                 })}
               />
             </div>
-            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.email.message}
+              </p>
+            )}
           </div>
 
           {/* Password Field */}
@@ -116,7 +132,7 @@ const Register = () => {
                 placeholder="Enter your password"
                 className={`w-full pl-10 pr-12 py-2 bg-base-200 rounded-md border ${
                   errors.password ? "border-red-500" : "border-base-300"
-                } focus:outline-none focus:border-[#f64d71]`}
+                } focus:outline-none focus:border-primary`}
                 {...register("password", {
                   required: "Password is required",
                   minLength: {
@@ -125,11 +141,23 @@ const Register = () => {
                   },
                 })}
               />
-              <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 transform -translate-y-1/2">
-                {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2"
+              >
+                {showPassword ? (
+                  <EyeOff className="w-5 h-5" />
+                ) : (
+                  <Eye className="w-5 h-5" />
+                )}
               </button>
             </div>
-            {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
+            {errors.password && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.password.message}
+              </p>
+            )}
           </div>
 
           {/* Confirm Password Field */}
@@ -142,17 +170,30 @@ const Register = () => {
                 placeholder="Confirm your password"
                 className={`w-full pl-10 pr-12 py-2 bg-base-200 rounded-md border ${
                   errors.confirmPassword ? "border-red-500" : "border-base-300"
-                } focus:outline-none focus:border-[#f64d71]`}
+                } focus:outline-none focus:border-primary`}
                 {...register("confirmPassword", {
                   required: "Please confirm your password",
-                  validate: (value) => value === password || "Passwords do not match",
+                  validate: (value) =>
+                    value === password || "Passwords do not match",
                 })}
               />
-              <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)} className="absolute right-3 top-1/2 transform -translate-y-1/2">
-                {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2"
+              >
+                {showConfirmPassword ? (
+                  <EyeOff className="w-5 h-5" />
+                ) : (
+                  <Eye className="w-5 h-5" />
+                )}
               </button>
             </div>
-            {errors.confirmPassword && <p className="text-red-500 text-sm mt-1">{errors.confirmPassword.message}</p>}
+            {errors.confirmPassword && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.confirmPassword.message}
+              </p>
+            )}
           </div>
 
           {/* Submit Button */}
@@ -162,7 +203,7 @@ const Register = () => {
         {/* Login Link */}
         <p className="text-center text-base mt-4">
           Already have an account?{" "}
-          <Link to="/login" className="text-[#f64d71] hover:underline">
+          <Link to="/login" className="text-primary hover:underline">
             Login
           </Link>
         </p>

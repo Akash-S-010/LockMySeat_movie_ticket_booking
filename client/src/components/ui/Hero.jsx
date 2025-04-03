@@ -19,7 +19,7 @@ const HeroSection = () => {
   const scaleIn = {
     initial: { scale: 0.8, opacity: 0 },
     animate: { scale: 1, opacity: 1 },
-    transition: { duration: 0.6, ease: 'easeOut' }
+    transition: { duration: 0.5, ease: 'easeOut' }
   };
 
   return (
@@ -28,14 +28,14 @@ const HeroSection = () => {
       <motion.div
         className="absolute top-0 left-0 w-64 h-64 bg-primary bg-opacity-20 rounded-full blur-3xl"
         initial={{ opacity: 0 }}
-        animate={{ opacity: 0.5 }}
-        transition={{ duration: 1 }}
+        animate={{ opacity: 0.3 }}
+        transition={{ duration: 2 }}
       />
       <motion.div
-        className="absolute bottom-0 right-0 w-96 h-96 bg-secondary bg-opacity-20 rounded-full blur-3xl"
+        className="absolute bottom-28 right-0 w-96 h-96 bg-secondary rounded-full blur-3xl"
         initial={{ opacity: 0 }}
-        animate={{ opacity: 0.5 }}
-        transition={{ duration: 1 }}
+        animate={{ opacity: 0.3 }}
+        transition={{ duration: 2 }}
       />
 
       {/* Hero Content */}
@@ -58,7 +58,7 @@ const HeroSection = () => {
           variants={fadeInUp}
           initial="initial"
           animate="animate"
-          transition={{ delay: 0.1 }}
+          transition={{ delay: 0.4 }}
         >
           Experience the magic of movies with seamless ticket booking
         </motion.p>
@@ -69,11 +69,11 @@ const HeroSection = () => {
           variants={scaleIn}
           initial="initial"
           animate="animate"
-          transition={{ delay: 0.2 }}
+          transition={{ delay: 0.5 }}
         >
           <Button title="Get Started" className="btn btn-primary btn-lg text-white font-semibold px-8 py-3 shadow-lg hover:shadow-xl transition-all duration-300" />
 
-          <Button title="Learn More" className="btn btn-outline btn-lg text-gray-400 font-semibold px-8 py-3 shadow-lg hover:shadow-xl transition-all duration-300" />
+          <button className='btn btn-outline btn-lg border-primary font-semibold px-8 py-3 shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-primary hover:text-white'>Explore Now</button>
         </motion.div>
       </div>
     </div>

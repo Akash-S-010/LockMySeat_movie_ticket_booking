@@ -5,9 +5,7 @@ export const Button = ({ title, className, onClick, loading }) => {
   return (
     <button
       onClick={onClick}
-      className={`btn btn-primary text-white font-semibold py-2 px-4 rounded-md transition cursor-pointer ${
-        className ? className : ""
-      } hover:bg-[var(--color-primaryHover)] hover:scale-102`}
+      className={`${className ? className : "btn btn-primary text-white font-semibold py-2 px-4 rounded-md transition cursor-pointer "} hover:bg-[var(--color-primaryHover)] hover:scale-102 text-white border-primary`}
     >
       {loading ? <Loader className="animate-spin w-5 h-5 text-primary" /> : title}
     </button>

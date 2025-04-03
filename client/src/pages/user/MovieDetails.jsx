@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import axiosInstance from "../../config/axiosInstance.js";
 import MovieDetailsSkeleton from "../../components/ui/MovieDetailsSkeleton";
 import MovieReviews from "../../components/user/MovieReviews";
+import {Button} from "../../components/ui/Buttons";
 
 const MovieDetails = () => {
   const { id } = useParams();
@@ -58,7 +59,7 @@ const MovieDetails = () => {
               {movie?.title || "Unknown Title"}
             </h1>
             <div className="flex items-center justify-center md:justify-start gap-3 mb-3">
-              <span className="text-lg text-gray-300">
+              <span className="text-lg bg-white px-2 text-black rounded">
                 {movie?.language?.join(", ") || "N/A"}
               </span>
             </div>
@@ -69,12 +70,11 @@ const MovieDetails = () => {
                 : "N/A"}
             </p>
             <div className="flex items-center justify-center md:justify-start gap-4 pb-10">
-              <button
-                className="bg-primary cursor-pointer font-semibold px-10 py-3 rounded-lg hover:bg-[var(--color-primaryHover)] hover:scale-[1.01] transition"
+              <Button
+                title="Book Tickets"
+                className="bg-primary text-lg cursor-pointer font-semibold px-10 py-3 rounded-lg hover:bg-[var(--color-primaryHover)] hover:scale-[1.01] transition"
                 onClick={() => navigate(`/user/show-selection/${id}`)}
-              >
-                Book Tickets
-              </button>
+              />
             </div>
           </div>
         </div>

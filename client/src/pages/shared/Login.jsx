@@ -6,6 +6,8 @@ import { Link, useNavigate } from "react-router-dom";
 import axiosInstance from "../../config/axiosInstance";
 import toast from "react-hot-toast";
 import { useAuthStore } from "../../store/useAuthStore.js";
+import { motion } from 'framer-motion';
+
 
 const Login = () => {
   const { login } = useAuthStore();
@@ -40,7 +42,19 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-base-100 flex items-center justify-center">
+    <div className="min-h-screen relative bg-base-100 flex items-center justify-center">
+      <motion.div
+        className="absolute top-0 left-0 w-64 h-64 bg-primary bg-opacity-20 rounded-full blur-3xl"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.2 }}
+        transition={{ duration: 3 }}
+      />
+      <motion.div
+        className="absolute bottom-0 right-0 w-96 h-96 bg-secondary rounded-full blur-3xl"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.2 }}
+        transition={{ duration: 3 }}
+      />
       <div className="bg-base-300 p-8 rounded-lg shadow-lg w-full max-w-md">
         {/* Logo and Title */}
         <div className="flex justify-center mb-6">
