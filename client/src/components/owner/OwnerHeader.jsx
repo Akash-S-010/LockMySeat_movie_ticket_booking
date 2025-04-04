@@ -1,15 +1,18 @@
 import React from 'react';
-import {LogOut } from 'lucide-react';
+import { LogOut, Menu } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Logo from '../../assets/AppLogo.png';
 
-const OwnerHeader = () => {
+const OwnerHeader = ({ toggleSidebar }) => {
   return (
-    <header className="navbar bg-base-100 shadow-lg fixed top-0 z-50 w-full px-5">
-      <div className="navbar-start">
-        <Link to={"/owner"}><img src={Logo} alt="logo" className='w-40' /></Link>
+    <header className="navbar bg-base-100 shadow-lg fixed top-0 z-10 w-full px-5">
+      <div className="navbar-start flex items-center">
+        <button className="btn btn-ghost lg:hidden mr-2" onClick={toggleSidebar}>
+          <Menu size={24} />
+        </button>
+        <Link to={"/owner"}><img src={Logo} alt="logo" className='w-32 sm:w-40' /></Link>
       </div>
-      <div className="navbar-end ">
+      <div className="navbar-end">
         <div className="dropdown dropdown-end">
           <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
             <div className="w-10 rounded-full">

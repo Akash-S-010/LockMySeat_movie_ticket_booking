@@ -4,6 +4,7 @@ import Avatar from "../../assets/Avatar.png";
 import toast from "react-hot-toast";
 import axiosInstance from "../../config/axiosInstance.js";
 import { useAuthStore } from "../../store/useAuthStore.js";
+import { LogOut } from "lucide-react";
 
 const AvatarDropdown = () => {
 
@@ -104,6 +105,7 @@ const AvatarDropdown = () => {
                 onClick={handleLogout}
                 className="hover:bg-base-300 text-error"
               >
+                <LogOut className="mr-2" size={18} />
                 Sign Out
               </button>
             </li>
@@ -129,7 +131,7 @@ const AvatarDropdown = () => {
                   {theme === "light" ? "🌞" : "🌙"}
                 </span>
                 <span className="badge badge-outline badge-primary">
-                  {theme === "light" ? "Dark" : "Light"}
+                  {theme === "light" ? "Set Dark" : "Set Light"}
                 </span>
               </div>
             </li>
@@ -141,6 +143,7 @@ const AvatarDropdown = () => {
                 }}
                 className="hover:bg-base-200 text-error"
               >
+                <LogOut className="mr-2" size={18} />
                 Sign Out
               </button>
             </li>

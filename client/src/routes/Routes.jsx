@@ -18,7 +18,7 @@ import Payment from "../pages/user/Payment";
 import Bookings from "../pages/user/Bookings";
 import TheaterOwnerLayout from "../layouts/TheaterOwnerLayout";
 import OwnerDashboard from "../pages/owner/OwnerDashboard";
-
+import ProtectedRoutesOwner from "./ProtectedRouteOwner";
 
 export const router = createBrowserRouter([
   {
@@ -58,7 +58,6 @@ export const router = createBrowserRouter([
         path: "reset-password/:token",
         element: <ResetPassword />,
       },
-      
       {
         path: "user",
         element: <ProtectedRoutes />,
@@ -84,23 +83,34 @@ export const router = createBrowserRouter([
             element: <SeatSelection />,
           },
           {
-            path:"payment/:showId",
-            element:<Payment/>,
-          }
+            path: "payment/:showId",
+            element: <Payment />,
+          },
         ],
       },
     ],
   },
 
-  // TheaterOwner routes
+  // Theater Owner routes
   {
     path: "owner",
-    element: <TheaterOwnerLayout />,
+    element: <TheaterOwnerLayout />, 
     children: [
       {
-        path: "dashboard",
-        element: <OwnerDashboard />,
+        path: "login",
+        element: <Login />,
       },
-    ]
-  }
+      {
+        path: "",
+        element: <ProtectedRoutesOwner />,
+        children: [
+          {
+            path: "dashboard",
+            element: <OwnerDashboard />,
+          },
+        ],
+      },
+    ],
+  },
 ]);
+

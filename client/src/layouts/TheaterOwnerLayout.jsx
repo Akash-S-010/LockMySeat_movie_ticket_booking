@@ -10,6 +10,11 @@ import AddShows from "../pages/owner/AddShows";
 
 const TheaterOwnerLayout = () => {
   const [activeSection, setActiveSection] = useState("dashboard");
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
 
   const renderContent = () => {
     switch (activeSection) {
@@ -21,7 +26,7 @@ const TheaterOwnerLayout = () => {
         return <OwnerTheaterList />;
       case "addTheaters":
         return <AddTheater />;
-        case "shows":
+      case "shows":
         return <AddShows />;
       default:
         return <OwnerDashboard />;
@@ -29,12 +34,21 @@ const TheaterOwnerLayout = () => {
   };
 
   return (
-    <div className="min-h-screen bg-base-100">
-      <OwnerHeader />
-      <OwnerSidebar setActiveSection={setActiveSection} activeSection={activeSection} />
-      <main className="ml-64 pt-16 pb-16">
-        <div className="container mx-auto p-6">{renderContent()}</div>
-      </main>
+    <div className="min-h-screen bg-base-100 flex flex-col">
+      <OwnerHeader toggleSidebar={toggleSidebar} />
+      <div className="flex flex-1">
+        <OwnerSidebar 
+          setActiveSection={setActiveSection} 
+          activeSection={activeSection}
+          isOpen={isSidebarOpen}
+          setIsOpen={setIsSidebarOpen}
+        />
+        <main className="flex-1 pt-16 pb-16 lg:ml-64 transition-all duration-300">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            {renderContent()}
+          </div>
+        </main>
+      </div>
       <OwnerFooter />
     </div>
   );

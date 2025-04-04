@@ -28,7 +28,7 @@ const AboutUs = () => {
             </p>
             <Button
               title="Get Started"
-              className={"px-8 py-6 text-xl"}
+              className={"btn btn-primary px-8 py-5"}
               onClick={() => navigate("/register")}
             />
           </div>
