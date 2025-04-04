@@ -28,7 +28,7 @@ const UserHeader = () => {
   return (
     <nav
       className={`navbar px-6 sm:px-6 md:px-10 lg:px-20 sticky top-0 z-20 transition-all duration-300 ${
-        isScrolled ? "bg-base-300 shadow-md py-5" : "bg-transparent py-4"
+        isScrolled ? "bg-base-300 shadow-md py-4" : "bg-transparent py-3"
       }`}
     >
       <div className="navbar-start">

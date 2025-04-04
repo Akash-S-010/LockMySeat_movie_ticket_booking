@@ -16,6 +16,10 @@ import SeatSelection from "../pages/user/SeatSelection";
 import VerifyOtp from "../pages/shared/Verification";
 import Payment from "../pages/user/Payment";
 import Bookings from "../pages/user/Bookings";
+import TheaterOwnerLayout from "../layouts/TheaterOwnerLayout";
+import OwnerDashboard from "../pages/owner/OwnerDashboard";
+
+
 export const router = createBrowserRouter([
   {
     path: "",
@@ -87,4 +91,16 @@ export const router = createBrowserRouter([
       },
     ],
   },
+
+  // TheaterOwner routes
+  {
+    path: "owner",
+    element: <TheaterOwnerLayout />,
+    children: [
+      {
+        path: "dashboard",
+        element: <OwnerDashboard />,
+      },
+    ]
+  }
 ]);
