@@ -172,6 +172,20 @@ export const getAllShows = async (req, res) => {
 
 
 
+// -------------get total shows------------
+export const getTotalShows = async (req, res) => {
+    try {
+        const totalShows = await Show.countDocuments({});
+        res.status(200).json({ message: "Total shows found", data: totalShows });
+    } catch (error) {
+        console.error("Error in getTotalShows controller", error);
+        res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
+    }
+};
+
+
+
+
 // -------------get seats pattern with status------------
 export const getSeats = async (req, res) => {
     try {

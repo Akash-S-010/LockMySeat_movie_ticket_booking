@@ -92,7 +92,7 @@ export const paymentVerification = async (req, res) => {
 
         // Populate movieId and theaterId to get movie name, theater name, and location
         const show = await Show.findById(booking.showId)
-            .populate("movieId", "title") 
+            .populate("movieId", "title verticalImg") 
             .populate("theaterId", "name location") 
             .session(session);
         if (!show) {
@@ -144,13 +144,15 @@ export const paymentVerification = async (req, res) => {
 
             const bookingDetails = {
                 movieName: show.movieId.title,
-                theaterName: show.theaterId.name, 
+                theaterName: show.theaterId.name,
+                poster:show.movieId.verticalImg,
                 location: show.theaterId.location, 
                 showTime: showTime, 
                 showDate: showDate, 
                 selectedSeats: booking.selectedSeats.map(seat => seat.seatNumber),
                 totalPrice: booking.totalPrice,
             };
+            console.log("Poster URL:", show.movieId.verticalImg);
 
             await sendEmail(user.email, "booking", bookingDetails);
 

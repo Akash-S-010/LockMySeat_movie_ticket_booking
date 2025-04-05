@@ -54,7 +54,7 @@ const sendEmail = async (email, type, data) => {
                 break;
 
             case "booking":
-                const { movieName, theaterName, location, showTime, showDate, selectedSeats, totalPrice } = data;
+                const { movieName, theaterName, location, showTime, showDate, selectedSeats, totalPrice, poster } = data;
                 subject = "Your Booking Confirmation - LockMySeat";
                 text = `Your booking is confirmed! Movie: ${movieName}, Theater: ${theaterName}, Location: ${location}, Show Time: ${showTime}, Date: ${showDate}, Seats: ${selectedSeats.join(", ")}, Total Price: ₹${totalPrice}`;
                 html = `
@@ -63,18 +63,19 @@ const sendEmail = async (email, type, data) => {
                         <h3 style="color: #242b33; text-align: center;">Booking Confirmation</h3>
                         <p>Hello,</p>
                         <p>Your booking has been successfully confirmed! Here are the details:</p>
+                        <img src="${poster}" alt="Movie Poster" style="max-width: 200px;">
                         <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
                             <tr><td style="padding: 8px; font-weight: bold;">Movie:</td><td>${movieName}</td></tr>
                             <tr><td style="padding: 8px; font-weight: bold;">Theater:</td><td>${theaterName}</td></tr>
                             <tr><td style="padding: 8px; font-weight: bold;">Location:</td><td>${location}</td></tr>
                             <tr><td style="padding: 8px; font-weight: bold;">Show Time:</td><td>${showTime}</td></tr>
                             <tr><td style="padding: 8px; font-weight: bold;">Date:</td><td>${showDate}</td></tr>
-                            <tr><td style="padding: 8px; font-weight: bold;">Seats:</td><td>${selectedSeats.join(", ")}</td></tr>
-                            <tr><td style="padding: 8px; font-weight: bold;">Total Price:</td><td>₹${totalPrice}</td></tr>
+                            <tr><td style="padding: 8px; font-weight: bold;">Seats:</td><td style="color: #fd5479;">${selectedSeats.join(", ")}</td></tr>
+                            <tr><td style="padding: 8px; font-weight: bold;">Total Price:</td><td style="color: #fd5479;">₹${totalPrice}</td></tr>
                         </table>
-                        <p>Enjoy your movie!</p>
+                        <p style="text-align: center">Enjoy your movie!</p>
                         <hr>
-                        <p>Best Regards, <br> <strong>LockMySeat Team</strong></p>
+                        <p style="text-align: center">Best Regards, <br> <strong>LockMySeat Team</strong></p>
                     </div>
                 `;
                 break;

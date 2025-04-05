@@ -289,21 +289,56 @@ export const updateProfile = async (req, res) => {
 };
 
 
-
-
-
-// -----------admin logout------------
-export const logout = async (req, res) => {
+export const checkTheaterOwner = async (req, res) => {
     try {
-        res.clearCookie("token",{
-            sameSite: NODE_ENV === "production" ? "None" : "Lax",
-            secure: NODE_ENV === "production",
-            httpOnly: NODE_ENV === "production",
-        });;
-        
-        res.json({ message: "Logout successful" });
+        const userId = req.user.userId;
+
+        if (!userId) {
+            return res.status(401).json({ message: "Unauthorized" });
+        }
+
+        const owner = await Admin.findById(userId);
+
+        if (!owner) {
+            return res.status(400).json({ message: "Theater owner not found" });
+        }
+
+        res.status(200).json({
+            message: "Owner authorized",
+            data: { _id: owner._id, name: owner.name, email: owner.email, profilePic: owner.profilePic, role: owner.role, status: owner.isActive, isVerified: owner.isVerified, createdAt: owner.createdAt }
+        });
+
     } catch (error) {
-        console.error("Error in logout",error);
+        console.error("Error in checkTheaterOwner controller", error);
         res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
     }
 };
+
+
+
+
+export const getAdmin = async (req, res) => {
+    try {
+        const userId = req.user.userId;
+
+        if (!userId) {
+            return res.status(401).json({ message: "Unauthorized" });
+        }
+
+        const admin = await Admin.findById(userId);
+
+        if (!admin) {
+            return res.status(400).json({ message: "Admin not found" });
+        }
+
+        res.status(200).json({
+            message: "admin authorized",
+            data: { _id: admin._id, name: admin.name, email: admin.email, profilePic: admin.profilePic, role: admin.role, status: admin.isActive, isVerified: admin.isVerified, createdAt: admin.createdAt }
+        });
+
+    } catch (error) {
+        console.error("Error in getAdmin controller", error);
+        res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
+    }
+};
+
