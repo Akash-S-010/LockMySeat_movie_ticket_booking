@@ -72,7 +72,7 @@ const MovieDetails = () => {
             <div className="flex items-center justify-center md:justify-start gap-4 pb-10">
               <Button
                 title="Book Tickets"
-                className="bg-primary text-lg cursor-pointer font-semibold px-10 py-3 rounded-lg hover:bg-[var(--color-primaryHover)] hover:scale-[1.01] transition"
+                className="w-42 h-12 text-lg"
                 onClick={() => navigate(`/user/show-selection/${id}`)}
               />
             </div>

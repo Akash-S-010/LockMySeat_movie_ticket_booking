@@ -1,11 +1,13 @@
 import React from "react";
 import { Loader } from "lucide-react";
 
-export const Button = ({ title, className, onClick, loading }) => {
+export const Button = ({ title, className = "", onClick, loading }) => {
+  const defaultClasses = "btn btn-primary text-white font-semibold py-2 px-4 rounded-md transition cursor-pointer hover:bg-[var(--color-primaryHover)] hover:scale-102 text-white border-primary";
+
   return (
     <button
       onClick={onClick}
-      className={`${className ? className : "btn btn-primary text-white font-semibold py-2 px-4 rounded-md transition cursor-pointer "} hover:bg-[var(--color-primaryHover)] hover:scale-102 text-white border-primary`}
+      className={`${defaultClasses} ${className}`}
     >
       {loading ? <Loader className="animate-spin w-5 h-5 text-primary" /> : title}
     </button>

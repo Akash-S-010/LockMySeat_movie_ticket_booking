@@ -203,7 +203,7 @@ const SeatSelection = () => {
         </div>
         <Button
           title={`Pay ₹ ${totalPrice}`}
-          className="w-[150px]"
+          className="w-34"
           onClick={handlePayment}
         />
       </div>
