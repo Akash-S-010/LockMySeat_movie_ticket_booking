@@ -4,13 +4,13 @@ import { useAuthStore } from "../store/useAuthStore.js";
 import { Loader } from "lucide-react";
 
 const ProtectedRoutesOwner = () => {
-  const { isUserAuth, isLoading, user, checkUser } = useAuthStore();
+  const { isUserAuth, isLoading, user, checkOwner } = useAuthStore();
   const navigate = useNavigate();
 
   // Check auth status on mount
   useEffect(() => {
     if (!isUserAuth && !isLoading) {
-      checkUser();
+      checkOwner();
     }
   }, []);
 

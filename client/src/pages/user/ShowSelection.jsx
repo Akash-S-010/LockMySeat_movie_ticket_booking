@@ -91,13 +91,6 @@ const ShowSelection = () => {
     return acc;
   }, {});
 
-  if (error && !movie)
-    return (
-      <div className="text-center text-red-500 bg-red-100 p-4 rounded-lg shadow-md">
-        {error}
-      </div>
-    );
-
   return (
     <div className="min-h-screen bg-base-100 mt-10">
       <h1 className="text-4xl font-extrabold mb-6 text-center">

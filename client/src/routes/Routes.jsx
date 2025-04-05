@@ -19,6 +19,10 @@ import Bookings from "../pages/user/Bookings";
 import TheaterOwnerLayout from "../layouts/TheaterOwnerLayout";
 import OwnerDashboard from "../pages/owner/OwnerDashboard";
 import ProtectedRoutesOwner from "./ProtectedRouteOwner";
+import AddTheater from "../pages/owner/AddTheater";
+import AddShows from "../pages/owner/AddShows";
+import OwnerMovieList from "../pages/owner/OwnerMovieList";
+import OwnerTheaterList from "../pages/owner/OwnerTheaterList";
 
 export const router = createBrowserRouter([
   {
@@ -98,16 +102,39 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "login",
-        element: <Login />,
+        element: <Login role="theaterOwner"/>,
       },
       {
-        path: "",
+        path: "register",
+        element: <Register role="theaterOwner"/>,
+      },
+      {
         element: <ProtectedRoutesOwner />,
         children: [
           {
             path: "dashboard",
             element: <OwnerDashboard />,
           },
+          {
+            path: "add-theaters",
+            element: <AddTheater />,
+          },
+          {
+            path: "add-shows",
+            element: <AddShows />,
+          },
+          {
+            path: "movies",
+            element: <OwnerMovieList />,
+          },
+          {
+            path: "theater-list",
+            element: <OwnerTheaterList />,
+          },
+          {
+            path: "shows",
+            element: <AddShows />,
+          }
         ],
       },
     ],

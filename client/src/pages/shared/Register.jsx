@@ -6,7 +6,7 @@ import axiosInstance from "../../config/axiosInstance";
 import toast from "react-hot-toast";
 import {SubmitBtn} from "../../components/ui/Buttons";
 
-const Register = () => {
+const Register = ({role}) => {
   const [ loading, setLoading ] = useState(false); 
 
   const [showPassword, setShowPassword] = useState(false);

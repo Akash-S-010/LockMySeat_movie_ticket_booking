@@ -10,7 +10,7 @@ const OwnerHeader = ({ toggleSidebar }) => {
         <button className="btn btn-ghost lg:hidden mr-2" onClick={toggleSidebar}>
           <Menu size={24} />
         </button>
-        <Link to={"/owner"}><img src={Logo} alt="logo" className='w-32 sm:w-40' /></Link>
+        <Link to={"/owner/dashboard"}><img src={Logo} alt="logo" className='w-32 sm:w-40' /></Link>
       </div>
       <div className="navbar-end">
         <div className="dropdown dropdown-end">

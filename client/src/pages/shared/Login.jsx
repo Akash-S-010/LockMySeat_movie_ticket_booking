@@ -7,7 +7,7 @@ import axiosInstance from "../../config/axiosInstance";
 import toast from "react-hot-toast";
 import { useAuthStore } from "../../store/useAuthStore.js";
 
-const Login = () => {
+const Login = ({ role}) => {
   const { login } = useAuthStore();
 
   const navigate = useNavigate();
@@ -19,19 +19,32 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
+  const user = {
+    role: "user",
+    loginAPI: "/user/login",
+    redirectRoute: "/",
+};
+
+if (role == "theaterOwner") {
+    user.role = "theaterOwner";
+    user.loginAPI = "/admin/login";
+    user.redirectRoute = "/owner/dashboard";
+}
+
+
   const onSubmit = async (data) => {
     
     try {
       setIsLoading(true);
-      const response = await axiosInstance.post("user/login", {
+      const response = await axiosInstance.post(user.loginAPI,{
         email: data.email,
         password: data.password,
       });
 
-      login(response.data.user);
+      login(response.data.data, user.role);
 
       toast.success("Login successful");
-      navigate("/");
+      navigate(user.redirectRoute);
     } catch (error) {
       toast.error(error.response?.data?.message);
     } finally {
