@@ -15,13 +15,14 @@ const TheaterOwnerLayout = () => {
     <div className="min-h-screen bg-base-100 flex flex-col">
       <OwnerHeader toggleSidebar={toggleSidebar} />
       <div className="flex flex-1">
-        <OwnerSidebar
-          isOpen={isSidebarOpen}
-          setIsOpen={setIsSidebarOpen}
-        />
-        <main className="flex-1 min-h-screen transition-all duration-300">
+        <OwnerSidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
+        <main
+          className={`flex-1 min-h-screen transition-all duration-300 ${
+            isSidebarOpen ? "ml-64" : ""
+          } lg:ml-64`}
+        >
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-24">
-            <Outlet /> 
+            <Outlet />
           </div>
         </main>
       </div>

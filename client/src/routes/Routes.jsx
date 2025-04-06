@@ -23,6 +23,7 @@ import AddTheater from "../pages/owner/AddTheater";
 import AddShows from "../pages/owner/AddShows";
 import OwnerMovieList from "../pages/owner/OwnerMovieList";
 import OwnerTheaterList from "../pages/owner/OwnerTheaterList";
+import OwnerProfile from "../pages/owner/OwnerProfile";
 
 export const router = createBrowserRouter([
   {
@@ -134,7 +135,11 @@ export const router = createBrowserRouter([
           {
             path: "shows",
             element: <AddShows />,
-          }
+          },
+          {
+            path:"profile",
+            element:<OwnerProfile/>,
+          },
         ],
       },
     ],

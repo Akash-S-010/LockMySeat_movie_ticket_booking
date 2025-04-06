@@ -3,14 +3,18 @@ import axiosInstance from "../../config/axiosInstance";
 
 const OwnerTheaterList = () => {
   const [theaters, setTheaters] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchTheaters = async () => {
       try {
+        setLoading(true);
         const response = await axiosInstance.get("/theater/owner-theaters");
+        setLoading(false);
         setTheaters(response.data.data);
         console.log(response.data.data);
       } catch (error) {
+        setLoading(false);
         console.error("Failed to fetch theaters:", error);
       }
     };
@@ -18,7 +22,12 @@ const OwnerTheaterList = () => {
     fetchTheaters();
   }, []);
 
-  // Helper function to get badge color based on status
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  // function to get badge color based on status
   const getStatusColor = (status) => {
     switch (status.toLowerCase()) {
       case "approved":
@@ -36,7 +45,7 @@ const OwnerTheaterList = () => {
     <div className="min-h-screen text-base p-4">
       <div className="bg-base-300 p-6 rounded-lg shadow-lg">
         <div className="flex justify-between items-center mb-4">
-          <h1 className="text-2xl font-semibold">Theaters</h1>
+          <h1 className="text-2xl font-semibold">My Theaters</h1>
           <input
             type="text"
             placeholder="Search"
