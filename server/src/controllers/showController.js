@@ -1,6 +1,7 @@
 import Theater from "../models/theaterModel.js";
 import Movie from "../models/movieModel.js";
 import Show from "../models/showModel.js";
+import { getShowStatus } from "../utils/getShowStatus.js";
 
 
 // -------------add show------------
@@ -174,14 +175,31 @@ export const getAllShows = async (req, res) => {
 
 // -------------get total shows------------
 export const getTotalShows = async (req, res) => {
-    try {
-        const totalShows = await Show.countDocuments({});
-        res.status(200).json({ message: "Total shows found", data: totalShows });
-    } catch (error) {
-        console.error("Error in getTotalShows controller", error);
-        res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
-    }
+  try {
+    const allShows = await Show.find();
+
+    // Update statuses
+    await Promise.all(
+      allShows.map(async (show) => {
+        const newStatus = getShowStatus(show.dateTime);
+        if (show.status !== newStatus) {
+          show.status = newStatus;
+          await show.save();
+        }
+      })
+    );
+
+    const totalActiveShows = await Show.countDocuments({
+      status: { $in: ["notStarted", "started"] }
+    });
+
+    res.status(200).json({ message: "Active shows count", data: totalActiveShows });
+  } catch (error) {
+    console.error("Error in getTotalShows controller", error);
+    res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
+  }
 };
+
 
 
 
