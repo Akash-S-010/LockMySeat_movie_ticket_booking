@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import OwnerHeader from "../components/owner/OwnerHeader";
 import OwnerSidebar from "../components/owner/OwnerSidebar";
 import OwnerFooter from "../components/owner/OwnerFooter";
-import { Outlet } from "react-router-dom"; // Import Outlet
+import { Outlet } from "react-router-dom";
 
 const TheaterOwnerLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -20,7 +20,7 @@ const TheaterOwnerLayout = () => {
           setIsOpen={setIsSidebarOpen}
         />
         <main className="flex-1 min-h-screen transition-all duration-300">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-24">
             <Outlet /> 
           </div>
         </main>

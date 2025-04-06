@@ -18,7 +18,7 @@ const OwnerSidebar = ({ isOpen, setIsOpen }) => {
       {/* Mobile sidebar overlay */}
       {isOpen && (
         <div
-          className="fixed inset-0 z-10 bg-black bg-opacity-50 lg:hidden"
+          className="fixed inset-0 z-6 bg-opacity-50 lg:hidden"
           onClick={() => setIsOpen(false)}
         />
       )}

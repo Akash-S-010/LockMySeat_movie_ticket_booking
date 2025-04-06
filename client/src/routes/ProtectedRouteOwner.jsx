@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/useAuthStore.js";
 // import { Loader } from "lucide-react";
@@ -15,13 +15,13 @@ const ProtectedRoutesOwner = () => {
   // }, [isUserAuth, isLoading, checkOwner]); // Add dependencies
 
   // Redirect if not authenticated or not a theater owner
-  // useEffect(() => {
+  useEffect(() => {
     if (!isLoading) {
       if (!isUserAuth || user?.role !== "theaterOwner") {
         navigate("/owner/login", { replace: true });
       }
     }
-  // }, [isLoading, isUserAuth, user, navigate]);
+  }, [isLoading, isUserAuth, user, navigate]);
 
   // if (isLoading) {
   //   return (
