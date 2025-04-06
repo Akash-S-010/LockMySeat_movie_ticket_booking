@@ -1,5 +1,5 @@
 import React from 'react';
-import { LogOut, Menu } from 'lucide-react';
+import { Menu } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Logo from '../../assets/AppLogo.png';
 import AdminAvatarDropdown from '../ui/AdminAvatarDropdown';

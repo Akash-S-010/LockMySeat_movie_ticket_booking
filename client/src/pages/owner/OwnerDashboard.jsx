@@ -7,6 +7,7 @@ const OwnerDashboard = () => {
   const navigate = useNavigate();
   const [totalMovies, setTotalMovies] = useState("");
   const [totalShows, setTotalShows] = useState("");
+  const [totalTheaters, setTotalTheaters] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -24,14 +25,25 @@ const OwnerDashboard = () => {
       try {
         const response = await axiosInstance.get("/show/total-shows");
         setLoading(false);
-        setTotalShows(response.data.data); // ✅ number
+        setTotalShows(response.data.data);
       } catch (err) {
         console.error("Failed to fetch shows:", err);
+      }
+    };
+
+    const fetchTheaters = async () => {
+      try {
+        const response = await axiosInstance.get("/theater/total-theaters");
+        setLoading(false);
+        setTotalTheaters(response.data.data);
+      } catch (err) {
+        console.error("Failed to fetch theaters:", err);
       }
     };
   
     fetchTotalMovies();
     fetchShows();
+    fetchTheaters();
   }, []);
   
 
@@ -46,24 +58,22 @@ const OwnerDashboard = () => {
         <div className="card bg-base-300 shadow-xl">
           <div className="card-body text-center">
             <h2 className="text-xl font-bold">Total Movies</h2>
-            <p className="text-4xl font-extrabold">{totalMovies || 0}</p>
-            <Button title="View Movies" onClick={() => navigate("/owner/movies")}/>
+            <p className="text-4xl font-extrabold my-2">{totalMovies || 0}</p>
+            <Button title="View Movies" onClick={() => navigate("/owner/movies")} className="w-30 mx-auto"/>
           </div>
         </div>
         <div className="card bg-base-300 shadow-xl">
           <div className="card-body text-center">
-            <h2 className="text-xl font-bold">Active Movies</h2>
-            <p className="text-4xl font-extrabold">{totalShows || 0}</p>
-            <Button title="View Shows" onClick={() => navigate("/owner/shows")}/>
+            <h2 className="text-xl font-bold">Active Shows</h2>
+            <p className="text-4xl font-extrabold my-2">{totalShows || 0}</p>
+            <Button title="View Shows" onClick={() => navigate("/owner/shows")} className="w-30 mx-auto"/>
           </div>
         </div>
         <div className="card bg-base-300 shadow-xl">
           <div className="card-body text-center">
             <h2 className="text-xl font-bold">Theaters</h2>
-            <p className="text-4xl font-extrabold">5</p>
-            <button className="text-sm text-base-content/70">
-              Operating Locations
-            </button>
+            <p className="text-4xl font-extrabold my-2">{totalTheaters || 0}</p>
+            <Button title="View Shows" onClick={() => navigate("/owner/theater-list")} className="w-30 mx-auto"/>
           </div>
         </div>
       </div>
