@@ -61,9 +61,9 @@ const AddTheater = () => {
   };
 
   return (
-    <main className="sm:px-6 md:px-10 lg:px-20">
-      <h1 className="text-3xl font-bold mb-6">Add Theater</h1>
+    <main className="sm:px-6 md:px-10 lg:px-0">
       <form onSubmit={handleSubmit} className="bg-base-300 p-6 rounded-lg shadow-lg">
+      <h1 className="text-3xl font-bold mb-6">Add Theater</h1>
         <div className="mb-4">
           <label className="block text-sm font-medium mb-2">Theater Name</label>
           <input
