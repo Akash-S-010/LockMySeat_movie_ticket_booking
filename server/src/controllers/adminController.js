@@ -297,6 +297,10 @@ export const checkTheaterOwner = async (req, res) => {
             return res.status(401).json({ message: "Unauthorized" });
         }
 
+        if (req.user.role !== "theaterOwner") {
+            return res.status(403).json({ message: "Forbidden" });
+        }
+
         const owner = await Admin.findById(userId);
 
         if (!owner) {
@@ -323,6 +327,10 @@ export const getAdmin = async (req, res) => {
 
         if (!userId) {
             return res.status(401).json({ message: "Unauthorized" });
+        }
+
+        if (req.user.role !== "admin") {
+            return res.status(403).json({ message: "Forbidden" });
         }
 
         const admin = await Admin.findById(userId);
