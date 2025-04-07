@@ -31,6 +31,12 @@ if (role == "theaterOwner") {
     user.redirectRoute = "/owner/dashboard";
 }
 
+if (role == "admin") {
+  user.role = "admin";
+  user.loginAPI = "/admin/login";
+  user.redirectRoute = "/admin/dashboard";
+}
+
 
   const onSubmit = async (data) => {
     

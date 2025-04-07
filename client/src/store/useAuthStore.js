@@ -45,6 +45,23 @@ export const useAuthStore = create((set) => ({
     }
   },
 
+  checkAdmin: async () => {
+    try {
+      set({ isLoading: true });
+      const res = await axiosInstance.get("/admin/check-admin");
+      if (res.data && res.data.data?.role === "admin") {
+        set({ user: res.data.data, isUserAuth: true });
+      } else {
+        set({ user: null, isUserAuth: false });
+      }
+    } catch (err) {
+      console.error(err.response?.data?.message || "Failed to fetch owner status");
+      set({ user: null, isUserAuth: false });
+    } finally {
+      set({ isLoading: false, hasCheckedAuth: true }); // ✅ mark auth check complete
+    }
+  },
+
   login: async (userData, role) => {
     set({ user: userData, isUserAuth: true });
     const endPoint = role === "theaterOwner" ? "/admin/check-owner" : "/user/check-user";

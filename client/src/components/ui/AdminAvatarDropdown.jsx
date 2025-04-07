@@ -6,7 +6,7 @@ import axiosInstance from "../../config/axiosInstance.js";
 import { useAuthStore } from "../../store/useAuthStore.js";
 import { LogOut } from "lucide-react";
 
-const AdminAvatarDropdown = () => {
+const AdminAvatarDropdown = ({role}) => {
   const { user } = useAuthStore();
   const navigate = useNavigate();
 
@@ -24,7 +24,7 @@ const AdminAvatarDropdown = () => {
   const handleLogout = async () => {
     try {
       await axiosInstance.post("user/logout");
-      navigate("/owner/login");
+      navigate(`/${role}/login`);
       window.location.reload();
     } catch (error) {
       toast.error("Logout failed");
@@ -50,7 +50,7 @@ const AdminAvatarDropdown = () => {
       {isDropdownOpen && (
         <ul className="menu dropdown-content absolute right-0 mt-2 w-56 p-2 shadow-lg bg-base-100 rounded-box z-50 border border-primary">
           <li>
-            <Link to="/owner/profile" className="hover:bg-base-300" onClick={() => setIsDropdownOpen(false)}>
+            <Link to={`/${role}/profile`} className="hover:bg-base-300" onClick={() => setIsDropdownOpen(false)}>
               Profile
             </Link>
           </li>

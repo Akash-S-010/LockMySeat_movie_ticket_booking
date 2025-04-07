@@ -40,7 +40,8 @@ const AddShows = () => {
 
   return (
     <div className="container mx-auto bg-base-100 text-base min-h-screen">
-      <div className="flex justify-end mb-4">
+      <div className="flex justify-between mb-4">
+        <h1 className="text-2xl font-semibold">Active Shows</h1>
         <Button title="Add Show" onClick={() => setIsModalOpen(true)} />
       </div>
       <AddShowModal

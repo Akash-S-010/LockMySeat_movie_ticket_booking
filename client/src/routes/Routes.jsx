@@ -24,6 +24,12 @@ import AddShows from "../pages/owner/AddShows";
 import OwnerMovieList from "../pages/owner/OwnerMovieList";
 import OwnerTheaterList from "../pages/owner/OwnerTheaterList";
 import OwnerProfile from "../pages/owner/OwnerProfile";
+import AdminLayout from "../layouts/AdminLayout";
+import ProtectedRoutesAdmin from "./ProtectedRoutesAdmin";
+import AdminDashboard from "../pages/admin/AdminDashboard";
+import TheatersList from "../pages/admin/TheatersList";
+import UsersList from "../pages/admin/UsersList";
+import AdminProfile from "../pages/admin/AdminProfile";
 
 export const router = createBrowserRouter([
   {
@@ -144,5 +150,46 @@ export const router = createBrowserRouter([
       },
     ],
   },
+
+  // Admin routes
+  {
+    path: "admin",
+    element:<AdminLayout/>,
+    children: [
+      {
+        path: "login",
+        element: <Login role="admin"/>,
+      },
+      {
+        path: "register",
+        element: <Register role="admin"/>,
+      },
+      {
+        element: <ProtectedRoutesAdmin />,
+        children: [
+          {
+            path: "dashboard",
+            element: <AdminDashboard />,
+          },
+          {
+            path:"movies",
+            element:<OwnerMovieList/>
+          },
+          {
+            path:"theaters-list",
+            element:<TheatersList/>
+          },
+          {
+            path:"users",
+            element: <UsersList/>
+          },
+          {
+            path:"profile",
+            element: <AdminProfile/>
+          }
+        ],
+      }
+    ]
+  }
 ]);
 
