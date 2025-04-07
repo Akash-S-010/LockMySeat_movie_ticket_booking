@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import OwnerHeader from "../components/owner/OwnerHeader";
 import OwnerSidebar from "../components/owner/OwnerSidebar";
 import OwnerFooter from "../components/owner/OwnerFooter";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 
 const TheaterOwnerLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -10,6 +10,12 @@ const TheaterOwnerLayout = () => {
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+
+  const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
 
   return (
     <div className="min-h-screen bg-base-100 flex flex-col">

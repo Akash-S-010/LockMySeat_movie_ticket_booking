@@ -71,9 +71,9 @@ const OwnerDashboard = () => {
         </div>
         <div className="card bg-base-300 shadow-xl">
           <div className="card-body text-center">
-            <h2 className="text-xl font-bold">Theaters</h2>
+            <h2 className="text-xl font-bold">My Theaters</h2>
             <p className="text-4xl font-extrabold my-2">{totalTheaters || 0}</p>
-            <Button title="View Shows" onClick={() => navigate("/owner/theater-list")} className="w-30 mx-auto"/>
+            <Button title="View Theaters" onClick={() => navigate("/owner/theater-list")} className="w-32 mx-auto"/>
           </div>
         </div>
       </div>

@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import axiosInstance from '../../config/axiosInstance.js';
 import { toast } from 'react-hot-toast';
+import Swal from 'sweetalert2';
+import { SubmitBtn } from '../../components/ui/Buttons.jsx';
+
 
 const AddTheater = () => {
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     location: '',
@@ -40,18 +44,23 @@ const AddTheater = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.name || !formData.location || !seatPattern.length) {
-      setMessage('Please fill all fields and generate a seating pattern.');
-      return;
-    }
 
     try {
+      setLoading(true);
       const response = await axiosInstance.post('/theater/add-theater', {
         ...formData,
         seatPattern,
       });
 
-      toast.success(response.data.message);
+      setLoading(false);
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Theater added successfully!',
+        showConfirmButton: false,
+        timer: 3000,
+      });
+
       setFormData({ name: '', location: '', rows: '', cols: '' });
       setSeatPattern([]);
     } catch (error) {
@@ -116,7 +125,7 @@ const AddTheater = () => {
           <button
             type="button"
             onClick={generateSeatingPattern}
-            className="w-full bg-blue-700 text-white p-2 rounded hover:bg-blue-600 transition duration-200"
+            className="w-full bg-blue-400 text-white p-2 rounded hover:bg-blue-500 transition duration-200"
           >
             Generate Seating Pattern
           </button>
@@ -134,7 +143,7 @@ const AddTheater = () => {
               {seatPattern.map((seat, index) => (
                 <div
                   key={index}
-                  className="w-7 h-7 bg-primary rounded-md flex items-center justify-center text-xs text-white"
+                  className="w-7 h-7 bg-primary rounded-md flex items-center justify-center"
                   title={seat.seatNumber}
                 >
                   {/* Optional: show seat number */}
@@ -145,12 +154,7 @@ const AddTheater = () => {
         )}
 
         <div className="mb-4">
-          <button
-            type="submit"
-            className="w-full bg-red-500 text-white p-2 rounded hover:bg-red-600 transition duration-200"
-          >
-            Add Theater
-          </button>
+          <SubmitBtn title="Add Theater" loading={loading}/>
         </div>
       </form>
     </main>

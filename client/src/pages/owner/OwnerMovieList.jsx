@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axiosInstance from "../../config/axiosInstance.js";
 import {Button} from "../../components/ui/Buttons";
+import { useNavigate } from "react-router-dom";
 
 const OwnerMovieList = () => {
+  const navigate = useNavigate();
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -68,7 +70,7 @@ const OwnerMovieList = () => {
                   <td>{movie.language}</td>
                   <td>{movie.duration}</td>
                   <td>
-                    <Button title="Add show" />
+                    <Button title="Add show" onClick={() => navigate('/owner/shows')} />
                   </td>
                 </tr>
               ))}
