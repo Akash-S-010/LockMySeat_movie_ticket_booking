@@ -15,13 +15,13 @@ const ProtectedRoutesOwner = () => {
   // }, [isUserAuth, isLoading, checkOwner]); // Add dependencies
 
   // Redirect if not authenticated or not a theater owner
-  useEffect(() => {
+  // useEffect(() => {
     if (!isLoading) {
       if (!isUserAuth || user?.role !== "theaterOwner") {
         navigate("/owner/login", { replace: true });
       }
     }
-  }, [isLoading, isUserAuth, user, navigate]);
+  // }, [isLoading, isUserAuth, user, navigate]);
 
   // if (isLoading) {
   //   return (
