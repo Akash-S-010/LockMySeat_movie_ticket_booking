@@ -1,4 +1,5 @@
 import User from "../models/userModel.js";
+import Admin from "../models/adminModel.js";
 import bcrypt from "bcryptjs";
 import sendEmail from "../utils/sendEmail.js";
 import generateToken from "../utils/token.js";
@@ -292,17 +293,19 @@ export const resetPassword = async (req, res) => {
 export const updateProfile = async (req, res) => {
     const { name, profilePic } = req.body;
     const userId = req.user.userId;
+    const role = req.user.role;
 
     try {
-
-        const user = await User.findById(userId);
+        // for role based access
+        const Model = role === 'admin' || role === 'theaterOwner' ? Admin : User;
+        const user = await Model.findById(userId);
 
         if (!user) {
-            return res.status(400).json({ message: "User not found" });
+            return res.status(400).json({ message: `${role} not found` });
         }
 
         if (name) {
-            const nameExists = await User.findOne({ name });
+            const nameExists = await Model.findOne({ name });
             if (nameExists && nameExists._id.toString() !== userId) {
                 return res.status(400).json({ message: "Username already taken" });
             }
@@ -315,13 +318,22 @@ export const updateProfile = async (req, res) => {
 
         await user.save();
 
-        res.status(200).json({ message: "Profile updated successfully", data: { _id: user._id, name: user.name, email: user.email, profilePic: user.profilePic } });
+        res.status(200).json({
+            message: `${role} profile updated successfully`,
+            data: {
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                profilePic: user.profilePic
+            }
+        });
 
     } catch (error) {
         console.error("Error in updateProfile", error);
         res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
     }
 };
+
 
 
 
