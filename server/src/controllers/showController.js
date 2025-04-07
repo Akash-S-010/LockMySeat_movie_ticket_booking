@@ -153,21 +153,21 @@ export const getShowByLocation = async (req, res) => {
 
 // -------------get all shows----------------
 export const getAllShows = async (req, res) => {
-    
-    try {
-        
-        const shows = await Show.find({}).sort({ createdAt: -1 });
+  try {
+    const shows = await Show.find({ status: { $in: ["started", "notStarted"] } })
+      .populate("movieId", "title verticalImg") 
+      .populate("theaterId", "name")
+      .sort({ createdAt: -1 });
 
-        if(!shows.length){
-            return res.status(404).json({ message: "No shows found" });
-        }
-
-        res.status(200).json({ message: "Shows found", data: shows });
-
-    } catch (error) {
-        console.error("Error in getAllShows controller", error);
-        res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
+    if (!shows.length) {
+      return res.status(404).json({ message: "No active shows found" });
     }
+
+    res.status(200).json({ message: "Active shows found", data: shows });
+  } catch (error) {
+    console.error("Error in getAllShows controller", error);
+    res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
+  }
 };
 
 
