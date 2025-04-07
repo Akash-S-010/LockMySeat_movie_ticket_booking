@@ -30,6 +30,7 @@ import AdminDashboard from "../pages/admin/AdminDashboard";
 import TheatersList from "../pages/admin/TheatersList";
 import UsersList from "../pages/admin/UsersList";
 import AdminProfile from "../pages/admin/AdminProfile";
+import AddMovies from "../pages/admin/AddMovies";
 
 export const router = createBrowserRouter([
   {
@@ -173,7 +174,7 @@ export const router = createBrowserRouter([
           },
           {
             path:"movies",
-            element:<OwnerMovieList/>
+            element:<AddMovies/>
           },
           {
             path:"theaters-list",

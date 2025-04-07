@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Film, Theater, PlusCircle, Clapperboard } from 'lucide-react';
+import { Home,Theater, PlusCircle, User } from 'lucide-react';
 import Logo from '../../assets/AppLogo.png';
 
 const AdminSidebar = ({ isOpen, setIsOpen }) => {
@@ -8,9 +8,9 @@ const AdminSidebar = ({ isOpen, setIsOpen }) => {
 
   const menuItems = [
     { path: '/admin/dashboard', label: 'Dashboard', icon: Home },
-    { path: '/admin/movies', label: 'Add Movie', icon: Film },
-    { path: '/admin/users', label: 'User List', icon: Theater },
-    { path: '/admin/theaters-list', label: 'Theaters List', icon: PlusCircle },
+    { path: '/admin/movies', label: 'Add Movie', icon: PlusCircle },
+    { path: '/admin/users', label: 'Users List', icon: User },
+    { path: '/admin/theaters-list', label: 'Theaters List', icon: Theater },
   ];
 
   return (

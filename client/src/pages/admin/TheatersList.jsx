@@ -9,4 +9,3 @@ const TheatersList = () => {
 }
 
 export default TheatersList
-3
