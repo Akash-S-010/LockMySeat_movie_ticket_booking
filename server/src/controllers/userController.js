@@ -319,7 +319,7 @@ export const updateProfile = async (req, res) => {
         await user.save();
 
         res.status(200).json({
-            message: `${role} profile updated successfully`,
+            message: 'Profile updated successfully',
             data: {
                 _id: user._id,
                 name: user.name,
