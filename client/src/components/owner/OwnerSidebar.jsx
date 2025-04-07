@@ -30,7 +30,7 @@ const OwnerSidebar = ({ isOpen, setIsOpen }) => {
           ${isOpen ? 'translate-x-0' : '-translate-x-full'} 
           lg:translate-x-0`}
       >
-        <ul className="p-4 space-y-2">
+        <ul className="p-4 space-y-2 ">
         <img src={Logo} alt="logo" className='w-40 mb-12'/>
           {menuItems.map((item) => (
             <li key={item.path}>
@@ -40,7 +40,7 @@ const OwnerSidebar = ({ isOpen, setIsOpen }) => {
                 className={`flex items-center p-3 text-sm font-medium rounded-lg transition-colors duration-200
                   ${location.pathname === item.path
                     ? 'bg-primary text-primary-content'
-                    : 'text-base-content hover:bg-base-00 hover:text-primary'
+                    : 'text-base-content hover:bg-base-100 hover:text-primary'
                   }`}
               >
                 <item.icon className="mr-3" size={20} />

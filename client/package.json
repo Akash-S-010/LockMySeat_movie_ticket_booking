@@ -13,6 +13,7 @@
     "@tailwindcss/vite": "^4.0.14",
     "axios": "^1.8.3",
     "daisyui": "^5.0.9",
+    "dayjs": "^1.11.13",
     "framer-motion": "^12.6.3",
     "lucide-react": "^0.483.0",
     "react": "^19.0.0",

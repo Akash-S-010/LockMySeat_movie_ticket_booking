@@ -11,7 +11,6 @@ const AddTheater = () => {
   });
 
   const [seatPattern, setSeatPattern] = useState([]);
-  const [message, setMessage] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -47,10 +46,8 @@ const AddTheater = () => {
     }
 
     try {
-      const ownerId = 'current-user-id'; // Replace with actual user ID
       const response = await axiosInstance.post('/theater/add-theater', {
         ...formData,
-        ownerId,
         seatPattern,
       });
 
@@ -141,16 +138,9 @@ const AddTheater = () => {
                   title={seat.seatNumber}
                 >
                   {/* Optional: show seat number */}
-                  {/* {seat.seatNumber} */}
                 </div>
               ))}
             </div>
-          </div>
-        )}
-
-        {message && (
-          <div className="text-red-500 text-sm mb-4">
-            {message}
           </div>
         )}
 
