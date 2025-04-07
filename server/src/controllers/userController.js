@@ -371,14 +371,14 @@ export const checkUser = async (req, res) => {
 export const getAllUsers = async (req, res) => {
     try {
 
-        const users = await User.find({ role: "user" });
+        const users = await User.find({});
 
         if (!users) {
             return res.status(404).json({ message: "No users found" });
         }
 
         const totalUser = users.length;
-        res.status(200).json({ message: "Users found", data: totalUser });
+        res.status(200).json({ message: "Users found", data: totalUser, users });
 
     } catch (error) {
         console.error("Error in getAllUsers controller", error);
@@ -402,7 +402,6 @@ export const isActiveToggle = async (req, res) => {
         }
 
         user.isActive = !user.isActive;
-        console.log(user.isActive);
         await user.save();
 
         res.status(200).json({ message: `User ${user.isActive ? "activated" : "deactivated"} successfully` });
