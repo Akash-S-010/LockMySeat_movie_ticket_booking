@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../../config/axiosInstance.js";
+import {toast} from "react-hot-toast"
 
 const UserList = () => {
   const [users, setUsers] = useState([]);
@@ -9,7 +10,7 @@ const UserList = () => {
     const fetchUsers = async () => {
       try {
         setLoading(true);
-        const response = await axiosInstance.get("/user/all-users"); // Adjust endpoint as needed
+        const response = await axiosInstance.get("/user/all-users");
         setUsers(response.data.users);
         setLoading(false);
       } catch (error) {
@@ -27,6 +28,7 @@ const UserList = () => {
       setUsers(users.map(user => 
         user._id === userId ? { ...user, isActive: !user.isActive } : user
       ));
+      toast.success(response.data.message);
     } catch (error) {
       console.error("Failed to toggle user status:", error);
     }
@@ -45,7 +47,7 @@ const UserList = () => {
     <div className="min-h-screen text-base py-4">
       <div className="bg-base-300 p-6 rounded-lg shadow-lg">
         <div className="flex justify-between items-center mb-4">
-          <h1 className="text-2xl font-semibold">Users List</h1>
+          <h1 className="text-2xl font-semibold">Users Management</h1>
         </div>
         <div className="overflow-x-auto">
           <table className="table w-full">
