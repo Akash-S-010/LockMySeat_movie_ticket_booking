@@ -5,6 +5,8 @@ export const useAuthStore = create((set) => ({
   user: null,
   isUserAuth: false,
   isLoading: false,
+  hasCheckedAuth: false, 
+
 
   // Check if user is authenticated (e.g., on app load)
   checkUser: async () => {
@@ -25,11 +27,11 @@ export const useAuthStore = create((set) => ({
     }
   },
 
+
   checkOwner: async () => {
     try {
       set({ isLoading: true });
       const res = await axiosInstance.get("/admin/check-owner");
-      set({ isLoading: false });
       if (res.data && res.data.data?.role === "theaterOwner") {
         set({ user: res.data.data, isUserAuth: true });
       } else {
@@ -39,7 +41,7 @@ export const useAuthStore = create((set) => ({
       console.error(err.response?.data?.message || "Failed to fetch owner status");
       set({ user: null, isUserAuth: false });
     } finally {
-      set({ isLoading: false });
+      set({ isLoading: false, hasCheckedAuth: true }); // ✅ mark auth check complete
     }
   },
 

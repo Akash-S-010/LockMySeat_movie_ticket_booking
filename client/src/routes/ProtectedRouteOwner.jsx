@@ -1,30 +1,26 @@
 import React, { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/useAuthStore.js";
-import { Loader } from "lucide-react"; // Uncomment this if you're using it
+import { Loader } from "lucide-react";
 
 const ProtectedRoutesOwner = () => {
-  const { isUserAuth, isLoading, user, checkOwner } = useAuthStore();
+  const { isUserAuth, isLoading, user, checkOwner, hasCheckedAuth } = useAuthStore();
   const navigate = useNavigate();
 
-  // Check auth status on mount
+  // Run auth check on mount
   useEffect(() => {
-    if (!isUserAuth && !isLoading) {
-      checkOwner();
-    }
-  }, [isUserAuth, isLoading, checkOwner]);
+    checkOwner();
+  }, [checkOwner]);
 
-  // Redirect if not authenticated or not a theater owner
+  // Redirect *only* after auth check completes
   useEffect(() => {
-    if (!isLoading && user !== undefined) {
-      if (!isUserAuth || user?.role !== "theaterOwner") {
-        navigate("/owner/login", { replace: true });
-      }
+    if (hasCheckedAuth && !isUserAuth) {
+      navigate("/owner/login", { replace: true });
     }
-  }, [isLoading, isUserAuth, user, navigate]);
+  }, [hasCheckedAuth, isUserAuth, navigate]);
 
-  // Optional loading spinner
-  if (isLoading || user === undefined) {
+  // Optional loading state
+  if (!hasCheckedAuth || isLoading) {
     return (
       <div className="flex items-center justify-center h-screen">
         <Loader className="animate-spin size-16 text-primary" />
