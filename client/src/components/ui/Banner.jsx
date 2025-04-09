@@ -26,7 +26,7 @@ const BannerSlider = () => {
       title: "Watch the Latest Blockbusters!",
       buttonText: "Explore Movies",
       image:
-        "https://img.freepik.com/free-photo/view-3d-cinema-theatre-room_23-2150866053.jpg?t=st=1743406705~exp=1743410305~hmac=66e93c9cfa1ee0baaa2dc431c1e28332b78e8c81dc58b0f75f0611263015903e&w=1060",
+        "https://static.vecteezy.com/system/resources/thumbnails/044/514/545/small_2x/background-a-movie-theater-where-love-stories-are-unfolding-on-the-big-screen-and-the-smell-of-popcorn-fills-the-air-photo.jpg",
     },
     {
       title: "Special Weekend Offers!",
