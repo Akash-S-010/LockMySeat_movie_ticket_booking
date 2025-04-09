@@ -34,6 +34,28 @@ import AddMovies from "../pages/admin/AddMovies";
 
 export const router = createBrowserRouter([
   {
+    path: "login",
+    element: <Login />,
+  },
+  {
+    path: "register",
+    element: <Register />,
+  },
+  {
+    path: "verify-otp",
+    element: <VerifyOtp />,
+  },
+  {
+    path: "forgot-password",
+    element: <ForgotPassword />,
+  },
+  {
+    path: "reset-password/:token",
+    element: <ResetPassword />,
+  },
+
+  // Root layout with nested routes
+  {
     path: "",
     element: <RootLayout />,
     errorElement: <ErrorPage />,
@@ -49,26 +71,6 @@ export const router = createBrowserRouter([
       {
         path: "about-us",
         element: <AboutUs />,
-      },
-      {
-        path: "login",
-        element: <Login />,
-      },
-      {
-        path: "register",
-        element: <Register />,
-      },
-      {
-        path: "verify-otp",
-        element: <VerifyOtp />,
-      },
-      {
-        path: "forgot-password",
-        element: <ForgotPassword />,
-      },
-      {
-        path: "reset-password/:token",
-        element: <ResetPassword />,
       },
       {
         path: "user",
@@ -103,19 +105,19 @@ export const router = createBrowserRouter([
     ],
   },
 
-  // Theater Owner routes
+  // Theater Owner routes (layout + auth separated)
+  {
+    path: "owner/login",
+    element: <Login role="theaterOwner" />,
+  },
+  {
+    path: "owner/register",
+    element: <Register role="theaterOwner" />,
+  },
   {
     path: "owner",
-    element: <TheaterOwnerLayout />, 
+    element: <TheaterOwnerLayout />,
     children: [
-      {
-        path: "login",
-        element: <Login role="theaterOwner"/>,
-      },
-      {
-        path: "register",
-        element: <Register role="theaterOwner"/>,
-      },
       {
         element: <ProtectedRoutesOwner />,
         children: [
@@ -144,27 +146,27 @@ export const router = createBrowserRouter([
             element: <AddShows />,
           },
           {
-            path:"profile",
-            element:<OwnerProfile/>,
+            path: "profile",
+            element: <OwnerProfile />,
           },
         ],
       },
     ],
   },
 
-  // Admin routes
+  // Admin routes (layout + auth separated)
+  {
+    path: "admin/login",
+    element: <Login role="admin" />,
+  },
+  {
+    path: "admin/register",
+    element: <Register role="admin" />,
+  },
   {
     path: "admin",
-    element:<AdminLayout/>,
+    element: <AdminLayout />,
     children: [
-      {
-        path: "login",
-        element: <Login role="admin"/>,
-      },
-      {
-        path: "register",
-        element: <Register role="admin"/>,
-      },
       {
         element: <ProtectedRoutesAdmin />,
         children: [
@@ -173,24 +175,25 @@ export const router = createBrowserRouter([
             element: <AdminDashboard />,
           },
           {
-            path:"movies",
-            element:<AddMovies/>
+            path: "movies",
+            element: <AddMovies />,
           },
           {
-            path:"theaters-list",
-            element:<TheatersList/>
+            path: "theaters-list",
+            element: <TheatersList />,
           },
           {
-            path:"users",
-            element: <UsersList/>
+            path: "users",
+            element: <UsersList />,
           },
           {
-            path:"profile",
-            element: <AdminProfile/>
-          }
+            path: "profile",
+            element: <AdminProfile />,
+          },
         ],
-      }
-    ]
-  }
+      },
+    ],
+  },
 ]);
+
 

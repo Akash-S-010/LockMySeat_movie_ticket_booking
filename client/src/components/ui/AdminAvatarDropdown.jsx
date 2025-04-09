@@ -10,6 +10,8 @@ const AdminAvatarDropdown = ({role}) => {
   const { user } = useAuthStore();
   const navigate = useNavigate();
 
+  {role === "theaterOwner" ? role = "owner" : role = "admin"}
+
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [theme, setTheme] = useState("dark");
 
