@@ -5,7 +5,6 @@ import AddMovieModal from "../../components/admin/AddMovieModal";
 
 const AddMovies = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [movies, setMovies] = useState([]);
 
   const handleMovieAdded = (newMovie) => {
     setMovies((prevMovies) => [...prevMovies, newMovie]);
@@ -21,7 +20,7 @@ const AddMovies = () => {
             onClick={() => setIsModalOpen(true)}
           />
         </div>
-        <MovieListComponent movies={movies} />
+        <MovieListComponent showActions={true}/>
       </div>
       <AddMovieModal
         isOpen={isModalOpen}

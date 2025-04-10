@@ -17,20 +17,14 @@ const AddMovieModal = ({ isOpen, onClose, onMovieAdded }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!title || !duration || !genre || !plot || !cast || !releaseDate || !language || !bannerImg || !verticalImg) {
-      toast.error("All fields are required");
-      return;
-    }
-
-
     const movieData = {
       title,
       duration,
-      genre,
+      genre: genre.split(",").map((item) => item.trim()),
       plot,
-      cast,
-      releaseDate: new Date(releaseDate).toISOString(),
-      language,
+      cast: cast.split(",").map((item) => item.trim()),
+      releaseDate,
+      language: language.split(",").map((item) => item.trim()),
       bannerImg,
       verticalImg,
     };
@@ -58,7 +52,7 @@ const AddMovieModal = ({ isOpen, onClose, onMovieAdded }) => {
 
   return (
     <div className="modal modal-open backdrop-blur-sm">
-      <div className="modal-box">
+      <div className="modal-box max-h-[90vh] overflow-y-auto my-6">
         {/* Modal Header */}
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-xl font-bold text-primary">ADD MOVIE</h3>
@@ -75,7 +69,9 @@ const AddMovieModal = ({ isOpen, onClose, onMovieAdded }) => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-2">Duration (3h)</label>
+            <label className="block text-sm font-medium mb-2">
+              Duration (3h)
+            </label>
             <input
               type="text"
               value={duration}
@@ -85,7 +81,9 @@ const AddMovieModal = ({ isOpen, onClose, onMovieAdded }) => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-2">Genre</label>
+            <label className="block text-sm font-medium mb-2">
+              Genre (comma-separated)
+            </label>
             <input
               type="text"
               value={genre}
@@ -115,7 +113,9 @@ const AddMovieModal = ({ isOpen, onClose, onMovieAdded }) => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-2">Release Date</label>
+            <label className="block text-sm font-medium mb-2">
+              Release Date
+            </label>
             <input
               type="date"
               value={releaseDate}
@@ -135,7 +135,9 @@ const AddMovieModal = ({ isOpen, onClose, onMovieAdded }) => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-2">Banner Image URL</label>
+            <label className="block text-sm font-medium mb-2">
+              Banner Image URL
+            </label>
             <input
               type="url"
               value={bannerImg}
@@ -145,7 +147,9 @@ const AddMovieModal = ({ isOpen, onClose, onMovieAdded }) => {
             />
           </div>
           <div className="mb-6">
-            <label className="block text-sm font-medium mb-2">Vertical Image URL</label>
+            <label className="block text-sm font-medium mb-2">
+              Vertical Image URL
+            </label>
             <input
               type="url"
               value={verticalImg}

@@ -16,7 +16,7 @@ const OwnerMovieList = () => {
             className="input input-bordered w-64"
           />
         </div>
-        <MovieListComponent/>
+        <MovieListComponent showActions={false}/>
       </div>
     </div>
   );
