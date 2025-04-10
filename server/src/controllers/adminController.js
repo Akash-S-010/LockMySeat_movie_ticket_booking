@@ -14,7 +14,11 @@ const NODE_ENV = process.env.NODE_ENV
 // ------------admin Signup------------
 export const signup = async (req, res) => {
     try {
-        const { name, email, password } = req.body;
+        const { name, email, password, role } = req.body;
+
+        if (!['admin', 'theaterOwner'].includes(role)) {
+            return res.status(400).json({ message: "Invalid role" });
+        }        
 
         let admin = await Admin.findOne({ email });
 
@@ -27,7 +31,7 @@ export const signup = async (req, res) => {
                 admin.otpExpires = Date.now() + 3 * 60 * 1000;
 
                 await admin.save();
-                await sendEmail(email, "OTP Verification", admin.otp);
+                await sendEmail(email, "otp", admin.otp);
 
                 return res.json({ message: "New OTP sent to your email." });
             }
@@ -44,6 +48,7 @@ export const signup = async (req, res) => {
             email,
             password: hashedPassword,
             otp,
+            role,
             otpExpires,
             isVerified: false
         });
