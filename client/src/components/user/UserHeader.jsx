@@ -79,7 +79,7 @@ const UserHeader = () => {
       </div>
 
       <div className="navbar-end flex items-center space-x-4">
-        {isLoading ? null : isUserAuth ? (
+        {isLoading ? <Button title="Login" onClick={() => navigate("/login")} /> : isUserAuth ? (
           <AvatarDropdown />
         ) : (
           <Button title="Login" onClick={() => navigate("/login")} />
