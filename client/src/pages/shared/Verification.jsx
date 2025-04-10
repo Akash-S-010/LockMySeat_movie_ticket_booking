@@ -6,7 +6,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import axiosInstance from "../../config/axiosInstance.js";
 import toast from "react-hot-toast";
 
-const Verification = () => {
+const Verification = ({ role }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [email, setEmail] = useState("");
@@ -19,6 +19,30 @@ const Verification = () => {
     formState: { errors },
   } = useForm();
 
+  const user = {
+    role: "user",
+    verifyAPI: "user/verify-otp",
+    redirectRoute: "/login",
+    errRedirectionRoute: "/register",
+    resendOptRoute: "user/resend-otp",
+  };
+
+  if (role == "theaterOwner") {
+    user.role = "theaterOwner";
+    user.verifyAPI = "admin/verify-otp";
+    user.redirectRoute = "/owner/login";
+    user.errRedirectionRoute = "/owner/register";
+    user.resendOptRoute = "admin/resend-otp";
+  }
+
+  if (role == "admin") {
+    user.role = "admin";
+    user.loginAPI = "admin/verify-otp";
+    user.redirectRoute = "/admin/login";
+    user.errRedirectionRoute = "/admin/register";
+    user.resendOptRoute = "admin/resend-otp";
+  }
+
   // Extract and store email on mount
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -29,7 +53,7 @@ const Verification = () => {
       localStorage.setItem("userEmail", userEmail); // Store email to prevent loss
     } else {
       toast.error("Invalid access. Redirecting...");
-      navigate("/register");
+      navigate(user.errRedirectionRoute);
     }
   }, [location, navigate]);
 
@@ -42,20 +66,20 @@ const Verification = () => {
 
     try {
       setLoading(true);
-      const response = await axiosInstance.post("user/verify-otp", {
+      const response = await axiosInstance.post(user.verifyAPI, {
         email,
         otp: data.otp,
       });
       toast.success(response.data.message);
-
       // Clear email storage and redirect to login
       localStorage.removeItem("userEmail");
-      navigate("/login");
+      navigate(user.redirectRoute);
       setLoading(false);
     } catch (error) {
       toast.error(
         error.response?.data?.message || "Invalid OTP, please try again."
       );
+      setLoading(false);
     }
   };
 
@@ -68,7 +92,7 @@ const Verification = () => {
 
     setIsResending(true);
     try {
-      const response = await axiosInstance.post("user/resend-otp", { email });
+      const response = await axiosInstance.post(user.resendOptRoute, { email });
       toast.success(response.data.message || "OTP resent successfully.");
     } catch (error) {
       toast.error(error.response?.data?.message || "Error resending OTP.");

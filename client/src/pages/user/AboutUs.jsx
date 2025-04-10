@@ -17,8 +17,10 @@ const AboutUs = () => {
           backgroundImage: `url('https://static.vecteezy.com/system/resources/thumbnails/044/514/545/small_2x/background-a-movie-theater-where-love-stories-are-unfolding-on-the-big-screen-and-the-smell-of-popcorn-fills-the-air-photo.jpg')`,
         }}
       >
-        <div className="absolute inset-0  backdrop-blur-sm"></div>
-        <div className="hero-content text-center text-neutral-content">
+        {/* Darker overlay */}
+        <div className="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
+
+        <div className="hero-content text-center text-neutral-content z-10">
           <div className="max-w-3xl">
             <h1 className="mb-4 text-4xl md:text-6xl font-extrabold tracking-tight">
               Welcome to <span className="text-primary">LockMySeat</span>

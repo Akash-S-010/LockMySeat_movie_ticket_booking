@@ -38,3 +38,4 @@ const TheaterOwnerLayout = () => {
 };
 
 export default TheaterOwnerLayout;
+

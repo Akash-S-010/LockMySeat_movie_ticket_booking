@@ -26,7 +26,7 @@ export const signup = async (req, res) => {
                 user.otpExpires = Date.now() + 3 * 60 * 1000;
 
                 await user.save();
-                await sendEmail(email, "OTP Verification", user.otp);
+                await sendEmail(email, "otp", {otp:user.otp});
 
                 return res.json({ message: "New OTP sent to your email." });
             }
@@ -53,7 +53,7 @@ export const signup = async (req, res) => {
         res.json({ message: "OTP sent to your email. Please verify to complete registration." });
 
     } catch (error) {
-        console.error("Error in signup", error);
+        console.error("Error in signup", error.message);
         res.status(500).json({ message: "Internal server error" });
     }
 };
@@ -120,7 +120,7 @@ export const resendOTP = async (req, res) => {
         await user.save();
 
         // -----------Send OTP via email-----------
-        await sendEmail(email, "Lock My Seat", `Your new OTP for registration: ${otp}`);
+        await sendEmail(email, "otp", {otp});
 
         res.json({ message: "New OTP sent to your email." });
 

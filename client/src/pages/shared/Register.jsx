@@ -20,6 +20,27 @@ const Register = ({role}) => {
     formState: { errors },
   } = useForm();
 
+  const user = {
+    role: "user",
+    registerAPI: "user/signup",
+    redirectRoute: "/verify-otp",
+    loginRoute: "/login",
+};
+
+if (role == "theaterOwner") {
+    user.role = "theaterOwner";
+    user.registerAPI = "admin/signup";
+    user.redirectRoute = "/owner/verify-otp";
+    user.loginRoute = "/owner/login";
+}
+
+if (role == "admin") {
+  user.role = "admin";
+  user.registerAPI = "admin/signup";
+  user.redirectRoute = "/admin/verify-otp";
+  user.loginRoute = "/admin/signup";
+}
+
   const password = watch("password");
 
   const onSubmit = async (data) => {
@@ -28,7 +49,7 @@ const Register = ({role}) => {
   
     try {
       setLoading(true);
-      const response = await axiosInstance.post("user/signup", payload);
+      const response = await axiosInstance.post(user.registerAPI, payload);
       
       // Handle scenario where user is unverified but can continue
       if (response.data.message.includes("New OTP sent")) {
@@ -37,7 +58,7 @@ const Register = ({role}) => {
         toast.success(response.data.message || "OTP sent! Please verify.");
       }
   
-      navigate(`/verify-otp?email=${email}`);
+      navigate(`${user.redirectRoute}?email=${email}`);
   
     } catch (error) {
       const errorMsg = error.response?.data?.message || "Registration failed";
@@ -70,7 +91,7 @@ const Register = ({role}) => {
                 placeholder="Enter your name"
                 className={`w-full pl-10 pr-4 py-2 bg-base-200 rounded-md border ${
                   errors.name ? "border-red-500" : "border-base-300"
-                } focus:outline-none focus:border-[#f64d71]`}
+                } focus:outline-none focus:border-primary`}
                 {...register("name", {
                   required: "Name is required",
                   minLength: {
@@ -93,7 +114,7 @@ const Register = ({role}) => {
                 placeholder="Enter your email"
                 className={`w-full pl-10 pr-4 py-2 bg-base-200 rounded-md border ${
                   errors.email ? "border-red-500" : "border-base-300"
-                } focus:outline-none focus:border-[#f64d71]`}
+                } focus:outline-none focus:border-primary`}
                 {...register("email", {
                   required: "Email is required",
                   pattern: {
@@ -116,7 +137,7 @@ const Register = ({role}) => {
                 placeholder="Enter your password"
                 className={`w-full pl-10 pr-12 py-2 bg-base-200 rounded-md border ${
                   errors.password ? "border-red-500" : "border-base-300"
-                } focus:outline-none focus:border-[#f64d71]`}
+                } focus:outline-none focus:border-primary`}
                 {...register("password", {
                   required: "Password is required",
                   minLength: {
@@ -142,7 +163,7 @@ const Register = ({role}) => {
                 placeholder="Confirm your password"
                 className={`w-full pl-10 pr-12 py-2 bg-base-200 rounded-md border ${
                   errors.confirmPassword ? "border-red-500" : "border-base-300"
-                } focus:outline-none focus:border-[#f64d71]`}
+                } focus:outline-none focus:border-primary`}
                 {...register("confirmPassword", {
                   required: "Please confirm your password",
                   validate: (value) => value === password || "Passwords do not match",
@@ -162,7 +183,7 @@ const Register = ({role}) => {
         {/* Login Link */}
         <p className="text-center text-base mt-4">
           Already have an account?{" "}
-          <Link to="/login" className="text-[#f64d71] hover:underline">
+          <Link to={user.loginRoute} className="text-primary hover:underline">
             Login
           </Link>
         </p>

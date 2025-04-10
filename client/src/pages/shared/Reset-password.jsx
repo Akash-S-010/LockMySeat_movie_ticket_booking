@@ -6,7 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "../../config/axiosInstance.js";
 import toast from "react-hot-toast";
 
-const ResetPassword = () => {
+const ResetPassword = ({role}) => {
   const navigate = useNavigate();
   const { token } = useParams();
   const [showPassword, setShowPassword] = useState(false);
@@ -18,15 +18,33 @@ const ResetPassword = () => {
     formState: { errors },
   } = useForm();
 
+  const user = {
+    role: "user",
+    loginAPI: "user/reset-password",
+    redirectRoute: "/login",
+};
+
+if (role == "theaterOwner") {
+    user.role = "theaterOwner";
+    user.loginAPI = "admin/reset-password";
+    user.redirectRoute = "/owner/login";
+}
+
+if (role == "admin") {
+  user.role = "admin";
+  user.loginAPI = "admin/reset-password";
+  user.redirectRoute = "/admin/login";
+}
+
   const onSubmit = async (data) => {
     setLoading(true); // Show loader
     try {
-      const response = await axiosInstance.post("user/reset-password", {
+      const response = await axiosInstance.post(user.loginAPI, {
         token,
         newPassword: data.newPassword,
       });
       toast.success("Password reset successful");
-      setTimeout(() => navigate("/login"),setLoading(true), 1000);
+      setTimeout(() => navigate(user.redirectRoute),setLoading(true), 1000);
     } catch (error) {
       toast.error(error.response?.data?.message || "Error resetting password");
     } finally {

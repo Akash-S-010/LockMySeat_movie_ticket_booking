@@ -13,38 +13,49 @@ const NODE_ENV = process.env.NODE_ENV
 
 // ------------admin Signup------------
 export const signup = async (req, res) => {
-
     try {
+        const { name, email, password } = req.body;
 
-        const { name, email, password, role } = req.body;
+        let admin = await Admin.findOne({ email });
 
-        const adminExists = await Admin.findOne({ email });
+        if (admin) {
+            if (!admin.isVerified) {
+                // If user exists but is not verified, update their details
+                admin.name = name; // Ensure updated name
+                admin.password = await bcrypt.hash(password, 10); // Update password
+                admin.otp = Math.floor(100000 + Math.random() * 900000);
+                admin.otpExpires = Date.now() + 3 * 60 * 1000;
 
-        if (adminExists) {
-            return res.status(400).json({ message: "admin already exists" });
+                await admin.save();
+                await sendEmail(email, "OTP Verification", admin.otp);
+
+                return res.json({ message: "New OTP sent to your email." });
+            }
+            return res.status(400).json({ message: "Admin already exists" });
         }
 
-        // -----hash password--------
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
-
-        // ------generate otp--------
+        // Create a new user only if no existing record is found
+        const hashedPassword = await bcrypt.hash(password, 10);
         const otp = Math.floor(100000 + Math.random() * 900000);
-
-        // ------otp expire time ( 2 min )------
         const otpExpires = Date.now() + 4 * 60 * 1000;
 
-        const newAdmin = new Admin({ name, email, password: hashedPassword, otp, otpExpires, isVerified: false, role });
+        const newAdmin = new Admin({
+            name,
+            email,
+            password: hashedPassword,
+            otp,
+            otpExpires,
+            isVerified: false
+        });
         await newAdmin.save();
 
-        //--------- Send OTP via email------------
         await sendEmail(email, "otp", { otp });
 
         res.json({ message: "OTP sent to your email. Please verify to complete registration." });
 
     } catch (error) {
-        console.error("Error in signup",error);
-        res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
+        console.error("Error in signup", error);
+        res.status(500).json({ message: "Internal server error" });
     }
 };
 
@@ -108,7 +119,7 @@ export const resendOTP = async (req, res) => {
         await admin.save();
 
         // -----------Send OTP via email-----------
-        await sendEmail(email, "Lock My Seat", `Your new OTP for registration: ${otp}`);
+        await sendEmail(email, "otp", {otp});
 
         res.json({ message: "New OTP sent to your email." });
 

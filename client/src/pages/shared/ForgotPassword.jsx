@@ -5,7 +5,7 @@ import {SubmitBtn} from "../../components/ui/Buttons";
 import axiosInstance from "../../config/axiosInstance.js";
 import toast from "react-hot-toast";
 
-const ForgotPassword = () => {
+const ForgotPassword = ({role}) => {
   const [loading, setLoading] = useState(false); // Loader state
   const {
     register,
@@ -13,10 +13,17 @@ const ForgotPassword = () => {
     formState: { errors },
   } = useForm();
 
+  const forgotAPI =
+  role === "theaterOwner" || role === "admin"
+    ? "admin/forgot-password"
+    : "user/forgot-password";
+
+
+
   const onSubmit = async (data) => {
     setLoading(true); // Show loader
     try {
-      const response = await axiosInstance.post("/user/forgot-password", data);
+      const response = await axiosInstance.post(forgotAPI, data);
       toast.success(response.data.message);
     } catch (error) {
       toast.error(error.response?.data?.message || "Error sending reset link");

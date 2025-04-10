@@ -31,15 +31,17 @@ import TheatersList from "../pages/admin/TheatersList";
 import UsersList from "../pages/admin/UsersList";
 import AdminProfile from "../pages/admin/AdminProfile";
 import AddMovies from "../pages/admin/AddMovies";
+import OwnerLandingPage from "../pages/owner/OwnerLandingPage";
+import AdminLandingPage from "../pages/admin/AdminLandingPage";
 
 export const router = createBrowserRouter([
   {
-    path: "login",
-    element: <Login />,
-  },
-  {
     path: "register",
     element: <Register />,
+  },
+  {
+    path: "login",
+    element: <Login />,
   },
   {
     path: "verify-otp",
@@ -105,14 +107,30 @@ export const router = createBrowserRouter([
     ],
   },
 
-  // Theater Owner routes (layout + auth separated)
+  // Theater Owner routes
+  {
+    path: "owner",
+    element: <OwnerLandingPage />,
+  },
+  {
+    path: "owner/register",
+    element: <Register role="theaterOwner" />,
+  },
   {
     path: "owner/login",
     element: <Login role="theaterOwner" />,
   },
   {
-    path: "owner/register",
-    element: <Register role="theaterOwner" />,
+    path: "owner/verify-otp",
+    element: <VerifyOtp role="theaterOwner" />,
+  },
+  {
+    path: "owner/forgot-password",
+    element: <ForgotPassword role="theaterOwner" />,
+  },
+  {
+    path: "owner/reset-password/:token",
+    element: <ResetPassword role="theaterOwner" />,
   },
   {
     path: "owner",
@@ -154,18 +172,34 @@ export const router = createBrowserRouter([
     ],
   },
 
-  // Admin routes (layout + auth separated)
+  // Admin routes
   {
-    path: "admin/login",
-    element: <Login role="admin" />,
+    path: "admin",
+    element: <AdminLandingPage />,
   },
   {
     path: "admin/register",
     element: <Register role="admin" />,
   },
   {
+    path: "admin/login",
+    element: <Login role="admin" />,
+  },
+  {
+    path: "admin/verify-otp",
+    element: <VerifyOtp role="admin" />,
+  },
+  {
+    path: "admin/forgot-password",
+    element: <ForgotPassword role="admin" />,
+  },
+  {
+    path: "admin/reset-password/:token",
+    element: <ResetPassword role="admin" />,
+  },
+  {
     path: "admin",
-    element: <AdminLayout />,
+    element: <AdminLayout role="admin" />,
     children: [
       {
         element: <ProtectedRoutesAdmin />,

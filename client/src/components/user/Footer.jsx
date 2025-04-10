@@ -64,7 +64,7 @@ const Footer = () => {
                 <li><Link to="/contact" className="text-base transition hover:opacity-75">Contact Us</Link></li>
                 <li><Link to="/faq" className="text-base transition hover:opacity-75">FAQs</Link></li>
                 <li><Link to="/support" className="text-base transition hover:opacity-75">Customer Support</Link></li>
-                <li><Link to="/owner/login" className="text-base transition hover:opacity-75">Theater Owner Portal</Link></li>
+                <li><Link to="/owner/" className="text-base transition hover:opacity-75">Theater Owner Portal</Link></li>
               </ul>
             </div>
 

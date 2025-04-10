@@ -36,10 +36,6 @@ const BannerSlider = () => {
     },
   ];
 
-  const handleSlideChange = (index) => {
-    setCurrentSlide(index);
-  };
-
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
@@ -49,36 +45,37 @@ const BannerSlider = () => {
 
   return (
     <div className="relative w-full h-[300px] mt-10 rounded-md border-2 border-base-200 my-20 overflow-hidden">
-      <div
-        className="flex transition-transform duration-500 ease-in-out"
-        style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-      >
-        {slides.map((slide, index) => (
-          <div
-            key={index}
-            className="w-full h-[300px] flex-shrink-0 flex items-center justify-center relative"
-            style={{ backgroundImage: `url(${slide.image})`, backgroundSize: "cover", backgroundPosition: "center" }}
-          >
-            {/* Overlay */}
-            <div className="absolute inset-0" style={{ backgroundColor: "rgba(0, 0, 0, 0.7)", backdropFilter: "blur(5px)"  }}></div>
+      {slides.map((slide, index) => (
+        <div
+          key={index}
+          className={`absolute top-0 left-0 w-full h-full transition-opacity duration-700 ease-in-out ${
+            currentSlide === index ? "opacity-100 z-3" : "opacity-0 z-10"
+          }`}
+          style={{
+            backgroundImage: `url(${slide.image})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        >
+          {/* Overlay */}
+          <div className="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
 
-            {/* Content */}
-            <div className="relative z-10 text-white text-center max-w-xl flex flex-col items-center">
-              <h1 className="text-3xl font-bold mb-4">{slide.title}</h1>
-              <button className="btn btn-primary text-white border-none px-6 py-3 rounded-lg shadow-md mt-2">
-                {slide.buttonText}
-              </button>
-            </div>
+          {/* Content */}
+          <div className="relative z-30 text-white text-center max-w-xl mx-auto h-full flex flex-col items-center justify-center">
+            <h1 className="text-3xl font-bold mb-4">{slide.title}</h1>
+            <button className="btn btn-primary text-white border-none px-6 py-3 rounded-lg shadow-md mt-2">
+              {slide.buttonText}
+            </button>
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
 
       {/* Navigation Dots */}
-      <div className="absolute bottom-5 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
+      <div className="absolute bottom-5 left-1/2 transform -translate-x-1/2 flex space-x-2 z-30">
         {slides.map((_, index) => (
           <button
             key={index}
-            onClick={() => handleSlideChange(index)}
+            onClick={() => setCurrentSlide(index)}
             className={`w-3 h-3 rounded-full ${
               currentSlide === index ? "bg-white" : "bg-gray-400"
             }`}

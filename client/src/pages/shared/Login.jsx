@@ -21,20 +21,26 @@ const Login = ({ role}) => {
 
   const user = {
     role: "user",
-    loginAPI: "/user/login",
+    loginAPI: "user/login",
     redirectRoute: "/",
+    registerRoute: "/register",
+    forgotRoute: "/forgot-password",
 };
 
 if (role == "theaterOwner") {
     user.role = "theaterOwner";
-    user.loginAPI = "/admin/login";
+    user.loginAPI = "admin/login";
     user.redirectRoute = "/owner/dashboard";
+    user.registerRoute = "/owner/register";
+    user.forgotRoute = "/owner/forgot-password";
 }
 
 if (role == "admin") {
   user.role = "admin";
-  user.loginAPI = "/admin/login";
+  user.loginAPI = "admin/login";
   user.redirectRoute = "/admin/dashboard";
+  user.registerRoute = "/admin/register";
+  user.forgotRoute = "/admin/forgot-password";
 }
 
 
@@ -133,7 +139,7 @@ if (role == "admin") {
             )}
             <div className="text-right mt-2">
               <Link
-                to="/forgot-password"
+                to={user.forgotRoute}
                 className="text-primary text-sm hover:underline"
               >
                 Forgot Password?
@@ -148,7 +154,7 @@ if (role == "admin") {
         {/* Register Link */}
         <p className="text-center text-base mt-4">
           Don't have an account?{" "}
-          <Link to="/register" className="text-primary hover:underline">
+          <Link to={user.registerRoute} className="text-primary hover:underline">
             Register
           </Link>
         </p>
