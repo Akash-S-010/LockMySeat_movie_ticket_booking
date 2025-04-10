@@ -21,7 +21,7 @@ const adminSchema = new mongoose.Schema({
     role: {
         type: String,
         enum: ['theaterOwner', 'admin'],
-        default: 'admin'
+        default: 'theaterOwner'
     },
     isVerified: {
         type: Boolean,
