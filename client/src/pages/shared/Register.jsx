@@ -6,7 +6,7 @@ import axiosInstance from "../../config/axiosInstance";
 import toast from "react-hot-toast";
 import {SubmitBtn} from "../../components/ui/Buttons";
 
-const Register = ({role}) => {
+const Register = ({role = "user"}) => {
   const [ loading, setLoading ] = useState(false); 
 
   const [showPassword, setShowPassword] = useState(false);
@@ -38,14 +38,14 @@ if (role == "admin") {
   user.role = "admin";
   user.registerAPI = "admin/signup";
   user.redirectRoute = "/admin/verify-otp";
-  user.loginRoute = "/admin/signup";
+  user.loginRoute = "/admin/login";
 }
 
   const password = watch("password");
 
   const onSubmit = async (data) => {
     const { name, email, password } = data;
-    const payload = { name, email, password };
+    const payload = { name, email, password, role: user.role };
   
     try {
       setLoading(true);
@@ -53,7 +53,7 @@ if (role == "admin") {
       
       // Handle scenario where user is unverified but can continue
       if (response.data.message.includes("New OTP sent")) {
-        toast.success("Account already exists but is unverified. OTP sent!");
+        toast.success("Account already exists but unverified. OTP sent!");
       } else {
         toast.success(response.data.message || "OTP sent! Please verify.");
       }

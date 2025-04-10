@@ -6,7 +6,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import axiosInstance from "../../config/axiosInstance.js";
 import toast from "react-hot-toast";
 
-const Verification = ({ role }) => {
+const Verification = ({ role = "user" }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [email, setEmail] = useState("");
@@ -37,7 +37,7 @@ const Verification = ({ role }) => {
 
   if (role == "admin") {
     user.role = "admin";
-    user.loginAPI = "admin/verify-otp";
+    user.verifyAPI = "admin/verify-otp";
     user.redirectRoute = "/admin/login";
     user.errRedirectionRoute = "/admin/register";
     user.resendOptRoute = "admin/resend-otp";
