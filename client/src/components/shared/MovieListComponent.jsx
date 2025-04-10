@@ -58,6 +58,7 @@ const MovieListComponent = ({ showActions = false }) => {
         )
       );
       setSelectedMovie(null);
+      Swal.fire("Updated!", "Movie Updated successfully", "success");
     } catch (error) {
       console.error("Failed to update movie:", error);
     }

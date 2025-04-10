@@ -22,7 +22,7 @@ const EditMovieModal = ({ movie, onClose, onUpdate }) => {
           duration: movie.duration || "duration",
           genre: movie.genre?.join(", ") || "gene",
           plot: movie.plot || "plot",
-          cast: movie.cast?.join(", ") || "cas",
+          cast: movie.cast?.join(", ") || "cast",
           releaseDate: movie.releaseDate || "date",
           language: movie.language?.join(", ") || "language",
           bannerImg: movie.bannerImg || "bannerImg",

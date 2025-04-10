@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../../config/axiosInstance.js";
-import {toast} from "react-hot-toast"
+import Swal from 'sweetalert2';
 
 const UserList = () => {
   const [users, setUsers] = useState([]);
@@ -28,9 +28,20 @@ const UserList = () => {
       setUsers(users.map(user => 
         user._id === userId ? { ...user, isActive: !user.isActive } : user
       ));
-      toast.success(response.data.message);
+      Swal.fire({
+        title: 'Success!',
+        text: response.data.message,
+        icon: 'success',
+        confirmButtonText: 'OK'
+      });
     } catch (error) {
       console.error("Failed to toggle user status:", error);
+      Swal.fire({
+        title: 'Error!',
+        text: 'Failed to update user status',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
     }
   };
 

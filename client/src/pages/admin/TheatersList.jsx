@@ -33,9 +33,15 @@ const TheaterList = () => {
             : theater
         )
       );
-      toast.success("Theater approved successfully");
+      Swal.fire({
+        title: 'Success!',
+        text: 'Theater approved successfully',
+        icon: 'success',
+        confirmButtonText: 'OK'
+      });
     } catch (error) {
       console.error("Failed to approve theater:", error);
+      toast.error("Failed to approve theater");
     }
   };
 
@@ -63,11 +69,7 @@ const TheaterList = () => {
         toast.success("Theater rejected successfully");
       } catch (error) {
         console.error("Failed to reject theater:", error);
-        Swal.fire(
-          'Error!',
-          'Something went wrong while rejecting.',
-          'error'
-        );
+        toast.error("Failed to reject theater");
       }
     }
   };
