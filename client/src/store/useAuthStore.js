@@ -5,15 +5,13 @@ export const useAuthStore = create((set) => ({
   user: null,
   isUserAuth: false,
   isLoading: false,
-  hasCheckedAuth: false, 
-
+  hasCheckedAuth: false,
 
   // Check if user is authenticated (e.g., on app load)
   checkUser: async () => {
     try {
       set({ isLoading: true });
       const res = await axiosInstance.get("user/check-user");
-      set({ isLoading: false });
       if (res.data) {
         set({ user: res.data.data, isUserAuth: true });
       } else {
@@ -23,10 +21,9 @@ export const useAuthStore = create((set) => ({
       console.error(err.response?.data?.message || "Failed to fetch user");
       set({ user: null, isUserAuth: false });
     } finally {
-      set({ isLoading: false });
+      set({ isLoading: false, hasCheckedAuth: true }); // ✅ Mark auth check complete
     }
   },
-
 
   checkOwner: async () => {
     try {
@@ -41,7 +38,7 @@ export const useAuthStore = create((set) => ({
       console.error(err.response?.data?.message || "Failed to fetch owner status");
       set({ user: null, isUserAuth: false });
     } finally {
-      set({ isLoading: false, hasCheckedAuth: true }); // ✅ mark auth check complete
+      set({ isLoading: false, hasCheckedAuth: true });
     }
   },
 
@@ -55,16 +52,21 @@ export const useAuthStore = create((set) => ({
         set({ user: null, isUserAuth: false });
       }
     } catch (err) {
-      console.error(err.response?.data?.message || "Failed to fetch owner status");
+      console.error(err.response?.data?.message || "Failed to fetch admin status");
       set({ user: null, isUserAuth: false });
     } finally {
-      set({ isLoading: false, hasCheckedAuth: true }); // ✅ mark auth check complete
+      set({ isLoading: false, hasCheckedAuth: true });
     }
   },
 
   login: async (userData, role) => {
-    set({ user: userData, isUserAuth: true });
-    const endPoint = role === "theaterOwner" ? "/admin/check-owner" : "/user/check-user";
+    set({ user: userData, isUserAuth: true, hasCheckedAuth: true });
+    const endPoint =
+      role === "theaterOwner"
+        ? "/admin/check-owner"
+        : role === "admin"
+          ? "/admin/check-admin"
+          : "/user/check-user";
     try {
       const res = await axiosInstance.get(endPoint);
       if (res.data) {
@@ -72,7 +74,7 @@ export const useAuthStore = create((set) => ({
       }
     } catch (err) {
       console.error("Error fetching updated user:", err);
+      set({ user: null, isUserAuth: false, hasCheckedAuth: true });
     }
   },
-  
 }));

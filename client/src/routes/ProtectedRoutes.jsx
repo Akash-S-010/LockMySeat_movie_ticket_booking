@@ -4,21 +4,29 @@ import { useAuthStore } from "../store/useAuthStore.js";
 import { Loader } from "lucide-react";
 
 const ProtectedRoutes = () => {
-  const { isUserAuth, isLoading } = useAuthStore();
+  const { isUserAuth, isLoading, hasCheckedAuth, checkUser } = useAuthStore();
   const navigate = useNavigate();
- 
-  useEffect(() => {
-    if (!isLoading && !isUserAuth) {
-      navigate("/login"); // Redirect once the auth check is done
-    }
-  }, [isLoading, isUserAuth, navigate]);
 
-  if (isLoading) {
+  // Run auth check on mount
+  useEffect(() => {
+    if (!hasCheckedAuth && !isLoading) {
+      checkUser(); 
+    }
+  }, [hasCheckedAuth, isLoading, checkUser]);
+
+  // Redirect logic
+  useEffect(() => {
+    if (hasCheckedAuth && !isUserAuth && !isLoading) {
+      navigate("/login");
+    }
+  }, [hasCheckedAuth, isUserAuth, isLoading, navigate]);
+
+  if (isLoading || !hasCheckedAuth) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <Loader className="animate-spin size-16 text-primary" />
+        <Loader className="animate-spin size-10 text-primary" />
       </div>
-    ); 
+    );
   }
 
   return <Outlet />;
