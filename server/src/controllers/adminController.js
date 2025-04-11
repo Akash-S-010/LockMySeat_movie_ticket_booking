@@ -197,7 +197,14 @@ export const forgotPassword = async (req, res) => {
             return res.status(400).json({ message: "User not found" });
         }
 
-        const role = admin.role;
+        let role;
+
+        if (admin.role === "admin") {
+            role = "admin";
+        } else if (admin.role === "theaterOwner") {
+            role = "owner";
+        }
+        
 
         // --- Generate reset token
         const resetToken = crypto.randomBytes(32).toString("hex");
