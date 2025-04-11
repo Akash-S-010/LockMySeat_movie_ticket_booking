@@ -13,7 +13,6 @@ const AddShowModal = ({ isOpen, onClose, onShowAdded }) => {
   const [movies, setMovies] = useState([]);
   const [theaters, setTheaters] = useState([]);
 
-  // Fetch movies and approved theaters
   useEffect(() => {
     const fetchOptions = async () => {
       try {
@@ -63,8 +62,8 @@ const AddShowModal = ({ isOpen, onClose, onShowAdded }) => {
 
       if (response.status === 201) {
         toast.success("Show added successfully!");
-        onShowAdded(response.data.data);
-        onClose();
+        onShowAdded(response.data.data); // Pass the new show data
+        onClose(); 
       }
     } catch (err) {
       const errorMessage = err.response?.data?.message || "Failed to add show";
@@ -73,18 +72,11 @@ const AddShowModal = ({ isOpen, onClose, onShowAdded }) => {
     }
   };
 
-  // Handle close button click
-  const handleClose = () => {
-    onClose();
-  };
-
-  // Only render if isOpen is true
   if (!isOpen) return null;
 
   return (
     <div className="modal modal-open backdrop-blur-sm">
       <div className="modal-box">
-        {/* Modal Header */}
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-xl font-bold text-primary">ADD SHOW</h3>
         </div>
@@ -144,18 +136,13 @@ const AddShowModal = ({ isOpen, onClose, onShowAdded }) => {
               required
             />
           </div>
-
-          {/* Modal Actions (Buttons) */}
           <div className="modal-action">
             <Button
               title="Cancel"
               className="bg-black hover:bg-black"
-              onClick={() => handleClose()}
+              onClick={() => onClose()}
             />
-            <Button
-              title="Add Show"
-              type="submit"
-            />
+            <Button title="Add Show" type="submit" />
           </div>
         </form>
       </div>

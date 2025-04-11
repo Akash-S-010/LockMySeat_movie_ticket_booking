@@ -1,9 +1,7 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import MovieListComponent from "../../components/shared/MovieListComponent.jsx";
 
 const OwnerMovieList = () => {
-  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen text-base">
