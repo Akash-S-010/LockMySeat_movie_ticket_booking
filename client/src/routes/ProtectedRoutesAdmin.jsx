@@ -23,7 +23,7 @@ const ProtectedRoutesAdmin = () => {
   if (!hasCheckedAuth || isLoading) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <Loader className="animate-spin size-16 text-primary" />
+        <Loader className="animate-spin size-10 text-primary" />
       </div>
     );
   }
