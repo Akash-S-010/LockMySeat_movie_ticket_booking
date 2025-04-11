@@ -39,21 +39,17 @@ const ResetPassword = ({ role }) => {
 
   const onSubmit = async (data) => {
     setLoading(true);
-    console.log(token, email, data.newPassword);
-    console.log("Payload:", {
-      token,
-      newPassword: data.newPassword,
-    });
-    
     try {
       const response = await axiosInstance.post(user.resetAPI, {
         token,
         newPassword: data.newPassword,
       });
+      setLoading(false);
       toast.success("Password reset successful");
       setTimeout(() => navigate(user.redirectRoute), 1000); // Fixed setTimeout
     } catch (error) {
       toast.error(error.response?.data?.message || "Error resetting password");
+      setLoading(false);
     } finally {
       setLoading(false);
     }
