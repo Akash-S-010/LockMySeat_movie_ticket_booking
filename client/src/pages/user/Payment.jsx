@@ -79,10 +79,12 @@ const Payment = () => {
               }
             );
             toast.success(verificationResponse.data.message);
-            navigate("/user/bookings");
+            // Redirect to success page with booking details (absolute path)
+            navigate("/user/payment-success")
           } catch (error) {
             toast.error("Payment verification failed.");
-            setLoading(false);
+            // Redirect to failure page (absolute path)
+            navigate("/user/payment-failed");
           }
         },
         prefill: {
@@ -96,11 +98,15 @@ const Payment = () => {
       const paymentObject = new window.Razorpay(options);
       paymentObject.on("payment.failed", () => {
         toast.error("Payment failed. Please try again.");
+        // Redirect to failure page (absolute path)
+        navigate("/user/payment-failed");
         setLoading(false);
       });
       paymentObject.open();
     } catch (error) {
       toast.error(error.response?.data?.message || "Failed to initiate payment.");
+      // Redirect to failure page (absolute path)
+      navigate("/user/payment-failed");
       setLoading(false);
     }
   };
@@ -110,10 +116,10 @@ const Payment = () => {
   }
 
   // Split showTime into date and time (assuming format: "10:30 PM")
-  const [date, time] = showTime ? ["TBD", showTime] : ["TBD", "TBD"]; // Adjust based on actual format
+  const [date, time] = showTime ? ["TBD", showTime] : ["TBD", "TBD"];
 
   return (
-    <div className="min-h-screen bg-base-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-base-100 flex items-center justify-center py-12 px-4 sm:px-8 lg:px-8">
       <div className="bg-base-300 p-8 rounded-xl shadow-lg w-full max-w-lg">
         {/* Header */}
         <h1 className="text-3xl font-bold base mb-6 text-center text-primary">

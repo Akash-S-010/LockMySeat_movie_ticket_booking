@@ -33,6 +33,8 @@ import AdminProfile from "../pages/admin/AdminProfile";
 import AddMovies from "../pages/admin/AddMovies";
 import OwnerLandingPage from "../pages/owner/OwnerLandingPage";
 import AdminLandingPage from "../pages/admin/AdminLandingPage";
+import PaymentSuccess from "../pages/user/PaymentSuccess";
+import PaymentFailed from "../pages/user/PaymentFailed";
 
 export const router = createBrowserRouter([
   {
@@ -101,6 +103,14 @@ export const router = createBrowserRouter([
           {
             path: "payment/:showId",
             element: <Payment />,
+          },
+          {
+            path:"payment-success",
+            element: <PaymentSuccess/>
+          },
+          {
+            path:"payment-failed",
+            element: <PaymentFailed/>
           },
         ],
       },
