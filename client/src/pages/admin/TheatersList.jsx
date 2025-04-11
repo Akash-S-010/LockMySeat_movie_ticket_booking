@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axiosInstance from "../../config/axiosInstance.js";
 import { toast } from "react-hot-toast";
 import Swal from 'sweetalert2';
+import { TheaterManagementSkeleton } from "../../components/shared/DashboardSkeletons.jsx";
 
 const TheaterList = () => {
   const [theaters, setTheaters] = useState([]);
@@ -76,7 +77,7 @@ const TheaterList = () => {
   
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <TheaterManagementSkeleton />;
   }
 
   // Function to get badge color based on status

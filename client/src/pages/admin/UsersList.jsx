@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../../config/axiosInstance.js";
 import Swal from 'sweetalert2';
+import {UserSkeleton} from "../../components/shared/DashboardSkeletons";
 
 const UserList = () => {
   const [users, setUsers] = useState([]);
@@ -46,7 +47,7 @@ const UserList = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <UserSkeleton />;
   }
 
   // Function to get badge color based on status

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../../config/axiosInstance";
+import {TheaterSkeleton} from "../../components/shared/DashboardSkeletons";
 
 const OwnerTheaterList = () => {
   const [theaters, setTheaters] = useState([]);
@@ -12,7 +13,6 @@ const OwnerTheaterList = () => {
         const response = await axiosInstance.get("/theater/owner-theaters");
         setLoading(false);
         setTheaters(response.data.data);
-        console.log(response.data.data);
       } catch (error) {
         setLoading(false);
         console.error("Failed to fetch theaters:", error);
@@ -24,7 +24,7 @@ const OwnerTheaterList = () => {
 
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <TheaterSkeleton />;
   }
 
   // function to get badge color based on status

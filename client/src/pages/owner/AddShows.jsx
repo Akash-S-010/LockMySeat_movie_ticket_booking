@@ -4,11 +4,10 @@ import dayjs from "dayjs";
 import { Button } from "../../components/ui/Buttons";
 import AddShowModal from "../../components/owner/AddShowModal";
 import { useNavigate } from "react-router-dom";
-
+import { ShowSkeletons} from "../../components/shared/DashboardSkeletons";
 const AddShows = () => {
   const [shows, setShows] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const navigate = useNavigate();
@@ -43,16 +42,11 @@ const AddShows = () => {
       setIsModalOpen(false); // Close modal after successful refetch
     } catch (err) {
       console.error("Failed to refetch shows:", err);
-      // Optionally set error state or show a toast here if needed
     }
   };
 
   if (loading) {
-    return <div className="text-center py-10 text-gray-500">Loading...</div>;
-  }
-
-  if (error) {
-    return <div className="text-center py-10 text-red-500">{error}</div>;
+    return <ShowSkeletons />;
   }
 
   return (

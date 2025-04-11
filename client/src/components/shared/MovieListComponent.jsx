@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axiosInstance from "../../config/axiosInstance.js";
 import EditMovieModal from "../admin/EditMovieModal.jsx";
 import Swal from 'sweetalert2';
+import { MovieListSkeleton } from "./DashboardSkeletons.jsx";
 
 const MovieListComponent = ({ showActions = false }) => {
   const [movies, setMovies] = useState([]);
@@ -65,7 +66,7 @@ const MovieListComponent = ({ showActions = false }) => {
   };
 
   if (loading) {
-    return <div className="min-h-screen">Loading...</div>;
+    return <MovieListSkeleton />;
   }
 
   return (
