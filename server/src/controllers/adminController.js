@@ -183,56 +183,12 @@ export const login = async (req, res) => {
 
 // -----------Forgot Password------------
 export const forgotPassword = async (req, res) => {
+
     const { email } = req.body;
 
     try {
-        
         if (!email) {
             return res.status(400).json({ message: "Email is required" });
-        }
-
-        const admin = await Admin.findOne({ email });
-
-        if (!admin) {
-            return res.status(400).json({ message: "admin not found" });
-        }
-
-        // ---Generate reset token
-        const resetToken = crypto.randomBytes(32).toString("hex");
-
-        // --hash the token and save to database
-        const hashedToken = crypto.createHash("sha256").update(resetToken).digest("hex");
-
-        admin.resetPasswordToken = hashedToken;
-        admin.resetPasswordExpires = Date.now() + 10 * 60 * 1000; // expires in 10 min
-
-        await admin.save();
-
-        // ---create reset password url
-        const resetUrl = `https://lock-my-seat.vercel.app/reset-password/${resetToken}&email=${email}`;
-
-        // ---send email with url
-        await sendEmail(email, "reset", { resetUrl });
-
-        res.status(200).json({ message: "Password reset link sent to your email." });
-
-    } catch (error) {
-        console.error("Error in forgotPassword admin",error);
-        res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
-    }
-};
-
-
-
-
-// -----------Reset Password------------
-export const resetPassword = async (req, res) => {
-    const {email, token, newPassword} = req.body;
-
-    try {
-        
-        if (!email || !token || !newPassword) {
-            return res.status(400).json({ message: "All fields are required" });
         }
 
         const admin = await Admin.findOne({ email });
@@ -241,18 +197,67 @@ export const resetPassword = async (req, res) => {
             return res.status(400).json({ message: "User not found" });
         }
 
-        // ---check if token is valid
+        const role = admin.role;
+
+        // --- Generate reset token
+        const resetToken = crypto.randomBytes(32).toString("hex");
+
+        // --- Hash the token before saving
+        const hashedToken = crypto.createHash("sha256").update(resetToken).digest("hex");
+
+        admin.resetPasswordToken = hashedToken;
+        admin.resetPasswordExpires = Date.now() + 10 * 60 * 1000; // Expires in 10 min
+
+        await admin.save();
+
+        // --- Create reset password URL
+        const resetUrl = `https://lock-my-seat.vercel.app/${role}/reset-password/${resetToken}`;
+
+        // --- Send email with reset link
+        await sendEmail(email, "reset", { resetUrl });
+
+        res.status(200).json({ message: "Password reset link sent to your email." });
+
+    } catch (error) {
+        console.error("Error in forgotPassword", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
+
+
+
+
+// -----------Reset Password------------
+export const resetPassword = async (req, res) => {
+    const { token, newPassword } = req.body;
+
+    try {
+        if (!token) {
+            return res.status(400).json({ message: "Token required" });
+        }
+
+        if (!newPassword) {
+            return res.status(400).json({ message: "New password required" });
+        }
+
+        // --- Hash the received token
         const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
 
-        if (admin.resetPasswordToken !== hashedToken || admin.resetPasswordExpires < Date.now()) {
+        // --- Find the user with the token & check if it's expired
+        const admin = await Admin.findOne({
+            resetPasswordToken: hashedToken,
+            resetPasswordExpires: { $gt: Date.now() },
+        });
+
+        if (!admin) {
             return res.status(400).json({ message: "Invalid or expired token" });
         }
 
-        // ---hash the new password
+        // --- Hash the new password before saving
         const salt = await bcrypt.genSalt(10);
-        const hashedNewPassword = await bcrypt.hash(newPassword, salt);
+        admin.password = await bcrypt.hash(newPassword, salt);
 
-        admin.password = hashedNewPassword;
+        // --- Remove reset token from DB
         admin.resetPasswordToken = null;
         admin.resetPasswordExpires = null;
 
@@ -261,8 +266,8 @@ export const resetPassword = async (req, res) => {
         res.status(200).json({ message: "Password reset successful" });
 
     } catch (error) {
-        console.error("Error in resetPassword",error);
-        res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
+        console.error("Error in resetPassword", error);
+        res.status(500).json({ message: "Internal server error" });
     }
 };
 
