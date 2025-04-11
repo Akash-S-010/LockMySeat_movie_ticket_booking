@@ -58,7 +58,7 @@ const UserList = () => {
     <div className="min-h-screen text-base py-4">
       <div className="bg-base-300 p-6 rounded-lg shadow-lg">
         <div className="flex justify-between items-center mb-4">
-          <h1 className="text-2xl font-semibold">Users Management</h1>
+          <h1 className="text-2xl font-semibold">User Management</h1>
         </div>
         <div className="overflow-x-auto">
           <table className="table w-full">
