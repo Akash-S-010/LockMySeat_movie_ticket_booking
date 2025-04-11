@@ -46,7 +46,7 @@ const ResetPassword = ({ role }) => {
       });
       setLoading(false);
       toast.success("Password reset successful");
-      setTimeout(() => navigate(user.redirectRoute), 1000); // Fixed setTimeout
+      navigate(user.redirectRoute) 
     } catch (error) {
       toast.error(error.response?.data?.message || "Error resetting password");
       setLoading(false);
