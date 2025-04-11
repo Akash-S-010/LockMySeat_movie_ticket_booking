@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Lock, Eye, EyeOff } from "lucide-react";
-import {SubmitBtn} from "../../components/ui/Buttons";
-import { useNavigate, useParams } from "react-router-dom";
+import { SubmitBtn } from "../../components/ui/Buttons";
+import { useNavigate, useParams} from "react-router-dom";
 import axiosInstance from "../../config/axiosInstance.js";
 import toast from "react-hot-toast";
 
-const ResetPassword = ({role}) => {
+const ResetPassword = ({ role }) => {
   const navigate = useNavigate();
   const { token } = useParams();
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false); // Loader state
+  const [loading, setLoading] = useState(false);
 
   const {
     register,
@@ -18,44 +18,53 @@ const ResetPassword = ({role}) => {
     formState: { errors },
   } = useForm();
 
+  // Define user object based on role
   const user = {
     role: "user",
-    loginAPI: "user/reset-password",
+    resetAPI: "user/reset-password",
     redirectRoute: "/login",
-};
+  };
 
-if (role == "theaterOwner") {
+  if (role === "theaterOwner") {
     user.role = "theaterOwner";
-    user.loginAPI = "admin/reset-password";
+    user.resetAPI = "admin/reset-password";
     user.redirectRoute = "/owner/login";
-}
+  }
 
-if (role == "admin") {
-  user.role = "admin";
-  user.loginAPI = "admin/reset-password";
-  user.redirectRoute = "/admin/login";
-}
+  if (role === "admin") {
+    user.role = "admin";
+    user.resetAPI = "admin/reset-password";
+    user.redirectRoute = "/admin/login";
+  }
 
   const onSubmit = async (data) => {
-    setLoading(true); // Show loader
+    setLoading(true);
+    console.log(token, email, data.newPassword);
+    console.log("Payload:", {
+      token,
+      newPassword: data.newPassword,
+    });
+    
     try {
-      const response = await axiosInstance.post(user.loginAPI, {
+      const response = await axiosInstance.post(user.resetAPI, {
         token,
         newPassword: data.newPassword,
       });
       toast.success("Password reset successful");
-      setTimeout(() => navigate(user.redirectRoute),setLoading(true), 1000);
+      setTimeout(() => navigate(user.redirectRoute), 1000); // Fixed setTimeout
     } catch (error) {
       toast.error(error.response?.data?.message || "Error resetting password");
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-base-100">
       <div className="bg-base-300 p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h2 className="text-2xl font-bold text-center mb-6 text-primary">Reset Password</h2>
+        <h2 className="text-2xl font-bold text-center mb-6 text-primary">
+          Reset Password
+        </h2>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           {/* New Password Field */}
           <div>
@@ -70,7 +79,10 @@ if (role == "admin") {
                 }`}
                 {...register("newPassword", {
                   required: "Password is required",
-                  minLength: { value: 6, message: "Must be at least 6 characters" },
+                  minLength: {
+                    value: 6,
+                    message: "Must be at least 6 characters",
+                  },
                 })}
               />
               <button
@@ -78,13 +90,25 @@ if (role == "admin") {
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-1/2 transform -translate-y-1/2"
               >
-                {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                {showPassword ? (
+                  <EyeOff className="w-5 h-5" />
+                ) : (
+                  <Eye className="w-5 h-5" />
+                )}
               </button>
             </div>
-            {errors.newPassword && <p className="text-red-500 text-sm">{errors.newPassword.message}</p>}
+            {errors.newPassword && (
+              <p className="text-red-500 text-sm">
+                {errors.newPassword.message}
+              </p>
+            )}
           </div>
 
-          <SubmitBtn title="Reset Password" loading={loading} disabled={loading} />
+          <SubmitBtn
+            title="Reset Password"
+            loading={loading}
+            disabled={loading}
+          />
         </form>
       </div>
     </div>
