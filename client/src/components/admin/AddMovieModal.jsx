@@ -14,6 +14,18 @@ const AddMovieModal = ({ isOpen, onClose, onMovieAdded }) => {
   const [bannerImg, setBannerImg] = useState("");
   const [verticalImg, setVerticalImg] = useState("");
 
+  const resetForm = () => {
+    setTitle("");
+    setDuration("");
+    setGenre("");
+    setPlot("");
+    setCast("");
+    setReleaseDate("");
+    setLanguage("");
+    setBannerImg("");
+    setVerticalImg("");
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -32,10 +44,13 @@ const AddMovieModal = ({ isOpen, onClose, onMovieAdded }) => {
     try {
       const response = await axiosInstance.post("/movie/add-movie", movieData);
 
-      if (response.status === 200) {
+      if (response.status === 200 || response.status === 201) {
         toast.success("Movie added successfully!");
         onMovieAdded(response.data.data);
+        resetForm();
         onClose();
+      } else {
+        throw new Error("Unexpected response status");
       }
     } catch (err) {
       const errorMessage = err.response?.data?.message || "Failed to add movie";
@@ -44,16 +59,11 @@ const AddMovieModal = ({ isOpen, onClose, onMovieAdded }) => {
     }
   };
 
-  const handleClose = () => {
-    onClose();
-  };
-
   if (!isOpen) return null;
 
   return (
     <div className="modal modal-open backdrop-blur-sm">
       <div className="modal-box max-h-[90vh] overflow-y-auto my-6">
-        {/* Modal Header */}
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-xl font-bold text-primary">ADD MOVIE</h3>
         </div>
@@ -69,9 +79,7 @@ const AddMovieModal = ({ isOpen, onClose, onMovieAdded }) => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-2">
-              Duration (3h)
-            </label>
+            <label className="block text-sm font-medium mb-2">Duration (3h)</label>
             <input
               type="text"
               value={duration}
@@ -81,9 +89,7 @@ const AddMovieModal = ({ isOpen, onClose, onMovieAdded }) => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-2">
-              Genre (comma-separated)
-            </label>
+            <label className="block text-sm font-medium mb-2">Genre (comma-separated)</label>
             <input
               type="text"
               value={genre}
@@ -113,9 +119,7 @@ const AddMovieModal = ({ isOpen, onClose, onMovieAdded }) => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-2">
-              Release Date
-            </label>
+            <label className="block text-sm font-medium mb-2">Release Date</label>
             <input
               type="date"
               value={releaseDate}
@@ -135,9 +139,7 @@ const AddMovieModal = ({ isOpen, onClose, onMovieAdded }) => {
             />
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-2">
-              Banner Image URL
-            </label>
+            <label className="block text-sm font-medium mb-2">Banner Image URL</label>
             <input
               type="url"
               value={bannerImg}
@@ -147,9 +149,7 @@ const AddMovieModal = ({ isOpen, onClose, onMovieAdded }) => {
             />
           </div>
           <div className="mb-6">
-            <label className="block text-sm font-medium mb-2">
-              Vertical Image URL
-            </label>
+            <label className="block text-sm font-medium mb-2">Vertical Image URL</label>
             <input
               type="url"
               value={verticalImg}
@@ -158,13 +158,11 @@ const AddMovieModal = ({ isOpen, onClose, onMovieAdded }) => {
               required
             />
           </div>
-
-          {/* Modal Actions (Buttons) */}
           <div className="modal-action">
             <Button
               title="Cancel"
               className="bg-black hover:bg-black"
-              onClick={handleClose}
+              onClick={onClose}
             />
             <Button title="Add Movie" type="submit" />
           </div>

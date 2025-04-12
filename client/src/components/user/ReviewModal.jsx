@@ -86,7 +86,7 @@ const ReviewModal = ({ isOpen, onClose, movieId, movieName }) => {
           <div className="modal-action">
             <Button
               title="Cancel"
-              className="btn btn-neutral"
+              className="btn bg-black text-white"
               onClick={onClose}
             />
             <SubmitBtn

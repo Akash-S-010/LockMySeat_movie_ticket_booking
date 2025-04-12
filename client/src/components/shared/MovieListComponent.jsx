@@ -1,25 +1,26 @@
 import React, { useEffect, useState } from "react";
 import axiosInstance from "../../config/axiosInstance.js";
 import EditMovieModal from "../admin/EditMovieModal.jsx";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 import { MovieListSkeleton } from "./DashboardSkeletons.jsx";
 
-const MovieListComponent = ({ showActions = false }) => {
+const MovieListComponent = ({ showActions = false, refreshKey }) => {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedMovie, setSelectedMovie] = useState(null);
 
   useEffect(() => {
     fetchMovies();
-  }, []);
+  }, [refreshKey]); // Re-fetch when refreshKey changes
 
   const fetchMovies = async () => {
     try {
+      setLoading(true);
       const response = await axiosInstance.get("/movie/movies");
-      setMovies(response.data.data);
-      setLoading(false);
+      setMovies(response.data.data || []);
     } catch (error) {
       console.error("Failed to fetch movies:", error);
+    } finally {
       setLoading(false);
     }
   };
@@ -41,6 +42,7 @@ const MovieListComponent = ({ showActions = false }) => {
           Swal.fire("Deleted!", "Movie deleted successfully", "success");
         } catch (error) {
           console.error("Failed to delete movie:", error);
+          Swal.fire("Error!", "Failed to delete movie", "error");
         }
       }
     });
@@ -59,9 +61,10 @@ const MovieListComponent = ({ showActions = false }) => {
         )
       );
       setSelectedMovie(null);
-      Swal.fire("Updated!", "Movie Updated successfully", "success");
+      Swal.fire("Updated!", "Movie updated successfully", "success");
     } catch (error) {
       console.error("Failed to update movie:", error);
+      Swal.fire("Error!", "Failed to update movie", "error");
     }
   };
 
@@ -85,38 +88,46 @@ const MovieListComponent = ({ showActions = false }) => {
             </tr>
           </thead>
           <tbody>
-            {movies.map((movie) => (
-              <tr key={movie._id} className="hover:bg-base-100">
-                <td>
-                  <div className="avatar">
-                    <div className="w-14 rounded-md">
-                      <img src={movie.verticalImg} alt={movie.title} />
-                    </div>
-                  </div>
+            {movies.length === 0 ? (
+              <tr>
+                <td colSpan={showActions ? 7 : 6} className="text-center py-4">
+                  No movies found.
                 </td>
-                <td>{movie.title}</td>
-                <td>{movie.genre.join(", ")}</td>
-                <td>{movie.releaseDate}</td>
-                <td>{movie.language.join(", ")}</td>
-                <td>{movie.duration}</td>
-                {showActions && (
-                  <td>
-                    <button
-                      className="btn btn-sm btn-warning mr-2"
-                      onClick={() => setSelectedMovie(movie)}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className="btn btn-sm bg-red-500 text-white hover:bg-red-600"
-                      onClick={() => handleDelete(movie)}
-                    >
-                      Delete
-                    </button>
-                  </td>
-                )}
               </tr>
-            ))}
+            ) : (
+              movies.map((movie) => (
+                <tr key={movie._id} className="hover:bg-base-100">
+                  <td>
+                    <div className="avatar">
+                      <div className="w-14 rounded-md">
+                        <img src={movie.verticalImg} alt={movie.title} />
+                      </div>
+                    </div>
+                  </td>
+                  <td>{movie.title}</td>
+                  <td>{movie.genre.join(", ")}</td>
+                  <td>{movie.releaseDate}</td>
+                  <td>{movie.language.join(", ")}</td>
+                  <td>{movie.duration}</td>
+                  {showActions && (
+                    <td>
+                      <button
+                        className="btn btn-sm btn-warning mr-2 w-16"
+                        onClick={() => setSelectedMovie(movie)}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="btn btn-sm bg-red-500 text-white hover:bg-red-600 w-16"
+                        onClick={() => handleDelete(movie)}
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  )}
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>

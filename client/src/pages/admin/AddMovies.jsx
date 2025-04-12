@@ -5,9 +5,11 @@ import AddMovieModal from "../../components/admin/AddMovieModal";
 
 const AddMovies = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0); // Used to trigger MovieListComponent refresh
 
-  const handleMovieAdded = (newMovie) => {
-    setMovies((prevMovies) => [...prevMovies, newMovie]);
+  const handleMovieAdded = () => {
+    setRefreshKey((prev) => prev + 1); // Increment to trigger useEffect in MovieListComponent
+    setIsModalOpen(false);
   };
 
   return (
@@ -20,7 +22,7 @@ const AddMovies = () => {
             onClick={() => setIsModalOpen(true)}
           />
         </div>
-        <MovieListComponent showActions={true}/>
+        <MovieListComponent showActions={true} refreshKey={refreshKey} />
       </div>
       <AddMovieModal
         isOpen={isModalOpen}
