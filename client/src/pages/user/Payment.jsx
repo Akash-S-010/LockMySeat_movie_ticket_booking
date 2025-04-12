@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import axiosInstance from "../../config/axiosInstance.js";
-import { Loader2 } from "lucide-react";
 import { Button } from "../../components/ui/Buttons";
 import toast from "react-hot-toast";
 
