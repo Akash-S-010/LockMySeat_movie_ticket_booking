@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import Lottie from "lottie-react";
 import { motion } from "framer-motion";
-import failureAnimation from "../../assets/Animation - 1744389355088.json";
+import failureAnimation from "../../assets/animation/Animation - 1744389355088.json";
 import { Button } from "../../components/ui/Buttons"; 
 
 const PaymentFailed = () => {
