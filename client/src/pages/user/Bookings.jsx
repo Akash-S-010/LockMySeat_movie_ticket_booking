@@ -1,4 +1,3 @@
-// Bookings.jsx
 import { useEffect, useState } from "react";
 import axiosInstance from "../../config/axiosInstance";
 import BookingSkeleton from "../../components/ui/BookingSkeletons";
@@ -42,40 +41,40 @@ const Bookings = () => {
   if (loading) return <BookingSkeleton />;
   if (error)
     return (
-      <p className="text-center text-red-500 text-lg font-medium mt-10">
+      <p className="text-center text-red-500 text-lg font-medium mt-6 sm:mt-10">
         {error}
       </p>
     );
   if (bookings.length === 0)
     return (
-      <p className="text-center text-gray-500 text-lg font-medium mt-10">
+      <p className="text-center text-gray-500 text-lg font-medium mt-6 sm:mt-10">
         No bookings found.
       </p>
     );
 
   return (
-    <div className="min-h-screen bg-base-100 text-base p-10">
+    <div className="min-h-screen bg-base-100 text-base p-4 sm:p-10">
       <div className="max-w-4xl mx-auto">
-        <h2 className="text-3xl font-bold mb-10 text-center tracking-wide">
+        <h2 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-10 text-center tracking-wide">
           Booking History
         </h2>
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4">
           {bookings.map((booking) => (
             <div
               key={booking.bookingId}
-              className="flex items-center gap-5 p-4 bg-base-300 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300"
+              className="flex flex-col sm:flex-row items-center gap-3 sm:gap-5 p-3 sm:p-4 bg-base-300 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300"
             >
               <img
                 src={booking.moviePoster}
                 alt={booking.movieName}
-                className="w-24 h-34 object-cover rounded-lg shadow-md"
+                className="w-20 h-28 sm:w-24 sm:h-34 object-cover rounded-lg shadow-md"
               />
-              <div className="flex-1 flex justify-between items-start">
+              <div className="flex-1 flex flex-col sm:flex-row justify-between items-start w-full">
                 <div className="flex-1">
-                  <h3 className="text-xl font-semibold text-primary mb-1">
+                  <h3 className="text-lg sm:text-xl font-semibold text-primary mb-1">
                     {booking.movieName}
                   </h3>
-                  <div className="text-sm text-gray-400 space-y-0.5">
+                  <div className="text-xs sm:text-sm text-gray-400 space-y-0.5">
                     <p>
                       <span className="font-medium text-gray-300">
                         Booking ID:
@@ -108,10 +107,11 @@ const Bookings = () => {
                     </p>
                   </div>
                 </div>
-                <div className="my-auto">
+                <div className="mt-2 sm:mt-0">
                   <Button
                     title="Add Review"
                     onClick={() => handleAddReview(booking)}
+                    className="w-full sm:w-auto"
                   />
                 </div>
               </div>

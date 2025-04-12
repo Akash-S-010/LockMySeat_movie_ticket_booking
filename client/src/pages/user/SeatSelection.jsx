@@ -17,11 +17,10 @@ const SeatSelection = () => {
   const [theaterName, setTheaterName] = useState("");
   const [theaterLocation, setTheaterLocation] = useState("");
   const [showTime, setShowTime] = useState("");
-  const [seatLayout, setSeatLayout] = useState({ rows: 0, columns: 0 }); // Dynamic seat layout
+  const [seatLayout, setSeatLayout] = useState({ rows: 0, columns: 0 });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch seats and show details
   useEffect(() => {
     const fetchSeats = async () => {
       try {
@@ -47,40 +46,31 @@ const SeatSelection = () => {
     fetchSeats();
   }, [showId]);
 
-  // Handle seat selection
   const handleSeatClick = (seat) => {
-    if (seat.isBooked) return; // Can't select booked seats
+    if (seat.isBooked) return;
 
-    setSelectedSeats((prev) => {
-      if (prev.includes(seat.id)) {
-        return prev.filter((s) => s !== seat.id); // Deselect seat
-      } else {
-        return [...prev, seat.id]; // Select seat
-      }
-    });
+    setSelectedSeats((prev) =>
+      prev.includes(seat.id) ? prev.filter((s) => s !== seat.id) : [...prev, seat.id]
+    );
   };
 
-  // Calculate total price
   const totalPrice = selectedSeats.length * ticketPrice;
 
-  // Handle payment
   const handlePayment = async () => {
     if (selectedSeats.length === 0) {
       toast.error("Please select at least one seat.");
       return;
     }
-  
+
     try {
-      // Call the createBooking API
       const response = await axiosInstance.post("/booking/create", {
         showId,
         selectedSeats,
         totalPrice,
       });
-  
+
       const { bookingId } = response.data;
-  
-      // Navigate to the payment page with booking details
+
       navigate(`/user/payment/${showId}`, {
         state: { selectedSeats, totalPrice, bookingId, movieTitle, theaterName, theaterLocation, showTime, poster },
       });
@@ -89,15 +79,14 @@ const SeatSelection = () => {
     }
   };
 
-  // Generate seat grid dynamically based on seatLayout
   const rows = Array.from({ length: seatLayout.rows }, (_, i) =>
     String.fromCharCode(65 + i)
-  ); // A, B, C, ..., based on rows
-  const columns = Array.from({ length: seatLayout.columns }, (_, i) => i + 1); // 1, 2, 3, ..., based on columns
+  );
+  const columns = Array.from({ length: seatLayout.columns }, (_, i) => i + 1);
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-base-100 flex flex-col items-center justify-center py-10 px-6 sm:px-6 md:px-10 lg:px-20">
+      <div className="min-h-screen bg-base-100 flex flex-col items-center justify-center py-10 px-6">
         <Loader2 size={40} className="animate-spin text-primary mb-4" />
         <p className="text-lg text-gray-400">Loading seats...</p>
       </div>
@@ -114,96 +103,91 @@ const SeatSelection = () => {
   }
 
   return (
-    <div className="min-h-screen bg-base-100 flex flex-col items-center py-12 px-6 sm:px-6 md:px-10 lg:px-20">
+    <div className="min-h-screen bg-base-100 flex flex-col items-center py-12 px-5 sm:px-6 md:px-10 lg:px-20">
       {/* Movie and Show Details */}
-      <div className="flex justify-between items-center mb-6 w-full">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 w-full gap-4">
         <div>
-          {/* Movie Title */}
-          <h1 className="text-3xl font-bold base mb-2">{movieTitle}</h1>
-          <p className="text-sm text-gray-400 mb-6">
+          <h1 className="text-2xl sm:text-3xl font-bold mb-2">{movieTitle}</h1>
+          <p className="text-sm sm:text-base text-gray-400 mb-6">
             {theaterName}, {theaterLocation}, {showTime}
           </p>
         </div>
 
-        {/* Ticket Price */}
         <div>
-          <h1 className="text-3xl font-bold base">Ticket Price</h1>
+          <h1 className="text-xl sm:text-2xl font-bold">Ticket Price</h1>
           <p className="text-md font-bold text-primary mb-6 text-center">
             {ticketPrice > 0 ? `₹ ${ticketPrice}` : "Free"}
           </p>
         </div>
 
-        {/* Seat Status Legend */}
-        <div className="flex gap-4 mb-6">
+        <div className="flex flex-wrap gap-4 mb-6">
           <div className="flex items-center gap-2">
             <div className="w-5 h-5 bg-gray-300 rounded"></div>
-            <span className="text-base">Available</span>
+            <span className="text-sm sm:text-base">Available</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-5 h-5 bg-black rounded"></div>
-            <span className="text-base">Booked</span>
+            <span className="text-sm sm:text-base">Booked</span>
           </div>
         </div>
       </div>
 
       {/* Seat Grid */}
-      <div
-        className="grid gap-2 mb-6 "
-        style={{
-          gridTemplateColumns: `repeat(${seatLayout.columns}, minmax(0, 1fr))`,
-        }}
-      >
-        {rows.map((row) =>
-          columns.map((col) => {
-            const seatId = `${row}${col}`;
-            const seat = seats.find((s) => s.id === seatId) || {
-              id: seatId,
-              isBooked: false,
-            };
-            const isSelected = selectedSeats.includes(seatId);
-            return (
-              <button
-                key={seatId}
-                onClick={() => handleSeatClick(seat)}
-                className={`w-10 h-10 rounded text-sm font-semibold transition-colors cursor-pointer ${
-                  seat.isBooked
-                    ? "bg-black text-white cursor-not-allowed"
-                    : isSelected
-                    ? "bg-primary text-white"
-                    : "bg-gray-300 text-gray-700 hover:bg-primary hover:text-white"
-                }`}
-              >
-                {seatId}
-              </button>
-            );
-          })
-        )}
+      <div className="overflow-x-auto w-full">
+        <div
+          className="grid gap-2 mb-6 mx-auto"
+          style={{
+            gridTemplateColumns: `repeat(${seatLayout.columns}, minmax(2.5rem, 1fr))`,
+          }}
+        >
+          {rows.map((row) =>
+            columns.map((col) => {
+              const seatId = `${row}${col}`;
+              const seat = seats.find((s) => s.id === seatId) || {
+                id: seatId,
+                isBooked: false,
+              };
+              const isSelected = selectedSeats.includes(seatId);
+              return (
+                <button
+                  key={seatId}
+                  onClick={() => handleSeatClick(seat)}
+                  className={`w-8 h-8 sm:w-10 sm:h-10 rounded text-xs sm:text-sm font-semibold transition-colors cursor-pointer ${
+                    seat.isBooked
+                      ? "bg-black text-white cursor-not-allowed"
+                      : isSelected
+                      ? "bg-primary text-white"
+                      : "bg-gray-300 text-gray-700 hover:bg-primary hover:text-white"
+                  }`}
+                >
+                  {seatId}
+                </button>
+              );
+            })
+          )}
+        </div>
       </div>
 
-      {/* Screen Indicator */}
+      {/* Screen Image */}
       <img
         src="https://www.libertycinemas.in/assets/img/ss.svg"
         alt="screen"
-        className="mt-4"
+        className="mt-4 w-full max-w-xs sm:max-w-md"
       />
 
-      {/* Total and Payment */}
-      <div className="flex items-center gap-6 justify-between w-1/2 mt-10 bg-base-200 p-6 rounded-lg">
+      {/* Total and Payment Section */}
+      <div className="flex flex-col md:flex-row items-start md:items-center gap-6 justify-between w-full md:w-1/2 mt-10 bg-base-200 p-6 rounded-lg">
         <div>
-          <p className="text-lg font-semibold text-primary mb-3">TOTAL</p>
-          <p className="text-2xl font-bold base">
-            ₹ <span className="base">{totalPrice}</span>
-          </p>
+          <p className="text-lg font-semibold text-primary mb-2">TOTAL</p>
+          <p className="text-2xl font-bold">₹ {totalPrice}</p>
         </div>
         <div>
-          <p className="text-lg font-semibold text-primary mb-3">SEATS</p>
-          <p className="text-lg base font-bold">
-            {selectedSeats.join(", ") || "None"}
-          </p>
+          <p className="text-lg font-semibold text-primary mb-2">SEATS</p>
+          <p className="text-base font-bold">{selectedSeats.join(", ") || "None"}</p>
         </div>
         <Button
           title={`Pay ₹ ${totalPrice}`}
-          className="w-34"
+          className="w-full md:w-auto"
           onClick={handlePayment}
         />
       </div>
