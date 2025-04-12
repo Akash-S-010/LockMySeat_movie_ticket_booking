@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Lottie from "lottie-react";
 import { motion } from "framer-motion";
-import successAnimation from "../../assets/animations/Animation - 1744434301480.json";
+import successAnimation from "../../assets/animationFiles/Animation - 1744434301480.json";
 import { Button } from "../../components/ui/Buttons";
 
 const PaymentSuccess = () => {
