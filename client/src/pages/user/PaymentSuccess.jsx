@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import Lottie from "lottie-react";
 import { motion } from "framer-motion";
 import successAnimation from "../../assets/animationFiles/Animation - 1744434301480.json";
-import { Button } from "../../components/ui/Buttons";
 
 const PaymentSuccess = () => {
   const navigate = useNavigate();
@@ -92,18 +91,18 @@ const PaymentSuccess = () => {
           variants={textVariants}
           className="text-base text-gray-500 mb-4"
         >
-          You will be redirected to your bookings in {seconds} second{seconds !== 1 ? "s" : ""}...
+          You will be redirected in {seconds} second{seconds !== 1 ? "s" : ""}...
         </motion.p>
 
         {/* Action Button */}
         <motion.div variants={textVariants} className="mt-6 w-full">
-          <Button
+          <button
             title="View Your Bookings"
             onClick={() => navigate("/user/bookings")}
-            className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded-lg transition-colors duration-300"
+            className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 hover:scale-102 rounded-lg transition duration-300"
           >
             View Your Bookings
-          </Button>
+          </button>
         </motion.div>
 
         {/* Footer Message */}
