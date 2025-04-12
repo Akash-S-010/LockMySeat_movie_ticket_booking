@@ -188,15 +188,9 @@ const Payment = () => {
           title={`Proceed to Pay ₹ ${totalPrice}`}
           onClick={handlePayment}
           loading={loading}
+          disabled={loading}
           className="w-full"
         />
-
-        {/* Loading State */}
-        {loading && (
-          <div className="flex justify-center mt-4">
-            <Loader2 size={24} className="animate-spin text-pink-500" />
-          </div>
-        )}
       </div>
     </div>
   );
