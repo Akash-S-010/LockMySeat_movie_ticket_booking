@@ -1,12 +1,37 @@
-import React from "react";
-import {useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Lottie from "lottie-react";
 import { motion } from "framer-motion";
-import successAnimation from "../../assets/Animation - 1744388630721.json";
-import { Button } from "../../components/ui/Buttons"; 
+import successAnimation from "../../assets/Animation - 1744434301480.json";
+import { Button } from "../../components/ui/Buttons";
 
 const PaymentSuccess = () => {
   const navigate = useNavigate();
+  const [seconds, setSeconds] = useState(4); // Initial countdown value (matches 4000ms timeout)
+
+  useEffect(() => {
+    // Set up the redirect timeout
+    const timeout = setTimeout(() => {
+      navigate("/user/bookings");
+    }, 5000);
+
+    // Update countdown every second
+    const interval = setInterval(() => {
+      setSeconds((prev) => {
+        if (prev <= 1) {
+          clearInterval(interval); // Stop interval when countdown reaches 0
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    // Cleanup timeout and interval on component unmount
+    return () => {
+      clearTimeout(timeout);
+      clearInterval(interval);
+    };
+  }, [navigate]);
 
   // Animation variants
   const containerVariants = {
@@ -62,6 +87,13 @@ const PaymentSuccess = () => {
           Congratulations! Your booking is confirmed. Enjoy your movie!
         </motion.p>
 
+        {/* Timer Message */}
+        <motion.p
+          variants={textVariants}
+          className="text-base text-gray-500 mb-4"
+        >
+          You will be redirected to your bookings in {seconds} second{seconds !== 1 ? "s" : ""}...
+        </motion.p>
 
         {/* Action Button */}
         <motion.div variants={textVariants} className="mt-6 w-full">
