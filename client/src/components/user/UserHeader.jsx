@@ -8,7 +8,7 @@ import { useAuthStore } from "../../store/useAuthStore";
 const UserHeader = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { checkUser, isUserAuth, isLoading } = useAuthStore();
+  const { checkUser, isUserAuth, hasCheckedAuth } = useAuthStore();
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -79,7 +79,9 @@ const UserHeader = () => {
       </div>
 
       <div className="navbar-end flex items-center space-x-4">
-        {isLoading ? <Button title="Login" onClick={() => navigate("/login")} /> : isUserAuth ? (
+        {!hasCheckedAuth ? (
+          <div className="w-10 h-10 rounded-full bg-base-200 animate-pulse"></div>
+        ) : isUserAuth ? (
           <AvatarDropdown />
         ) : (
           <Button title="Login" onClick={() => navigate("/login")} />

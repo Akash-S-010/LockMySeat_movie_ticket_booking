@@ -13,15 +13,15 @@ export const useAuthStore = create((set) => ({
       set({ isLoading: true });
       const res = await axiosInstance.get("user/check-user");
       if (res.data) {
-        set({ user: res.data.data, isUserAuth: true });
+        set({ user: res.data.data, isUserAuth: true, isLoading:false });
       } else {
-        set({ user: null, isUserAuth: false });
+        set({ user: null, isUserAuth: false, isLoading:false });
       }
     } catch (err) {
       console.error(err.response?.data?.message || "Failed to fetch user");
       set({ user: null, isUserAuth: false });
     } finally {
-      set({ isLoading: false, hasCheckedAuth: true }); // ✅ Mark auth check complete
+      set({ isLoading: false, hasCheckedAuth: true });
     }
   },
 
