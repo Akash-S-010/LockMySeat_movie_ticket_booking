@@ -5,7 +5,6 @@ import Payment from "../models/paymentModel.js";
 
 export const theaterOwnerRevenue = async (req, res) => {
     const ownerId = req.user.userId;
-    console.log(ownerId);
 
     try {
 
