@@ -6,6 +6,7 @@ import theaterRoutes from "./theaterRoutes.js"
 import showRoutes from "./showRoutes.js"
 import bookingRoutes from "./bookingRoutes.js"
 import paymentRoutes from "./paymentRoutes.js"
+import revenueRoutes from "./revenueRoutes.js"
 const router = express.Router();
 
 // ---User routes----
@@ -28,6 +29,9 @@ router.use('/booking',bookingRoutes);
 
 // ---Payment routes----
 router.use('/payment',paymentRoutes);
+
+// ---Revenue routes----
+router.use('/revenue',revenueRoutes);
 
 
 
