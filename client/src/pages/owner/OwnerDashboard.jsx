@@ -8,6 +8,7 @@ const OwnerDashboard = () => {
   const [totalMovies, setTotalMovies] = useState("");
   const [totalShows, setTotalShows] = useState("");
   const [totalTheaters, setTotalTheaters] = useState("");
+  const [revenue, setRevenue] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -18,6 +19,7 @@ const OwnerDashboard = () => {
         setTotalMovies(response.data.data);
       } catch (err) {
         console.error("Failed to fetch movies:", err);
+        setLoading(false);
       }
     };
   
@@ -28,6 +30,7 @@ const OwnerDashboard = () => {
         setTotalShows(response.data.data);
       } catch (err) {
         console.error("Failed to fetch shows:", err);
+        setLoading(false);
       }
     };
 
@@ -38,18 +41,31 @@ const OwnerDashboard = () => {
         setTotalTheaters(response.data.data);
       } catch (err) {
         console.error("Failed to fetch theaters:", err);
+        setLoading(false);
       }
     };
+
+    const fetchRevenue = async () => {
+      try {
+        const response = await axiosInstance.get("/revenue/theaterOwner-revenue");
+        setLoading(false);
+        setRevenue(response.data.revenue);
+      } catch (error) {
+        console.error("Failed to fetch revenue:", error);
+        setLoading(false);
+      }
+    }
   
     fetchTotalMovies();
     fetchShows();
     fetchTheaters();
+    fetchRevenue();
   }, []);
   
 
   // Render loading state or content
   if (loading) {
-    return <div className="flex justify-center items-center h-screen">Loading...</div>; // Replace with your loader component
+    return <div className="flex justify-center items-center h-screen">Loading...</div>;
   }
 
   return (
@@ -74,6 +90,12 @@ const OwnerDashboard = () => {
             <h2 className="text-xl font-bold">My Theaters</h2>
             <p className="text-4xl font-extrabold my-2">{totalTheaters || 0}</p>
             <Button title="View Theaters" onClick={() => navigate("/owner/theater-list")} className="w-32 mx-auto"/>
+          </div>
+        </div>
+        <div className="card bg-base-300 shadow-xl">
+          <div className="card-body text-center">
+            <h2 className="text-xl font-bold">Total Revenue</h2>
+            <p className="text-4xl font-extrabold my-2 text-green-500">₹ {revenue || 0}</p>
           </div>
         </div>
       </div>
