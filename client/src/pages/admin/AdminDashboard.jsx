@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import axiosInstance from "../../config/axiosInstance.js";
 import {Button} from "../../components/ui/Buttons";
 import { useNavigate } from "react-router-dom";
+import RevenueChart from "../../components/shared/RevenueChart.jsx";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const [totalTheaters, setTotalTheaters] = useState(0);
   const [totalUsers, setTotalUsers] = useState(0);
   const [totalMovies, setTotalMovies] = useState(0);
-  const [revenue, setRevenue] = useState(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -42,21 +42,10 @@ const AdminDashboard = () => {
         console.error("Failed to fetch movies:", err);
       }
     }
-
-    const fetchRevenue = async () => {
-      try {
-        const response = await axiosInstance.get("/revenue/admin-revenue");
-        setLoading(false);
-        setRevenue(response.data.revenue);
-      } catch (error) {
-        console.error("Failed to fetch revenue:", error);
-      }
-    }
   
     fetchTheaters();
     fetchTotalUsers();
     fetchTotalMovies();
-    fetchRevenue();
   }, []);
   
 
@@ -89,13 +78,8 @@ const AdminDashboard = () => {
             <Button title="View Users" onClick={() => navigate("/admin/movies")} className="w-30 mx-auto"/>
           </div>
         </div>
-        <div className="card bg-base-300 shadow-xl">
-          <div className="card-body text-center">
-            <h2 className="text-xl font-bold">Total Revenue</h2>
-            <p className="text-4xl font-extrabold my-2 text-green-500">₹ {revenue || 0}</p>
-          </div>
-        </div>
       </div>
+      <RevenueChart role="admin" />
     </div>
   );
 };
