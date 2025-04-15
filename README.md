@@ -148,7 +148,7 @@ Got questions or feedback? Reach out:
 ---
 
 ## 🙌 Acknowledgments
-- Inspired by BookMyShow and the cinema booking industry.
+- Inspired by BookMyShow and Film industry.
 
 ---
 
