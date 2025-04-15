@@ -1,4 +1,4 @@
-# 🎬 LockMySeat - The Ultimate Movie Ticket Booking Platform
+# 🎬 LockMySeat - Movie Ticket Booking Platform
 
 ## 🚀 Overview
 Welcome to **LockMySeat**, a cutting-edge full-stack web application revolutionizing movie ticket bookings! Designed for seamless user experiences, it offers real-time seat selection, secure payments via Razorpay, movie reviews, and robust tools for theater owners to manage shows and track revenue. Get ready to dive into the world of cinema like never before!
@@ -8,9 +8,11 @@ Welcome to **LockMySeat**, a cutting-edge full-stack web application revolutioni
 ## ✨ Key Features
 
 ### 🎥 User-Side Features
-- **Show Selection**: Browse and filter movies with real-time show schedules.
+- **User Authentication**: User can signup with otp verification, login, forgotpassword and Reset password.
+- **Profile Management**: User can edit their personal details.
+- **Show Selection**: filtered shows based on dates with real-time show schedules.
 - **Seat Selection**: Interactive interface to pick your seats with live availability updates.
-- **Booking Details**: View and manage your bookings with confirmation and e-ticket generation.
+- **Booking Details**: View and manage your bookings and get details on mail also.
 - **Payment Integration**: Secure transactions using Razorpay for a hassle-free checkout.
 - **Movie Reviews**: Rate and read reviews for booked movies to share your cinema experience.
 
@@ -23,12 +25,11 @@ Welcome to **LockMySeat**, a cutting-edge full-stack web application revolutioni
 ---
 
 ## 🛠 Technologies Stack
-- **Frontend**: React.js, HTML5, CSS3, JavaScript
+- **Frontend**: React.js, Zustand, Tailwind CSS
 - **Backend**: Node.js, Express.js
 - **Database**: MongoDB
 - **Payment**: Razorpay API
-- **Real-Time**: WebSocket
-- **Extras**: Axios, Bootstrap
+- **Extras**: Axios, JWT, Daisyui, 
 
 ---
 
@@ -36,9 +37,9 @@ Welcome to **LockMySeat**, a cutting-edge full-stack web application revolutioni
 
 ### Installation
 1. Clone the repo:  
-   `git clone https://github.com/Akash-S-010/LockMySeat.movie_ticket_booking.git`
+   `git clone https://github.com/Akash-S-010/LockMySeat_movie_ticket_booking.git`
 2. Navigate to the project:  
-   `cd LockMySeat.movie_ticket_booking`
+   `cd LockMySeat_movie_ticket_booking`
 3. Install dependencies:  
    `npm install`
 4. Configure environment variables:  
@@ -53,8 +54,7 @@ Welcome to **LockMySeat**, a cutting-edge full-stack web application revolutioni
 ---
 
 ## 🌐 Live Demo & Screenshots
-Check out the live application: [LockMySeat Live](https://lockmyseat-app.herokuapp.com/)  
-*(Note: Replace with your actual deployed link)*
+Check out the live application: [LockMySeat Live](https://github.com/Akash-S-010/LockMySeat.movie_ticket_booking.git)  
 
 ### Visual Highlights
 - **Show Selection**:  
@@ -68,7 +68,6 @@ Check out the live application: [LockMySeat Live](https://lockmyseat-app.herokua
 - **Theater Owner Dashboard**:  
   ![Owner Dashboard](path/to/owner-dashboard-screenshot.png)  
 
-*(Upload screenshots to your repo and update the paths accordingly)*
 
 ---
 
@@ -94,7 +93,6 @@ Got questions or feedback? Reach out:
 
 ## 🙌 Acknowledgments
 - Inspired by the cinema booking industry and powered by the amazing open-source community.
-- Special thanks to Razorpay for secure payment integration.
 
 ---
 
