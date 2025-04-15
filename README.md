@@ -16,36 +16,110 @@ Welcome to **LockMySeat**, a cutting-edge full-stack web application that’s re
 - **Payment Integration**: Secure, hassle-free transactions with Razorpay. 
 - **Movie Reviews**: Rate and read reviews for booked movies. ⭐
 
+### **User Home Page**
 ![Image](https://github.com/user-attachments/assets/a304e59b-c8b1-49e2-9b28-5c9517c52a80)
+
+
+### **Signup**
 ![Image](https://github.com/user-attachments/assets/4d926d78-3e0d-483f-96cf-96bb582b0e34)
+
+
+### **OTP Verification**
 ![verify-otp](https://github.com/user-attachments/assets/615bd7ee-3f0f-40b0-9209-5c8114069286)
+
+
+### **Forgot Password**
 ![Image](https://github.com/user-attachments/assets/fd254d78-37a3-4fba-bce4-9f53caa82e47)
+
+
+### **Login**
 ![Image](https://github.com/user-attachments/assets/245dc662-db84-41ee-ba4c-b294b4bcb088)
+
+
+### **Profile Page**
 ![Image](https://github.com/user-attachments/assets/219a44ab-7416-4906-95f4-7afbdf34a2a9)
+
+
+### **Movie List**
 ![Image](https://github.com/user-attachments/assets/f56395ac-825d-46bf-ae8c-d21c8c85ec23)
+
+
+### **Movie Details Page**
 ![Image](https://github.com/user-attachments/assets/ba6f4a70-6b52-422a-b366-03529aa1eac7)
+
+
+### **Show Selection Page**
 ![Image](https://github.com/user-attachments/assets/d872ec96-63df-418c-8887-d7c8ea213512)
+
+
+### **Seat Selection**
 ![Image](https://github.com/user-attachments/assets/dc3bd78d-8b95-40af-8449-eb62781dda11)
+
+
+### **Order Summary**
 ![Image](https://github.com/user-attachments/assets/270fd1d2-040b-404a-8559-f57dd563a4fd)
+
+
+### **Razorpay Page**
 ![Image](https://github.com/user-attachments/assets/2ac6582f-dc4e-42d5-8241-6ff5a31da9c9)
 
+---
 
-
-
-
-
-
+### **Payment Status**
 ![Image](https://github.com/user-attachments/assets/a556e3c8-6d66-4f48-9c48-ff6ec7f5f86c)
 
+
+### **Booking History**
 ![Image](https://github.com/user-attachments/assets/81fcb8c2-ea1a-46b3-9ef3-4d96fabb5976)
 
+
+### **Post Review**
 ![Image](https://github.com/user-attachments/assets/7d04f21c-0936-4dfb-9fa1-e14d687d9b2e)
+---
+
+
 
 ### 🎭 TheaterOwner-Side Features
 - **Add Theater**: Register and manage theater details effortlessly. 
 - **Add Shows**: Schedule movies with customizable timings. 
 - **Track Revenue**: Monitor earnings with detailed insights. 
-- **Total Booked Seats**: Analyze occupancy across all theaters. 
+- **Total Booked Seats**: Analyze occupancy across all theaters.
+   
+### **Theater Owner Page**
+![Image](https://github.com/user-attachments/assets/ef197885-e8ec-4b0d-a59f-1e8ef1020ca1)
+
+
+ ### **Theater Dashboard**
+![Image](https://github.com/user-attachments/assets/66dc3fee-0a82-41ac-af86-7751e4fcf791)
+ 
+ 
+
+### **Movie List**
+![Image](https://github.com/user-attachments/assets/956c237c-7416-42e7-ae0b-34d2d37d1b8f)
+
+
+
+
+### **Theater List**
+![Image](https://github.com/user-attachments/assets/1e6f40d4-017e-47d7-80b0-b013bd6fcb2b)
+
+
+
+
+### **Add Theater**
+![Image](https://github.com/user-attachments/assets/e27336e0-0b8d-4d0b-897d-901714ff6f49)
+
+
+
+
+### **Shows**
+![Image](https://github.com/user-attachments/assets/c4e14196-4604-4d6b-807a-8500c83c3d21)
+
+
+
+### **Add Shows**
+![Image](https://github.com/user-attachments/assets/d78c1bcf-e4ea-4a4a-853b-fcf681ece1d1)
+
 
 ---
 
