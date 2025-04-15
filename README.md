@@ -72,10 +72,75 @@ Check out the live application: [LockMySeat Live](https://github.com/Akash-S-010
 ---
 
 ## 📚 API Endpoints (For Developers)
-- `GET /api/shows` - Fetch available movie shows
-- `POST /api/book` - Book selected seats
-- `POST /api/review` - Submit a movie review
-- `GET /api/revenue` - Retrieve theater revenue (Owner access only)
+
+### 🌐 User Endpoints
+- `POST /api/user/signup` - Register a new user
+- `POST /api/user/verify-otp` - Verify OTP for user registration
+- `POST /api/user/resend-otp` - Resend OTP for user verification
+- `POST /api/user/login` - User login
+- `POST /api/user/forgot-password` - Initiate password reset
+- `POST /api/user/reset-password` - Reset user password
+- `PUT /api/user/update-profile` - Update user profile (requires authentication, accepts profile picture upload)
+- `POST /api/user/logout` - User logout
+- `GET /api/user/check-user` - Check authenticated user details (requires authentication)
+- `GET /api/user/all-users` - Fetch all users (requires owner/admin access)
+- `PUT /api/user/update-status/:userId` - Toggle user status (requires admin access)
+- `POST /api/user/contact` - Submit contact form
+
+### 🔐 Admin Endpoints
+- `POST /api/admin/signup` - Register a new admin
+- `POST /api/admin/verify-otp` - Verify OTP for admin registration
+- `POST /api/admin/login` - Admin login
+- `POST /api/admin/resend-otp` - Resend OTP for admin verification
+- `POST /api/admin/forgot-password` - Initiate admin password reset
+- `POST /api/admin/reset-password` - Reset admin password
+- `PUT /api/admin/update-profile` - Update admin profile (requires owner/admin access, accepts profile picture upload)
+- `GET /api/admin/check-owner` - Check theater owner status (requires owner access)
+- `GET /api/admin/check-admin` - Check admin status (requires admin access)
+
+### 🎬 Movie Endpoints
+- `POST /api/movie/add-movie` - Add a new movie (requires admin access)
+- `DELETE /api/movie/delete-movie/:id` - Delete a movie (requires admin access)
+- `PUT /api/movie/update-movie/:id` - Update movie details (requires admin access)
+- `GET /api/movie/movies` - Fetch all movies
+- `GET /api/movie/movie-details/:id` - Fetch movie details (requires authentication)
+- `GET /api/movie/total-movies` - Get total number of movies (requires owner/admin access)
+
+### ⭐ Review Endpoints
+- `POST /api/movie/:movieId/add-review` - Add a review for a movie (requires authentication)
+- `GET /api/movie/:movieId/getall-reviews` - Fetch all reviews for a movie (requires authentication)
+
+### 🏟 Theater Endpoints
+- `POST /api/theater/add-theater` - Add a new theater (requires owner access)
+- `GET /api/theater/all-theaters` - Fetch all theaters (requires admin access)
+- `GET /api/theater/owner-theaters` - Fetch theaters owned by the user (requires owner access)
+- `GET /api/theater/approved-theaters` - Fetch all approved theaters (requires authentication)
+- `GET /api/theater/theater-details/:id` - Fetch details of a specific theater (requires authentication)
+- `GET /api/theater/total-theaters` - Get total number of theaters (requires owner/admin access)
+- `PUT /api/theater/:id/approve` - Approve a theater (requires admin access)
+- `PUT /api/theater/:id/reject` - Reject a theater (requires admin access)
+
+### 📅 Show Endpoints
+- `POST /api/show/add-show` - Add a new show (requires owner access)
+- `GET /api/show/by-date` - Fetch shows by date (requires authentication)
+- `GET /api/show/by-location` - Fetch shows by location (requires authentication)
+- `GET /api/show/all-shows` - Fetch all shows (requires owner access)
+- `GET /api/show/seats/:showId` - Fetch available seats for a show (requires authentication)
+- `GET /api/show/total-shows` - Get total number of shows (requires owner access)
+
+### 🎫 Booking Endpoints
+- `POST /api/booking/create` - Create a new booking (requires authentication)
+- `GET /api/booking/all-bookings` - Fetch all user bookings (requires authentication)
+- `GET /api/booking/total-bookings` - Get total number of bookings (requires authentication)
+
+### 💳 Payment Endpoints
+- `POST /api/payment/create` - Initiate payment for a booking (requires authentication)
+- `GET /api/payment/all-bookings` - Fetch all user payment-related bookings (requires authentication)
+- `GET /api/payment/total-bookings` - Get total number of payment-related bookings (requires authentication)
+
+### 💰 Revenue Endpoints
+- `GET /api/revenue/theaterOwner-revenue` - Fetch revenue for theater owner (requires owner access)
+- `GET /api/revenue/admin-revenue` - Fetch revenue for admin (requires admin access)
 
 ---
 
@@ -92,7 +157,7 @@ Got questions or feedback? Reach out:
 ---
 
 ## 🙌 Acknowledgments
-- Inspired by the cinema booking industry and powered by the amazing open-source community.
+- Inspired by BookMyShow and the cinema booking industry.
 
 ---
 
