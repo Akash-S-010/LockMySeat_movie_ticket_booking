@@ -54,19 +54,10 @@ Welcome to **LockMySeat**, a cutting-edge full-stack web application revolutioni
 ---
 
 ## 🌐 Live Demo & Screenshots
-Check out the live application: [LockMySeat Live](https://github.com/Akash-S-010/LockMySeat.movie_ticket_booking.git)  
+Check out the live application: 
+[LockMySeat User Side](https://lock-my-seat.vercel.app/)   
+[LockMySeat TheaterOwner Dashboard](https://lock-my-seat.vercel.app/owner)   
 
-### Visual Highlights
-- **Show Selection**:  
-  ![Show Selection](path/to/show-selection-screenshot.png)  
-- **Seat Selection**:  
-  ![Seat Selection](path/to/seat-selection-screenshot.png)  
-- **Booking Details**:  
-  ![Booking Details](path/to/booking-details-screenshot.png)  
-- **Payment with Razorpay**:  
-  ![Razorpay Payment](path/to/razorpay-screenshot.png)  
-- **Theater Owner Dashboard**:  
-  ![Owner Dashboard](path/to/owner-dashboard-screenshot.png)  
 
 
 ---
