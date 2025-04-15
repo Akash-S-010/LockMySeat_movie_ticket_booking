@@ -58,19 +58,6 @@ Experience the magic live!
 - [User Side](https://lock-my-seat.vercel.app/)  
 - [TheaterOwner Dashboard](https://lock-my-seat.vercel.app/owner)  
 
-### 🎨 Screenshots
-Add stunning visuals of LockMySeat in action!  
-- **Show Selection**:  
-  ![Show Selection](https://github.com/Akash-S-010/LockMySeat_movie_ticket_booking/blob/main/screenshots/show-selection.png)  
-- **Seat Selection**:  
-  ![Seat Selection](https://github.com/Akash-S-010/LockMySeat_movie_ticket_booking/blob/main/screenshots/seat-selection.png)  
-- **Booking Details**:  
-  ![Booking Details](https://github.com/Akash-S-010/LockMySeat_movie_ticket_booking/blob/main/screenshots/booking-details.png)  
-- **Razorpay Payment**:  
-  ![Razorpay Payment](https://github.com/Akash-S-010/LockMySeat_movie_ticket_booking/blob/main/screenshots/razorpay-payment.png)  
-- **TheaterOwner Dashboard**:  
-  ![Owner Dashboard](https://github.com/Akash-S-010/LockMySeat_movie_ticket_booking/blob/main/screenshots/owner-dashboard.png)  
-
 ---
 
 ## 📚 API Endpoints (For Developers)
