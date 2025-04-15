@@ -16,6 +16,31 @@ Welcome to **LockMySeat**, a cutting-edge full-stack web application that’s re
 - **Payment Integration**: Secure, hassle-free transactions with Razorpay. 
 - **Movie Reviews**: Rate and read reviews for booked movies. ⭐
 
+![Image](https://github.com/user-attachments/assets/a304e59b-c8b1-49e2-9b28-5c9517c52a80)
+![Image](https://github.com/user-attachments/assets/4d926d78-3e0d-483f-96cf-96bb582b0e34)
+![verify-otp](https://github.com/user-attachments/assets/615bd7ee-3f0f-40b0-9209-5c8114069286)
+![Image](https://github.com/user-attachments/assets/fd254d78-37a3-4fba-bce4-9f53caa82e47)
+![Image](https://github.com/user-attachments/assets/245dc662-db84-41ee-ba4c-b294b4bcb088)
+![Image](https://github.com/user-attachments/assets/219a44ab-7416-4906-95f4-7afbdf34a2a9)
+![Image](https://github.com/user-attachments/assets/f56395ac-825d-46bf-ae8c-d21c8c85ec23)
+![Image](https://github.com/user-attachments/assets/ba6f4a70-6b52-422a-b366-03529aa1eac7)
+![Image](https://github.com/user-attachments/assets/d872ec96-63df-418c-8887-d7c8ea213512)
+![Image](https://github.com/user-attachments/assets/dc3bd78d-8b95-40af-8449-eb62781dda11)
+![Image](https://github.com/user-attachments/assets/270fd1d2-040b-404a-8559-f57dd563a4fd)
+![Image](https://github.com/user-attachments/assets/2ac6582f-dc4e-42d5-8241-6ff5a31da9c9)
+
+
+
+
+
+
+
+![Image](https://github.com/user-attachments/assets/a556e3c8-6d66-4f48-9c48-ff6ec7f5f86c)
+
+![Image](https://github.com/user-attachments/assets/81fcb8c2-ea1a-46b3-9ef3-4d96fabb5976)
+
+![Image](https://github.com/user-attachments/assets/7d04f21c-0936-4dfb-9fa1-e14d687d9b2e)
+
 ### 🎭 TheaterOwner-Side Features
 - **Add Theater**: Register and manage theater details effortlessly. 
 - **Add Shows**: Schedule movies with customizable timings. 
