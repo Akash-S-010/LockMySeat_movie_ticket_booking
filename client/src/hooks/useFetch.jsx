@@ -1,38 +1,39 @@
-import { useEffect, useState, useCallback } from "react";
-import  axiosInstance  from "../config/axiosInstance.js";
+import { useEffect, useState } from "react";
+import { axiosInstance } from "../config/axiosInstance.js";
 
 export const useFetch = (url) => {
-    const [data, setData] = useState(null);
+    const [data, setData] = useState({});
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
 
-
-    const fetchData = useCallback(async () => {
-        setIsLoading(true);
-        setError(null);
-
+    useEffect(() => {
         const controller = new AbortController();
-        const signal = controller.signal;
 
-        try {
-            const response = await axiosInstance.get(url, { signal });
-            setData(response?.data?.data);
-        } catch (err) {
-            if (err.name !== "AbortError") {
-                setError(err);
+        const fetchData = async () => {
+            setIsLoading(true);
+            setError(null);
+
+            try {
+                const response = await axiosInstance.get(url, {
+                    signal: controller.signal,
+                });
+                setData(response?.data?.data);
+            } catch (err) {
+                if (err.name !== "CanceledError" && err.name !== "AbortError") {
+                    console.error(err);
+                    setError(err);
+                }
+            } finally {
+                setIsLoading(false);
             }
-        } finally {
-            setIsLoading(false);
-        }
+        };
 
-        return () => controller.abort(); // Cleanup
+        fetchData();
+
+        return () => {
+            controller.abort(); // Cancel the request if the component unmounts
+        };
     }, [url]);
 
-
-    
-    useEffect(() => {
-        fetchData();
-    }, [fetchData]);
-
-    return { data, isLoading, error, refetch: fetchData };
+    return { data, isLoading, error };
 };
