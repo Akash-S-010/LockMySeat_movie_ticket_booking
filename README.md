@@ -152,7 +152,7 @@ Welcome to **LockMySeat**, a cutting-edge full-stack web application that’s re
 
 ---
 
-## 🌐 Live Demo & Screenshots
+## 🌐 Live Demo
 Experience the magic live!  
 - [User Side](https://lock-my-seat.vercel.app/)  
 - [TheaterOwner Dashboard](https://lock-my-seat.vercel.app/owner)  
