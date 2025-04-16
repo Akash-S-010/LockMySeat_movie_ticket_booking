@@ -1,12 +1,36 @@
-# React + Vite
+# 🎬 LockMySeat – (Client)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the **React + Vite** frontend for **LockMySeat**, a sleek and responsive web application that lets users browse movies, view showtimes, select seats, and book movie tickets with ease.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
+- 👤 User login & authentication  
+- 🧾 Vie movies list  
+- 🕒 View showtimes by location & date  
+- 💺 Real-time seat selection and booking  
+- 🛒 Cart & checkout functionality  
+- 📱 Fully responsive design  
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🛠️ Tech Stack
+
+| Tech             | Usage                                 |
+|------------------|---------------------------------------|
+| React            | Frontend UI                           |
+| Vite             | Build tool & dev server               |
+| React Router     | Routing & navigation                  |
+| Axios            | API calls                             |
+| Tailwind CSS     | Utility-first styling                 |
+| Daisyui          | For styled components                 |
+| Framer-Motion    | For animations                        |
+| lucide-react     | For Icons                             |
+| react-hook-form  | For FormValidations and handling      |
+| react-hot-toast  | For toast messages                    |
+| sweetalert2      | For Styled alerts                     |
+| chart.js         | For Graph charts                      |
+
+---
+
+
