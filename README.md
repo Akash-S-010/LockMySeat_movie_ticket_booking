@@ -86,7 +86,7 @@ Welcome to **LockMySeat**, a cutting-edge full-stack web application that’s re
 - **Total Booked Seats**: Analyze occupancy across all theaters.
    
 ### **Theater Owner Page**
-![Image](https://github.com/user-attachments/assets/ef197885-e8ec-4b0d-a59f-1e8ef1020ca1)
+![Image](https://github.com/user-attachments/assets/552a74ed-fccc-4c85-ad81-093b71926395)
 
 
  ### **Theater Dashboard**
