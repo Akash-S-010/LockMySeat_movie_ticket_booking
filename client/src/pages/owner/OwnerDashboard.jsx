@@ -3,6 +3,7 @@ import axiosInstance from "../../config/axiosInstance.js";
 import {Button} from "../../components/ui/Buttons";
 import { useNavigate } from "react-router-dom";
 import RevenueChart from "../../components/shared/RevenueChart.jsx";
+import { DashboardSkeleton } from "../../components/shared/DashboardSkeletons.jsx";
 
 const OwnerDashboard = () => {
   const navigate = useNavigate();
@@ -53,7 +54,7 @@ const OwnerDashboard = () => {
 
   // Render loading state or content
   if (loading) {
-    return <div className="flex justify-center items-center h-screen">Loading...</div>;
+    return <DashboardSkeleton />;
   }
 
   return (

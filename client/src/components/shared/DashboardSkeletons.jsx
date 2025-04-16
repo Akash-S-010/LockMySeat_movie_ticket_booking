@@ -1,5 +1,44 @@
 import React from "react";
 
+export const DashboardSkeleton = () => {
+  return (
+    <div className="animate-pulse space-y-8">
+      {/* Top Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Total Movies Card */}
+        <div className="bg-base-200 p-6 rounded-xl shadow">
+          <div className="h-6 bg-base-300 rounded w-1/3 mb-4"></div>
+          <div className="h-10 bg-base-300 rounded w-1/4 mb-4"></div>
+          <div className="h-6 bg-base-300 rounded w-1/5"></div>
+        </div>
+
+        {/* Active Shows Card */}
+        <div className="bg-base-200 p-6 rounded-xl shadow">
+          <div className="h-6 bg-base-300 rounded w-1/3 mb-4"></div>
+          <div className="h-10 bg-base-300 rounded w-1/4 mb-4"></div>
+          <div className="h-6 bg-base-300 rounded w-1/5"></div>
+        </div>
+
+        {/* My Theaters Card */}
+        <div className="bg-base-200 p-6 rounded-xl shadow">
+          <div className="h-6 bg-base-300 rounded w-1/3 mb-4"></div>
+          <div className="h-10 bg-base-300 rounded w-1/4 mb-4"></div>
+          <div className="h-6 bg-base-300 rounded w-1/5"></div>
+        </div>
+      </div>
+
+      {/* Charts Section */}
+      <div className="grid grid-cols-1">
+        {/* Revenue Over Time Chart */}
+        <div className="bg-base-200 p-6 rounded-xl shadow h-screen">
+          <div className="h-6 bg-base-300 w-1/3 mb-4 rounded"></div>
+          <div className="h-screen bg-base-300 rounded"></div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export const ShowSkeletons = ({ count = 5 }) => {
   const skeletons = Array.from({ length: count }, (_, index) => (
     <tr key={index} className="hover:bg-base-100 animate-pulse">
@@ -54,9 +93,6 @@ export const ShowSkeletons = ({ count = 5 }) => {
   );
 };
 
-
-
-
 export const TheaterSkeleton = ({ count = 4 }) => {
   const skeletons = Array.from({ length: count }, (_, index) => (
     <tr key={index} className="hover:bg-base-100 animate-pulse">
@@ -103,7 +139,6 @@ export const TheaterSkeleton = ({ count = 4 }) => {
   );
 };
 
-
 export const MovieListSkeleton = () => {
   let count = 5;
   const skeletons = Array.from({ length: count }, (_, index) => (
@@ -132,8 +167,7 @@ export const MovieListSkeleton = () => {
   return (
     <div className="min-h-screen text-base py-4">
       <div className="bg-base-300 p-6 rounded-lg shadow-lg">
-        <div className="flex justify-between items-center mb-4">
-        </div>
+        <div className="flex justify-between items-center mb-4"></div>
         <div className="overflow-x-auto">
           <table className="table w-full">
             <tbody>{skeletons}</tbody>
@@ -143,7 +177,6 @@ export const MovieListSkeleton = () => {
     </div>
   );
 };
-
 
 export const UserSkeleton = () => {
   let count = 5;
@@ -191,8 +224,6 @@ export const UserSkeleton = () => {
     </div>
   );
 };
-
-
 
 export const TheaterManagementSkeleton = () => {
   let count = 5;
