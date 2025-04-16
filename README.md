@@ -7,7 +7,7 @@ Welcome to **LockMySeat**, a cutting-edge full-stack web application that’s re
 
 ## ✨ Key Features
 
-### 🎥 User-Side Features
+### 👤 User-Side Features
 - **User Authentication**: Sign up with OTP verification, login, forgot password, and reset password.
 - **Profile Management**: Edit personal details with profile picture uploads. 
 - **Show Selection**: Filter shows by date with real-time schedules. 
@@ -79,7 +79,7 @@ Welcome to **LockMySeat**, a cutting-edge full-stack web application that’s re
 
 
 
-### 🎭 TheaterOwner-Side Features
+### 🏠 TheaterOwner-Side Features
 - **Add Theater**: Register and manage theater details effortlessly. 
 - **Add Shows**: Schedule movies with customizable timings. 
 - **Track Revenue**: Monitor earnings with detailed insights. 
@@ -145,11 +145,6 @@ Welcome to **LockMySeat**, a cutting-edge full-stack web application that’s re
    Create a `.env` file and add your Razorpay API keys and MongoDB URI.
 5. Launch the app:  
    `npm start`
-
-### Usage
-- **Users**: Sign up, explore shows, select seats, pay with Razorpay, and leave reviews.
-- **Theater Owners**: Log in, add theaters/shows, and track revenue/bookings via the dashboard.
-
 ---
 
 ## 🌐 Live Demo
