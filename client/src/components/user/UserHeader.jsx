@@ -80,7 +80,7 @@ const UserHeader = () => {
 
       <div className="navbar-end flex items-center space-x-4">
         {!hasCheckedAuth ? (
-          <div className="w-10 h-10 rounded-full bg-base-200 animate-pulse"></div>
+          <Button title="Login" onClick={() => navigate("/login")} />
         ) : isUserAuth ? (
           <AvatarDropdown />
         ) : (
