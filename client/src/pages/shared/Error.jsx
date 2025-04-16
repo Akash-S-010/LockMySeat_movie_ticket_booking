@@ -60,7 +60,7 @@ const ErrorPage = () => {
         <h2 className="text-4xl font-bold text-primary mb-4">
           Oops! Lost in Space? 🚀
         </h2>
-        <p className="text-lg text-base mb-6">
+        <p className="text-lg base mb-6">
           The page you're looking for has vanished into the digital cosmos. 
           Let's get you back to reality!
         </p>
