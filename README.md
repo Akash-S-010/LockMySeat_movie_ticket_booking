@@ -128,7 +128,7 @@ Welcome to **LockMySeat**, a cutting-edge full-stack web application that’s re
 - **Backend**: Node.js, Express.js
 - **Database**: MongoDB
 - **Payment**: Razorpay API
-- **Extras**: Axios, JWT, DaisyUI
+- **Extras**: Axios, JWT, DaisyUI, Framer-motion
 
 ---
 
