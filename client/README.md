@@ -22,6 +22,7 @@ This is the **React + Vite** frontend for **LockMySeat**, a sleek and responsive
 | Vite             | Build tool & dev server               |
 | React Router     | Routing & navigation                  |
 | Axios            | API calls                             |
+| Zustand          | Global State                          |
 | Tailwind CSS     | Utility-first styling                 |
 | Daisyui          | For styled components                 |
 | Framer-Motion    | For animations                        |
@@ -32,5 +33,22 @@ This is the **React + Vite** frontend for **LockMySeat**, a sleek and responsive
 | chart.js         | For Graph charts                      |
 
 ---
+
+lockmyseat-client/
+├── public/             # Static assets
+├── src/
+│   ├── assets/         # Images and static media
+│   ├── components/     # Reusable UI components
+│   ├── config/         # config external libraries
+│   ├── layouts/        # create layouts
+│   ├── pages/          # Route-based pages
+│   ├── routes/         # React Router setup
+│   ├── store/          # Global states
+│   ├── App.jsx         # Root component
+│   └── main.jsx        # Entry point
+├── .eslintrc.cjs       # Linting rules
+├── index.html
+└── vite.config.js      # Vite configuration
+
 
 
