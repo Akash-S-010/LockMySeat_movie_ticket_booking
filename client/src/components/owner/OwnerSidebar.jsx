@@ -19,19 +19,19 @@ const OwnerSidebar = ({ isOpen, setIsOpen }) => {
       {/* Mobile sidebar overlay */}
       {isOpen && (
         <div
-          className="fixed inset-0 z-6 bg-opacity-50 lg:hidden"
+          className="fixed inset-0 z-40 bg-opacity-50 lg:hidden"
           onClick={() => setIsOpen(false)}
         />
       )}
 
       {/* Sidebar */}
       <div
-        className={`fixed top-0 left-0 h-screen w-64 bg-base-200 pt-2 transition-transform duration-300 ease-in-out z-10
+        className={`fixed top-0 left-0 h-screen w-64 bg-base-200 pt-2 transition-transform duration-300 ease-in-out z-50
           ${isOpen ? 'translate-x-0' : '-translate-x-full'} 
           lg:translate-x-0`}
       >
-        <ul className="p-4 space-y-2 ">
-        <img src={Logo} alt="logo" className='w-40 mb-12'/>
+        <ul className="p-4 space-y-2">
+          <img src={Logo} alt="logo" className="w-40 mb-12" />
           {menuItems.map((item) => (
             <li key={item.path}>
               <Link
