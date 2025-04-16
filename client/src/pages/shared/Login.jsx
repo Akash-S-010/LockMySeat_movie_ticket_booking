@@ -152,12 +152,14 @@ if (role == "admin") {
         </form>
 
         {/* Register Link */}
-        <p className="text-center text-base mt-4">
+        {role === "admin" ? null : (
+          <p className="text-center text-base mt-4">
           Don't have an account?{" "}
           <Link to={user.registerRoute} className="text-primary hover:underline">
             Register
           </Link>
         </p>
+        )}      
       </div>
     </div>
   );
