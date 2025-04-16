@@ -187,10 +187,10 @@ export const router = createBrowserRouter([
     path: "admin",
     element: <AdminLandingPage />,
   },
-  {
-    path: "admin/register",
-    element: <Register role="admin" />,
-  },
+  // {
+  //   path: "admin/register",
+  //   element: <Register role="admin" />,
+  // },
   {
     path: "admin/login",
     element: <Login role="admin" />,
