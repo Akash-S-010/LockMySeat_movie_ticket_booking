@@ -1,29 +1,18 @@
-import React, { useEffect, useState } from "react";
-import axiosInstance from "../../config/axiosInstance";
-import {TheaterSkeleton} from "../../components/shared/DashboardSkeletons";
+import React from "react";
+import useFetch from "../../hooks/useFetch";
+import toast from "react-hot-toast";
+import { TheaterSkeleton } from "../../components/shared/DashboardSkeletons";
 
 const OwnerTheaterList = () => {
-  const [theaters, setTheaters] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { data, isLoading, error } = useFetch("/theater/owner-theaters");
 
-  useEffect(() => {
-    const fetchTheaters = async () => {
-      try {
-        setLoading(true);
-        const response = await axiosInstance.get("/theater/owner-theaters");
-        setLoading(false);
-        setTheaters(response.data.data);
-      } catch (error) {
-        setLoading(false);
-        console.error("Failed to fetch theaters:", error);
-      }
-    };
+  const theaters = Array.isArray(data) ? data : [];
 
-    fetchTheaters();
-  }, []);
+  if (error) {
+    toast.error(error.message || "Failed to fetch theaters");
+  }
 
-
-  if (loading) {
+  if (isLoading) {
     return <TheaterSkeleton />;
   }
 
