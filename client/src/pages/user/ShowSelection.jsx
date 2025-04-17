@@ -13,7 +13,6 @@ const ShowSelection = () => {
   const [location, setLocation] = useState("");
   const [loading, setLoading] = useState(true);
   const [movieLoading, setMovieLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchMovieDetails = async () => {

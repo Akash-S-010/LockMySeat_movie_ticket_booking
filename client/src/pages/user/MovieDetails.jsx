@@ -1,34 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axiosInstance from "../../config/axiosInstance.js";
 import MovieDetailsSkeleton from "../../components/ui/MovieDetailsSkeleton";
 import MovieReviews from "../../components/user/MovieReviews";
 import {Button} from "../../components/ui/Buttons";
+import useFetch from "../../hooks/useFetch";
+import toast from "react-hot-toast";
 
 const MovieDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [movie, setMovie] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { data: movie, isLoading, error } = useFetch(`/movie/movie-details/${id}`);
 
-  useEffect(() => {
-    const fetchMovieDetails = async () => {
-      try {
-        const response = await axiosInstance.get(`/movie/movie-details/${id}`);
-        setMovie(response.data.data);
-      } catch (err) {
-        setError("Failed to fetch movie details.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchMovieDetails();
-  }, [id]);
-
-  if (loading) return <MovieDetailsSkeleton />;
-  if (error) return <div className="text-center text-red-500">{error}</div>;
+  if (isLoading) return <MovieDetailsSkeleton />;
+  if (error) return <div className="text-center text-red-500">Failed to fetch movie details.</div>;
+  if (!movie) toast.error("Movie not found.");
 
   return (
     <div className="bg-base-100 min-h-screen">

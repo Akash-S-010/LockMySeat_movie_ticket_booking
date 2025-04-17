@@ -1,29 +1,15 @@
-import { useEffect, useState } from "react";
-import axiosInstance from "../../config/axiosInstance";
+import {  useState } from "react";
 import BookingSkeleton from "../../components/ui/BookingSkeletons";
 import { Button } from "../../components/ui/Buttons";
 import ReviewModal from "../../components/user/ReviewModal";
+import toast from "react-hot-toast";
+import useFetch from "../../hooks/useFetch";
 
 const Bookings = () => {
-  const [bookings, setBookings] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { data, isLoading, error } = useFetch("/booking/all-bookings");
   const [selectedBooking, setSelectedBooking] = useState(null);
 
-  useEffect(() => {
-    const fetchBookings = async () => {
-      try {
-        const response = await axiosInstance.get("/booking/all-bookings");
-        setBookings(response.data.data);
-      } catch (err) {
-        setError(err.message || "Failed to fetch bookings");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchBookings();
-  }, []);
+  const bookings = Array.isArray(data) ? data : [];
 
   const handleAddReview = (booking) => {
     if (!booking.movieId) {
@@ -38,13 +24,8 @@ const Bookings = () => {
     setSelectedBooking(null);
   };
 
-  if (loading) return <BookingSkeleton />;
-  if (error)
-    return (
-      <p className="text-center text-red-500 text-lg font-medium mt-6 sm:mt-10">
-        {error}
-      </p>
-    );
+  if (isLoading) return <BookingSkeleton />;
+  if (error) toast.error(error);
   if (bookings.length === 0)
     return (
       <p className="text-center text-gray-500 text-lg font-medium mt-6 sm:mt-10">
