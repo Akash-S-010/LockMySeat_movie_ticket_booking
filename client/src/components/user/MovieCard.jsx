@@ -17,23 +17,23 @@ const MovieCard = ({ movie }) => {
         <img
           src={movie.verticalImg}
           alt={movie.title}
-          className="w-full aspect-[2/3] object-cover rounded-t-lg"
+          className="w-full aspect-[3/4] object-cover rounded-t-lg"
           loading="lazy"
         />
       </figure>
-      <div className="card-body p-4">
-        <h2 className="card-title text-lg font-bold">
+      <div className="card-body p-3">
+        <h2 className="card-title text-base font-bold">
           {movie.title}
         </h2>
 
         {movie.languages?.length > 0 && (
           <div className="mt-1">
-            <p className="text-sm font-semibold text-gray-500">Languages:</p>
-            <div className="flex flex-wrap gap-2 mt-1">
+            <p className="text-xs font-semibold text-gray-500">Languages:</p>
+            <div className="flex flex-wrap gap-1 mt-0.5">
               {movie.languages.map((lang, index) => (
                 <span
                   key={index}
-                  className="badge bg-transparent border border-primary text-primary text-xs"
+                  className="badge bg-transparent border border-primary text-primary text-[10px]"
                 >
                   {lang}
                 </span>
@@ -44,12 +44,12 @@ const MovieCard = ({ movie }) => {
 
         {movie.genres?.length > 0 && (
           <div>
-            <p className="text-sm font-semibold text-gray-500">Genres:</p>
-            <div className="flex flex-wrap gap-2 mt-1">
+            <p className="text-xs font-semibold text-gray-500">Genres:</p>
+            <div className="flex flex-wrap gap-1 mt-0.5">
               {movie.genres.map((genre, index) => (
                 <span
                   key={index}
-                  className="badge bg-transparent border border-primary text-primary text-xs"
+                  className="badge bg-transparent border border-primary text-primary text-[10px]"
                 >
                   {genre}
                 </span>
