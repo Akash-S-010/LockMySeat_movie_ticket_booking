@@ -8,7 +8,7 @@ const Home = () => {
     <div>
       <HeroSection />
       <div className="px-6 py-2 sm:px-6 md:px-10 lg:px-20">
-        <MovieList />
+        <MovieList page="home"/>
         <BannerSlider />
       </div>
     </div>

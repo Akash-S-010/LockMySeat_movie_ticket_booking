@@ -84,15 +84,17 @@ export const deleteMovie = async (req, res) => {
 // -------------get all movies------------
 export const getAllMovies = async (req, res) => {
     try {
+      const { limit = 100, skip = 0, sort = "-createdAt" } = req.query;
       const movies = await Movie.find()
         .select("-reviews -cast -plot")
-        .sort({ createdAt: -1 });
+        .sort(sort)
+        .limit(parseInt(limit))
+        .skip(parseInt(skip));
   
       if (!movies || movies.length === 0) {
         return res.status(404).json({ message: "No movies found" });
       }
   
-      // Format the releaseDate for each movie
       const formattedMovies = movies.map((movie) => ({
         ...movie.toObject(),
         releaseDate: new Date(movie.releaseDate).toLocaleDateString("en-GB", {
