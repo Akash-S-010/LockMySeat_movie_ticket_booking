@@ -1,4 +1,3 @@
-// ContactSection.js
 import React, { useState } from "react";
 import { Mail, Phone, MapPin } from "lucide-react";
 import { SubmitBtn } from "../../components/ui/Buttons";
