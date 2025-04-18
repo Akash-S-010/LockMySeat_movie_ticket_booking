@@ -49,6 +49,7 @@ const Bookings = () => {
                 src={booking.moviePoster}
                 alt={booking.movieName}
                 className="w-20 h-28 sm:w-24 sm:h-34 object-cover rounded-lg shadow-md"
+                loading="lazy"
               />
               <div className="flex-1 flex flex-col sm:flex-row justify-between items-start w-full">
                 <div className="flex-1">

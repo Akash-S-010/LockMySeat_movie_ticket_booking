@@ -24,6 +24,7 @@ const MovieDetails = () => {
             src={movie?.bannerImg || "/placeholder.jpg"}
             alt={movie?.title || "Movie Banner"}
             className="w-full h-full object-cover opacity-18"
+            loading="lazy"
           />
         </div>
 
@@ -35,6 +36,7 @@ const MovieDetails = () => {
               src={movie?.verticalImg || "/placeholder.jpg"}
               alt={movie?.title || "Movie Poster"}
               className="w-full rounded-lg shadow-lg"
+              loading="lazy"
             />
           </div>
 

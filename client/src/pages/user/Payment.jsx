@@ -138,6 +138,7 @@ const Payment = () => {
             onError={(e) => {
               e.target.src = "https://via.placeholder.com/100x150?text=No+Poster";
             }}
+            loading="lazy"
           />
           <div>
             <h2 className="text-2xl font-semibold base mb-1">{movieTitle}</h2>

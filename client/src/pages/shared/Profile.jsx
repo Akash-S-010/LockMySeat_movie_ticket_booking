@@ -77,7 +77,7 @@ const Profile = () => {
                   <Loader className="w-8 sm:w-10 h-8 sm:h-10 animate-spin" />
                 </div>
               ) : profilePic ? (
-                <img src={profilePic} alt="Profile" className="object-top" />
+                <img src={profilePic} alt="Profile" className="object-top" loading="lazy" />
               ) : (
                 <div className="flex items-center justify-center h-full bg-gray-200 text-gray-500">
                   <User className="w-10 sm:w-12 h-10 sm:h-12" />

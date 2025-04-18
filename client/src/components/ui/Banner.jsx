@@ -56,6 +56,7 @@ const BannerSlider = () => {
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
+          loading="lazy"
         >
           {/* Overlay */}
           <div className="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>

@@ -18,6 +18,7 @@ const MovieCard = ({ movie }) => {
           src={movie.verticalImg}
           alt={movie.title}
           className="w-full aspect-[2/3] object-cover rounded-t-lg"
+          loading="lazy"
         />
       </figure>
       <div className="card-body p-4">
