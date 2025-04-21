@@ -23,7 +23,7 @@ const HeroSection = () => {
   };
 
   return (
-    <div className="relative w-full h-screen bg-base-100 flex justify-center overflow-hidden">
+    <div className="relative w-full h-screen bg-base-100 flex items-center justify-center overflow-hidden">
       {/* Decorative Elements */}
       <motion.div
         className="absolute top-28 left-0 w-64 h-64 bg-primary bg-opacity-20 rounded-full blur-3xl"
@@ -39,7 +39,7 @@ const HeroSection = () => {
       />
 
       {/* Hero Content */}
-      <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 mt-40">
+      <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8">
         <motion.h1
           className="text-5xl sm:text-6xl md:text-7xl font-extrabold mb-4 tracking-tight"
           variants={fadeInDown}
