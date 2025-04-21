@@ -83,35 +83,45 @@ export const deleteMovie = async (req, res) => {
 
 // -------------get all movies------------
 export const getAllMovies = async (req, res) => {
-    try {
-      const { limit = 100, skip = 0, sort = "-createdAt" } = req.query;
-      const movies = await Movie.find()
-        .select("-reviews -cast -plot")
-        .sort(sort)
-        .limit(parseInt(limit))
-        .skip(parseInt(skip));
-  
-      if (!movies || movies.length === 0) {
-        return res.status(404).json({ message: "No movies found" });
-      }
-  
-      const formattedMovies = movies.map((movie) => ({
-        ...movie.toObject(),
-        releaseDate: new Date(movie.releaseDate).toLocaleDateString("en-GB", {
-          day: "2-digit",
-          month: "long",
-          year: "numeric",
-        }),
-      }));
-  
-      res.json({ message: "Movies found", data: formattedMovies });
-    } catch (error) {
-      console.error("Error in getAllMovies controller", error);
-      res
-        .status(error.statusCode || 500)
-        .json({ message: error.message || "Internal server error" });
+  try {
+    const { limit = 100, skip = 0, sort = "-createdAt", language, genre } = req.query;
+
+    // Build the query object
+    const query = {};
+    if (language) {
+      query.language = { $in: [language] }; // Match movies with the specified language
     }
-  };
+    if (genre) {
+      query.genre = { $in: [genre] }; // Match movies with the specified genre
+    }
+
+    const movies = await Movie.find(query)
+      .select("-reviews -cast -plot")
+      .sort(sort)
+      .limit(parseInt(limit))
+      .skip(parseInt(skip));
+
+    if (!movies || movies.length === 0) {
+      return res.status(404).json({ message: "No movies found" });
+    }
+
+    const formattedMovies = movies.map((movie) => ({
+      ...movie.toObject(),
+      releaseDate: new Date(movie.releaseDate).toLocaleDateString("en-GB", {
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+      }),
+    }));
+
+    res.json({ message: "Movies found", data: formattedMovies });
+  } catch (error) {
+    console.error("Error in getAllMovies controller", error);
+    res
+      .status(error.statusCode || 500)
+      .json({ message: error.message || "Internal server error" });
+  }
+};
 
 
 
