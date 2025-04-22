@@ -4,14 +4,15 @@ import dayjs from "dayjs";
 import { Button } from "../../components/ui/Buttons";
 import AddShowModal from "../../components/owner/AddShowModal";
 import { useNavigate } from "react-router-dom";
-import { ShowSkeletons} from "../../components/shared/DashboardSkeletons";
-
+import { ShowSkeletons } from "../../components/shared/DashboardSkeletons";
+import SearchBox from "../../components/shared/SearchBox.jsx";
 
 const AddShows = () => {
   const [shows, setShows] = useState([]);
+  const [filteredShows, setFilteredShows] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,8 +24,9 @@ const AddShows = () => {
           (show) => show.status === "started" || show.status === "notStarted"
         );
         setShows(activeShows);
+        setFilteredShows(activeShows);
       } catch (err) {
-        setError(err.data?.message || "Failed to fetch shows");
+        console.error("Failed to fetch shows:", err);
       } finally {
         setLoading(false);
       }
@@ -35,16 +37,26 @@ const AddShows = () => {
 
   const handleShowAdded = async (newShow) => {
     try {
-      // Refetch shows after adding to ensure updated data
       const response = await axiosInstance.get("/show/all-shows");
       const activeShows = response.data.data.filter(
         (show) => show.status === "started" || show.status === "notStarted"
       );
       setShows(activeShows);
-      setIsModalOpen(false); // Close modal after successful refetch
+      setFilteredShows(activeShows);
+      setIsModalOpen(false);
     } catch (err) {
       console.error("Failed to refetch shows:", err);
     }
+  };
+
+  const handleSearch = (term) => {
+    setSearchTerm(term);
+    const filtered = shows.filter(
+      (show) =>
+        show.movieId?.title?.toLowerCase().includes(term.toLowerCase()) ||
+        show.theaterId?.name?.toLowerCase().includes(term.toLowerCase())
+    );
+    setFilteredShows(filtered);
   };
 
   if (loading) {
@@ -57,10 +69,9 @@ const AddShows = () => {
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-2xl font-semibold">Active Shows</h1>
           <div className="flex items-center gap-4">
-            <input
-              type="text"
-              placeholder="Search"
-              className="input input-bordered w-64"
+            <SearchBox
+              onSearch={handleSearch}
+              placeholder="Search shows..."
             />
             <Button
               title="Add Show"
@@ -87,8 +98,8 @@ const AddShows = () => {
               </tr>
             </thead>
             <tbody>
-              {shows.length > 0 ? (
-                shows.map((show) => (
+              {filteredShows.length > 0 ? (
+                filteredShows.map((show) => (
                   <tr key={show._id} className="hover:bg-base-100">
                     <td className="py-3">
                       <div className="w-12 h-16 rounded overflow-hidden">

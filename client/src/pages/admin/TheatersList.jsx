@@ -3,37 +3,52 @@ import axiosInstance from "../../config/axiosInstance.js";
 import { toast } from "react-hot-toast";
 import Swal from 'sweetalert2';
 import { TheaterManagementSkeleton } from "../../components/shared/DashboardSkeletons.jsx";
+import SearchBox from "../../components/shared/SearchBox.jsx";
 
 const TheaterList = () => {
   const [theaters, setTheaters] = useState([]);
+  const [filteredTheaters, setFilteredTheaters] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     const fetchTheaters = async () => {
       try {
         setLoading(true);
         const response = await axiosInstance.get("/theater/all-theaters");
-        setTheaters(response.data.data);
-        setLoading(false);
+        const theaterData = response.data.data || [];
+        setTheaters(theaterData);
+        setFilteredTheaters(theaterData);
       } catch (error) {
-        setLoading(false);
         console.error("Failed to fetch theaters:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchTheaters();
   }, []);
 
+  const handleSearch = (term) => {
+    setSearchTerm(term);
+    const filtered = theaters.filter(theater =>
+      theater.name?.toLowerCase().includes(term.toLowerCase()) ||
+      theater.location?.toLowerCase().includes(term.toLowerCase())
+    );
+    setFilteredTheaters(filtered);
+  };
+
   const handleApprove = async (theaterId) => {
     try {
       await axiosInstance.put(`/theater/${theaterId}/approve`);
-      setTheaters(
-        theaters.map((theater) =>
-          theater._id === theaterId
-            ? { ...theater, status: "approved" }
-            : theater
-        )
+      const updatedTheaters = theaters.map((theater) =>
+        theater._id === theaterId ? { ...theater, status: "approved" } : theater
       );
+      setTheaters(updatedTheaters);
+      setFilteredTheaters(updatedTheaters.filter(theater =>
+        theater.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        theater.location?.toLowerCase().includes(searchTerm.toLowerCase())
+      ));
       Swal.fire({
         title: 'Success!',
         text: 'Theater approved successfully',
@@ -60,13 +75,14 @@ const TheaterList = () => {
     if (result.isConfirmed) {
       try {
         await axiosInstance.put(`/theater/${theaterId}/reject`);
-        setTheaters(
-          theaters.map((theater) =>
-            theater._id === theaterId
-              ? { ...theater, status: "rejected" }
-              : theater
-          )
+        const updatedTheaters = theaters.map((theater) =>
+          theater._id === theaterId ? { ...theater, status: "rejected" } : theater
         );
+        setTheaters(updatedTheaters);
+        setFilteredTheaters(updatedTheaters.filter(theater =>
+          theater.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          theater.location?.toLowerCase().includes(searchTerm.toLowerCase())
+        ));
         toast.success("Theater rejected successfully");
       } catch (error) {
         console.error("Failed to reject theater:", error);
@@ -74,13 +90,11 @@ const TheaterList = () => {
       }
     }
   };
-  
 
   if (loading) {
     return <TheaterManagementSkeleton />;
   }
 
-  // Function to get badge color based on status
   const getStatusColor = (status) => {
     switch (status.toLowerCase()) {
       case "approved":
@@ -99,6 +113,10 @@ const TheaterList = () => {
       <div className="bg-base-300 p-6 rounded-lg shadow-lg">
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-2xl font-semibold">Theater Management</h1>
+          <SearchBox 
+            onSearch={handleSearch}
+            placeholder="Search theaters..."
+          />
         </div>
         <div className="overflow-x-auto">
           <table className="table w-full">
@@ -111,7 +129,7 @@ const TheaterList = () => {
               </tr>
             </thead>
             <tbody>
-              {theaters.map((theater) => (
+              {filteredTheaters.map((theater) => (
                 <tr key={theater._id} className="hover:bg-base-100">
                   <td className="py-3 text-lg">{theater.name}</td>
                   <td className="py-3 text-lg">{theater.location}</td>
@@ -144,7 +162,7 @@ const TheaterList = () => {
                   </td>
                 </tr>
               ))}
-              {theaters.length === 0 && (
+              {filteredTheaters.length === 0 && (
                 <tr>
                   <td colSpan="4" className="text-center text-gray-500 py-4">
                     No theaters found.

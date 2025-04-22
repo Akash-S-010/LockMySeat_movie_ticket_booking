@@ -4,7 +4,7 @@ import EditMovieModal from "../admin/EditMovieModal.jsx";
 import Swal from "sweetalert2";
 import { MovieListSkeleton } from "./DashboardSkeletons.jsx";
 
-const MovieListComponent = ({ showActions = false, refreshKey }) => {
+const MovieListComponent = ({ showActions = false, refreshKey, searchTerm = '' }) => {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedMovie, setSelectedMovie] = useState(null);
@@ -72,6 +72,11 @@ const MovieListComponent = ({ showActions = false, refreshKey }) => {
     return <MovieListSkeleton />;
   }
 
+  // Filter movies based on searchTerm
+  const filteredMovies = movies.filter(movie =>
+    movie.title?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <>
       <div className="overflow-x-auto">
@@ -88,14 +93,14 @@ const MovieListComponent = ({ showActions = false, refreshKey }) => {
             </tr>
           </thead>
           <tbody>
-            {movies.length === 0 ? (
+            {filteredMovies.length === 0 ? (
               <tr>
                 <td colSpan={showActions ? 7 : 6} className="text-center py-4">
                   No movies found.
                 </td>
               </tr>
             ) : (
-              movies.map((movie) => (
+              filteredMovies.map((movie) => (
                 <tr key={movie._id} className="hover:bg-base-100">
                   <td>
                     <div className="avatar">

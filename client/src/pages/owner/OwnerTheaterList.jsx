@@ -1,12 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import toast from "react-hot-toast";
 import { TheaterSkeleton } from "../../components/shared/DashboardSkeletons";
+import SearchBox from "../../components/shared/SearchBox.jsx";
 
 const OwnerTheaterList = () => {
   const { data, isLoading, error } = useFetch("/theater/owner-theaters");
+  const [searchTerm, setSearchTerm] = useState('');
 
   const theaters = Array.isArray(data) ? data : [];
+
+  const filteredTheaters = theaters.filter(theater =>
+    theater.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    theater.location.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const handleSearch = (term) => {
+    setSearchTerm(term);
+  };
 
   if (error) {
     toast.error(error.message || "Failed to fetch theaters");
@@ -16,7 +27,6 @@ const OwnerTheaterList = () => {
     return <TheaterSkeleton />;
   }
 
-  // function to get badge color based on status
   const getStatusColor = (status) => {
     switch (status.toLowerCase()) {
       case "approved":
@@ -35,10 +45,9 @@ const OwnerTheaterList = () => {
       <div className="bg-base-300 p-6 rounded-lg shadow-lg">
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-2xl font-semibold">My Theaters</h1>
-          <input
-            type="text"
-            placeholder="Search"
-            className="input input-bordered w-64"
+          <SearchBox 
+            onSearch={handleSearch}
+            placeholder="Search theaters..."
           />
         </div>
         <div className="overflow-x-auto">
@@ -51,7 +60,7 @@ const OwnerTheaterList = () => {
               </tr>
             </thead>
             <tbody>
-              {theaters.map((theater, index) => (
+              {filteredTheaters.map((theater, index) => (
                 <tr key={index} className="hover:bg-base-100">
                   <td className="py-3 text-lg">
                     <div className="flex justify-between w-full">
@@ -74,7 +83,7 @@ const OwnerTheaterList = () => {
                   </td>
                 </tr>
               ))}
-              {theaters.length === 0 && (
+              {filteredTheaters.length === 0 && (
                 <tr>
                   <td colSpan="3" className="text-center text-gray-500 py-4">
                     No theaters found.
