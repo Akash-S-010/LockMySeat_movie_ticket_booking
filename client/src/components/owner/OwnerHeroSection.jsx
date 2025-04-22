@@ -13,6 +13,7 @@ const OwnerHeroSection = () => {
             src="https://t3.ftcdn.net/jpg/03/74/28/58/360_F_374285858_KzJ88FysqJ79AhyNPW2lqnBtsRTokuav.jpg"
             alt="Theater background"
             className="object-cover w-full h-full"
+            loading="lazy"
           />
         </div>
         {/* Decorative Elements */}

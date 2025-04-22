@@ -13,6 +13,7 @@ const AdminHeroSection = () => {
             src="https://t3.ftcdn.net/jpg/08/08/60/72/360_F_808607245_2p4nyuZcBJwpiaVLjf6FOl4Wztr74CcA.jpg"
             alt="Control room background"
             className="object-cover w-full h-full"
+            loading="lazy"
           />
         </div>
         {/* Decorative Elements */}
