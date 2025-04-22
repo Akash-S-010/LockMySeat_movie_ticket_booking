@@ -44,7 +44,7 @@ const MovieList = ({ page }) => {
         if (movieData.length === 0 && (filters.language || filters.genre)) {
           // Only show toast and reset if a filter was applied
           toast.error(
-            "No movies found for the selected filters. Showing all movies."
+            "No movies found for selected filters."
           );
           setFilters({ language: "", genre: "" });
           return;
