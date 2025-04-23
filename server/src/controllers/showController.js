@@ -72,46 +72,72 @@ export const addShow = async (req, res) => {
 
 // -------------get show by date  ( GET /api/shows/by-date?movieId=65e9d6a8bfc1234567890def&date=2025-03-13 )------------
 export const getShowByDate = async (req, res) => {
-    const { date, movieId } = req.query;
-  
-    try {
-      if (!date || !movieId) {
-        return res.status(400).json({ message: "All fields are required" });
-      }
-  
-      // Parse the date as UTC explicitly
-      const startDate = new Date(`${date}T00:00:00.000Z`); // e.g., "2025-03-31T00:00:00.000Z"
-      const endDate = new Date(startDate);
-      endDate.setDate(endDate.getDate() + 1); // Next day in UTC
-  
-      const shows = await Show.find({
-        movieId: movieId,
-        dateTime: { $gte: startDate, $lt: endDate },
-      }).populate("theaterId", "name location");
-  
-      if (!shows.length) {
-        return res.status(404).json({ message: "No shows found" });
-      }
-  
-      const formattedShows = shows.map((show) => ({
-        ...show._doc,
-        formattedDate: new Intl.DateTimeFormat("en-US", { dateStyle: "long" }).format(
-          new Date(show.dateTime)
-        ),
-        formattedTime: new Intl.DateTimeFormat("en-US", {
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: true,
-          timeZone: "Asia/Kolkata",
-        }).format(new Date(show.dateTime)),
-      }));
-  
-      res.status(200).json({ message: "Shows found", data: formattedShows });
-    } catch (error) {
-      console.error("Error in getShowByDate controller", error);
-      res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
+  const { date, movieId } = req.query;
+
+  try {
+    if (!date || !movieId) {
+      return res.status(400).json({ message: "All fields are required" });
     }
-  };
+
+    // Parse the date as UTC explicitly
+    const startDate = new Date(`${date}T00:00:00.000Z`); // current day in UTC
+    const endDate = new Date(startDate);
+    endDate.setDate(endDate.getDate() + 1); // Next day in UTC
+
+    // Fetch shows for the given date and movieId
+    const shows = await Show.find({
+      movieId: movieId,
+      dateTime: { $gte: startDate, $lt: endDate },
+    }).populate("theaterId", "name location");
+
+    if (!shows.length) {
+      return res.status(404).json({ message: "No shows found for this date" });
+    }
+
+    const now = new Date(); // Current time in UTC
+    const formattedShows = shows
+      .map((show) => {
+        const showTime = new Date(show.dateTime);
+
+        // Dynamically determine the status based on the current time
+        let status;
+        if (showTime < now) {
+          status = "expired";
+          // Optionally update the status in the database
+          Show.updateOne({ _id: show._id }, { status: "expired" }).exec();
+        } else {
+          status = "notStarted";
+        }
+
+        // Only include shows that are "notStarted"
+        if (status !== "notStarted") {
+          return null;
+        }
+
+        return {
+          ...show._doc,
+          status, // Include the dynamically determined status
+          formattedDate: new Intl.DateTimeFormat("en-US", { dateStyle: "long" }).format(showTime),
+          formattedTime: new Intl.DateTimeFormat("en-US", {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: true,
+            timeZone: "Asia/Kolkata",
+          }).format(showTime),
+        };
+      })
+      .filter((show) => show !== null); // Remove shows that are not "notStarted"
+
+    if (!formattedShows.length) {
+      return res.status(404).json({ message: "No upcoming shows found for this date" });
+    }
+
+    res.status(200).json({ message: "Shows found", data: formattedShows });
+  } catch (error) {
+    console.error("Error in getShowByDate controller", error);
+    res.status(error.statusCode || 500).json({ message: error.message || "Internal server error" });
+  }
+};
 
 
 
