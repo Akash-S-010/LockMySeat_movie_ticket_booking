@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axiosInstance from "../../config/axiosInstance.js";
 import { Loader2, AlertCircle } from "lucide-react";
+import SearchBox from "../../components/shared/SearchBox.jsx";
 
 const ShowSelection = () => {
   const { movieId } = useParams();
@@ -10,6 +11,7 @@ const ShowSelection = () => {
   const [movie, setMovie] = useState(null);
   const [shows, setShows] = useState([]);
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [searchTerm, setSearchTerm] = useState(""); // State for search term
   const [loading, setLoading] = useState(true);
   const [movieLoading, setMovieLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -65,12 +67,24 @@ const ShowSelection = () => {
 
   const handleShowClick = (showId) => navigate(`/user/seat-selection/${showId}`);
 
+  // Handle search term updates from SearchBox
+  const handleSearch = (term) => {
+    setSearchTerm(term);
+  };
+
+  // Group and filter shows by theater and search term
   const groupedShows = shows.reduce((acc, show) => {
     const theaterId = show.theaterId._id;
-    if (!acc[theaterId]) {
-      acc[theaterId] = { theater: show.theaterId, shows: [] };
+    const theaterLocation = show.theaterId.location.toLowerCase();
+    if (
+      !searchTerm ||
+      theaterLocation.includes(searchTerm.toLowerCase())
+    ) {
+      if (!acc[theaterId]) {
+        acc[theaterId] = { theater: show.theaterId, shows: [] };
+      }
+      acc[theaterId].shows.push(show);
     }
-    acc[theaterId].shows.push(show);
     return acc;
   }, {});
 
@@ -100,6 +114,12 @@ const ShowSelection = () => {
               </div>
             </button>
           ))}
+        </div>
+        <div className="flex justify-center">
+          <SearchBox
+            onSearch={handleSearch}
+            placeholder="Search location eg: thalasserry..."
+          />
         </div>
       </div>
 
@@ -135,7 +155,11 @@ const ShowSelection = () => {
         ) : (
           <div className="text-center text-gray-400 bg-base-300 p-4 sm:p-6 rounded-lg">
             <AlertCircle size={24} className="mx-auto mb-2 sm:mb-4 text-gray-500 sm:w-8 sm:h-8" />
-            <p className="text-base sm:text-lg">No shows available for this date or location.</p>
+            <p className="text-base sm:text-lg">
+              {searchTerm
+                ? "No shows available for this location."
+                : "No shows available for this date or location."}
+            </p>
           </div>
         )}
       </div>
