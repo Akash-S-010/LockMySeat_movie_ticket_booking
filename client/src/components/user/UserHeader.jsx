@@ -39,7 +39,7 @@ const UserHeader = () => {
 
       <div className="navbar-center hidden lg:flex">
         <ul className="flex gap-8 px-1 space-x-2">
-          <li className="relative font-medium text-lg group">
+          <li className="relative text-lg group">
             <Link to="/" className="py-2">
               Home
             </Link>
@@ -51,7 +51,7 @@ const UserHeader = () => {
               }`}
             ></span>
           </li>
-          <li className="relative font-medium text-lg group">
+          <li className="relative text-lg group">
             <Link to="/all-movies" className="py-2">
               Movies
             </Link>
@@ -63,7 +63,7 @@ const UserHeader = () => {
               }`}
             ></span>
           </li>
-          <li className="relative font-medium text-lg group">
+          <li className="relative text-lg group">
             <Link to="/about-us" className="py-2">
               About
             </Link>

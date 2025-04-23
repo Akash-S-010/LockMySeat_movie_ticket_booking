@@ -88,13 +88,13 @@ const MovieList = ({ page }) => {
   return (
     <div className="mx-auto min-h-screen my-10 px-4">
       <div className="flex items-center justify-between mb-4">
-        <h1 className="font-bold text-3xl mb-6">
+        <h1 className="font-bold text-3xl">
           {page === "movies" ? "All Movies" : "Latest Movies"}
         </h1>
         {page === "home" ? (
           <Link
             to="/all-movies"
-            className="text-primary text-lg hover:scale-105 transition"
+            className="text-primary text-sm lg:text-lg hover:scale-105 transition"
           >
             View More →
           </Link>
