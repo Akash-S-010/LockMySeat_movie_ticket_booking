@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import Logo from "../../assets/AppLogo.png";
-import AvatarDropdown from "../ui/AvatarDropdown";
+import AvatarDropdown from "../user/AvatarDropdown";
 import { Button } from "../ui/Buttons";
 import { useAuthStore } from "../../store/useAuthStore";
 

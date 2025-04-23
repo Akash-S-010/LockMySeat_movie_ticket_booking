@@ -1,7 +1,7 @@
 import React from "react";
 import BannerSlider from "../../components/ui/Banner";
 import MovieList from "../../components/user/MovieList";
-import HeroSection from "../../components/ui/Hero";
+import HeroSection from "../../components/user/Hero";
 
 const Home = () => {
   return (

@@ -2,7 +2,7 @@ import React from 'react';
 import { Menu } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Logo from '../../assets/AppLogo.png';
-import AdminAvatarDropdown from '../ui/AdminAvatarDropdown';
+import AdminAvatarDropdown from '../shared/AdminAvatarDropdown';
 import { useAuthStore } from '../../store/useAuthStore.js';
 
 const OwnerHeader = ({ toggleSidebar }) => {
