@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axiosInstance from "../../config/axiosInstance.js";
-import { Search, Loader2, AlertCircle } from "lucide-react";
+import { Loader2, AlertCircle } from "lucide-react";
 
 const ShowSelection = () => {
   const { movieId } = useParams();
@@ -10,17 +10,15 @@ const ShowSelection = () => {
   const [movie, setMovie] = useState(null);
   const [shows, setShows] = useState([]);
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [location, setLocation] = useState("");
   const [loading, setLoading] = useState(true);
   const [movieLoading, setMovieLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
       try {
         setMovieLoading(true);
-        const response = await axiosInstance.get(
-          `/movie/movie-details/${movieId}`
-        );
+        const response = await axiosInstance.get(`/movie/movie-details/${movieId}`);
         if (!response.data.data) {
           setError("Movie not found.");
           return;
@@ -35,24 +33,22 @@ const ShowSelection = () => {
     fetchMovieDetails();
   }, [movieId]);
 
-  const fetchShowsByDate = async (date) => {
-    try {
-      setLoading(true);
-      const formattedDate = date.toISOString().split("T")[0];
-      const response = await axiosInstance.get(
-        `/show/by-date?movieId=${movieId}&date=${formattedDate}`
-      );
-      setShows(response.data.data);
-    } catch (err) {
-      setError("No shows found for this date.");
-      setShows([]);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    fetchShowsByDate(selectedDate);
+    const fetchShowsByDate = async () => {
+      try {
+        setLoading(true);
+        const formattedDate = selectedDate.toISOString().split("T")[0];
+        const response = await axiosInstance.get(`/show/by-date?movieId=${movieId}&date=${formattedDate}`);
+        setShows(response.data.data);
+        setError(null);
+      } catch (err) {
+        setError(err.response?.data?.message || "No shows found for this date.");
+        setShows([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchShowsByDate();
   }, [selectedDate, movieId]);
 
   const getNextFiveDays = () => {
@@ -65,20 +61,9 @@ const ShowSelection = () => {
 
   const days = getNextFiveDays();
 
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-  };
+  const handleDateChange = (date) => setSelectedDate(date);
 
-  const handleLocationSearch = (e) => {
-    e.preventDefault();
-    if (location.trim()) {
-      fetchShowsByDate(selectedDate);
-    }
-  };
-
-  const handleShowClick = (showId) => {
-    navigate(`/user/seat-selection/${showId}`);
-  };
+  const handleShowClick = (showId) => navigate(`/user/seat-selection/${showId}`);
 
   const groupedShows = shows.reduce((acc, show) => {
     const theaterId = show.theaterId._id;
@@ -116,19 +101,6 @@ const ShowSelection = () => {
             </button>
           ))}
         </div>
-
-        <form onSubmit={handleLocationSearch} className="flex justify-center gap-2 sm:gap-3">
-          <input
-            type="text"
-            placeholder="Search Location (e.g., MAHE)"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-            className="input input-bordered w-full max-w-xs bg-base-300 text-white placeholder-gray-500 border-gray-600 text-sm sm:text-base"
-          />
-          <button type="submit" className="btn bg-primary hover:bg-primaryHover border-none p-2 sm:p-3">
-            <Search size={16} className="text-white sm:w-5 sm:h-5" />
-          </button>
-        </form>
       </div>
 
       <div className="max-w-4xl mx-auto px-4 sm:px-0">
@@ -136,6 +108,11 @@ const ShowSelection = () => {
           <div className="text-center text-gray-400 text-base sm:text-lg">
             <Loader2 size={24} className="animate-spin mx-auto mb-2 text-primary sm:w-8 sm:h-8" />
             Loading shows...
+          </div>
+        ) : error ? (
+          <div className="text-center text-gray-400 bg-base-300 p-4 sm:p-6 rounded-lg">
+            <AlertCircle size={24} className="mx-auto mb-2 sm:mb-4 text-gray-500 sm:w-8 sm:h-8" />
+            <p className="text-base sm:text-lg">{error}</p>
           </div>
         ) : Object.values(groupedShows).length > 0 ? (
           Object.values(groupedShows).map((group, index) => (
