@@ -64,9 +64,9 @@ const OwnerHeroSection = () => {
             {/* CTA Buttons */}
             <div>
               <Button
-                title="Get Started Now"
+                title="Manage Now"
                 className=" px-8 py-6 text-lg font-semibold rounded-full transition-all shadow-lg"
-                onClick={() => navigate("/owner/register")}
+                onClick={() => navigate("/owner/login")}
               />
             </div>
           </div>
