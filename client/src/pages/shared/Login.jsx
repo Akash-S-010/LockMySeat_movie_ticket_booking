@@ -3,13 +3,13 @@ import { useForm } from "react-hook-form";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { SubmitBtn } from "../../components/ui/Buttons";
 import { Link, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion"; // Import framer-motion
 import axiosInstance from "../../config/axiosInstance";
 import toast from "react-hot-toast";
 import { useAuthStore } from "../../store/useAuthStore.js";
 
-const Login = ({ role}) => {
+const Login = ({ role }) => {
   const { login } = useAuthStore();
-
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -25,30 +25,28 @@ const Login = ({ role}) => {
     redirectRoute: "/",
     registerRoute: "/register",
     forgotRoute: "/forgot-password",
-};
+  };
 
-if (role == "theaterOwner") {
+  if (role === "theaterOwner") {
     user.role = "theaterOwner";
     user.loginAPI = "admin/login";
     user.redirectRoute = "/owner/dashboard";
     user.registerRoute = "/owner/register";
     user.forgotRoute = "/owner/forgot-password";
-}
+  }
 
-if (role == "admin") {
-  user.role = "admin";
-  user.loginAPI = "admin/login";
-  user.redirectRoute = "/admin/dashboard";
-  user.registerRoute = "/admin/register";
-  user.forgotRoute = "/admin/forgot-password";
-}
-
+  if (role === "admin") {
+    user.role = "admin";
+    user.loginAPI = "admin/login";
+    user.redirectRoute = "/admin/dashboard";
+    user.registerRoute = "/admin/register";
+    user.forgotRoute = "/admin/forgot-password";
+  }
 
   const onSubmit = async (data) => {
-    
     try {
       setIsLoading(true);
-      const response = await axiosInstance.post(user.loginAPI,{
+      const response = await axiosInstance.post(user.loginAPI, {
         email: data.email,
         password: data.password,
       });
@@ -65,8 +63,23 @@ if (role == "admin") {
   };
 
   return (
-    <div className="min-h-screen bg-base-100 flex items-center justify-center">
-      <div className="bg-base-300 p-8 rounded-lg shadow-lg w-full max-w-md">
+    <div className="relative min-h-screen bg-base-100 flex items-center justify-center overflow-hidden">
+      {/* Decorative Elements */}
+      <motion.div
+        className="absolute top-0 left-0 w-64 h-64 bg-primary bg-opacity-20 rounded-full blur-3xl"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.2 }}
+        transition={{ duration: 2 }}
+      />
+      <motion.div
+        className="absolute bottom-0 right-0 w-96 h-96 bg-secondary rounded-full blur-3xl"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.1 }}
+        transition={{ duration: 2 }}
+      />
+
+      {/* Login Form Content */}
+      <div className="relative z-10 bg-base-300 p-8 rounded-lg shadow-lg w-full max-w-md">
         {/* Logo and Title */}
         <div className="flex justify-center mb-6">
           <h2 className="text-3xl font-bold text-primary">Login</h2>
@@ -95,9 +108,7 @@ if (role == "admin") {
               />
             </div>
             {errors.email && (
-              <p className="text-red-500 text-sm mt-1">
-                {errors.email.message}
-              </p>
+              <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
             )}
           </div>
 
@@ -154,12 +165,12 @@ if (role == "admin") {
         {/* Register Link */}
         {role === "admin" ? null : (
           <p className="text-center text-base mt-4">
-          Don't have an account?{" "}
-          <Link to={user.registerRoute} className="text-primary hover:underline">
-            Register
-          </Link>
-        </p>
-        )}      
+            Don't have an account?{" "}
+            <Link to={user.registerRoute} className="text-primary hover:underline">
+              Register
+            </Link>
+          </p>
+        )}
       </div>
     </div>
   );

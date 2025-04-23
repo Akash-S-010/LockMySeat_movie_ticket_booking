@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { User, Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion"; // Import framer-motion
 import axiosInstance from "../../config/axiosInstance";
 import toast from "react-hot-toast";
-import {SubmitBtn} from "../../components/ui/Buttons";
+import { SubmitBtn } from "../../components/ui/Buttons";
 
-const Register = ({role = "user"}) => {
-  const [ loading, setLoading ] = useState(false); 
-
+const Register = ({ role = "user" }) => {
+  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
@@ -25,55 +25,66 @@ const Register = ({role = "user"}) => {
     registerAPI: "user/signup",
     redirectRoute: "/verify-otp",
     loginRoute: "/login",
-};
+  };
 
-if (role == "theaterOwner") {
+  if (role === "theaterOwner") {
     user.role = "theaterOwner";
     user.registerAPI = "admin/signup";
     user.redirectRoute = "/owner/verify-otp";
     user.loginRoute = "/owner/login";
-}
+  }
 
-if (role == "admin") {
-  user.role = "admin";
-  user.registerAPI = "admin/signup";
-  user.redirectRoute = "/admin/verify-otp";
-  user.loginRoute = "/admin/login";
-}
+  if (role === "admin") {
+    user.role = "admin";
+    user.registerAPI = "admin/signup";
+    user.redirectRoute = "/admin/verify-otp";
+    user.loginRoute = "/admin/login";
+  }
 
   const password = watch("password");
 
   const onSubmit = async (data) => {
     const { name, email, password } = data;
     const payload = { name, email, password, role: user.role };
-  
+
     try {
       setLoading(true);
       const response = await axiosInstance.post(user.registerAPI, payload);
-      
-      // Handle scenario where user is unverified but can continue
+
       if (response.data.message.includes("New OTP sent")) {
         toast.success("Account already exists but unverified. OTP sent!");
       } else {
         toast.success(response.data.message || "OTP sent! Please verify.");
       }
-  
+
       navigate(`${user.redirectRoute}?email=${email}`);
-  
     } catch (error) {
       const errorMsg = error.response?.data?.message || "Registration failed";
       toast.error(errorMsg);
       console.error("Registration failed:", errorMsg);
-      
     } finally {
       setLoading(false);
     }
   };
-  
 
   return (
-    <div className="min-h-screen bg-base-100 flex items-center justify-center">
-      <div className="bg-base-300 p-8 rounded-lg shadow-lg w-full max-w-md">
+    <div className="relative min-h-screen bg-base-100 flex items-center justify-center overflow-hidden">
+      {/* Decorative Elements */}
+      <motion.div
+        className="absolute top-0 left-0 w-64 h-64 bg-primary bg-opacity-20 rounded-full blur-3xl"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.2 }}
+        transition={{ duration: 2 }}
+      />
+      <motion.div
+        className="absolute bottom-0 right-0 w-96 h-96 bg-secondary rounded-full blur-3xl"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.1 }}
+        transition={{ duration: 2 }}
+      />
+
+      {/* Register Form Content */}
+      <div className="relative z-10 bg-base-300 p-8 rounded-lg shadow-lg w-full max-w-md">
         {/* Logo and Title */}
         <div className="flex justify-center items-center mb-6">
           <h2 className="text-3xl font-bold text-primary">Sign Up</h2>
