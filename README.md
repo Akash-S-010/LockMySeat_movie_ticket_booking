@@ -126,7 +126,7 @@ Sign up with OTP verification, resend OTP, login, forgot password, and reset pas
 - **Dark/Light Mode**: Toggle for enhanced user experience.
 - **Real-Time Search**: Debounced search for movies and shows.
 - **Responsive Design**: Optimized for mobile and desktop devices.
-- **Modern UI: Sleek**, intuitive interface with animations and clean design.
+- **Modern UI**: Sleek, intuitive interface with animations and clean design.
 - **Auto-Generated Emails**: Booking confirmations sent to users’ email.
 ---
 
