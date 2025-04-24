@@ -122,7 +122,12 @@ Sign up with OTP verification, resend OTP, login, forgot password, and reset pas
 ### **Add Shows**
 ![Image](https://github.com/user-attachments/assets/d78c1bcf-e4ea-4a4a-853b-fcf681ece1d1)
 
-
+### ⭐ Additional features
+- **Dark/Light Mode**: Toggle for enhanced user experience.
+- **Real-Time Search**: Debounced search for movies and shows.
+- **Responsive Design**: Optimized for mobile and desktop devices.
+- **Modern UI: Sleek**, intuitive interface with animations and clean design.
+- **Auto-Generated Emails**: Booking confirmations sent to users’ email.
 ---
 
 ## 🛠 Technologies Stack
