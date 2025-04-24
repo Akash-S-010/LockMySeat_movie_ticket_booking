@@ -7,8 +7,10 @@ Welcome to **LockMySeat**, a cutting-edge full-stack web application that’s re
 
 ## ✨ Key Features
 
+### 🔒 Authentication Features (User, TheaterOwner and Admin)
+Sign up with OTP verification, resend OTP, login, forgot password, and reset password.
+
 ### 👤 User-Side Features
-- **User Authentication**: Sign up with OTP verification, login, forgot password, and reset password.
 - **Profile Management**: Edit personal details with profile picture uploads. 
 - **Show Selection**: Filter shows by date with real-time schedules. 
 - **Seat Selection**: Interactive interface with live availability updates. 
@@ -81,7 +83,7 @@ Welcome to **LockMySeat**, a cutting-edge full-stack web application that’s re
 
 ### 🏠 TheaterOwner-Side Features
 - **Add Theater**: Register and manage theater details effortlessly. 
-- **Add Shows**: Schedule movies with customizable timings. 
+- **Add Shows**: Add shows with customizable timings. 
 - **Track Revenue**: Monitor earnings with detailed insights. 
 - **Total Booked Seats**: Analyze occupancy across all theaters.
    
