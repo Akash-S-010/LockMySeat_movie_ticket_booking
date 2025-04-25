@@ -161,7 +161,7 @@ export const login = async (req, res) => {
             return res.status(400).json({ message: "Invalid credentials" });
         } 
 
-        // Generate Token---------
+        // Generate Token----------
         const token = generateToken(admin._id, admin.role);
 
         res.cookie("token", token, {
