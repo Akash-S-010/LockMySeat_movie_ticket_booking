@@ -167,7 +167,8 @@ export const login = async (req, res) => {
         res.cookie("token", token, {
             sameSite: NODE_ENV === "production" ? "None" : "Lax",
             secure: NODE_ENV === "production",
-            httpOnly: NODE_ENV === "production",
+            httpOnly: true,
+            maxAge: 7 * 24 * 60 * 60 * 1000,
         });
 
         res.status(200).json({ message: "Login successful",data: {_id: admin._id, name: admin.name, email: admin.email, role: admin.role, profilePic: admin.profilePic} });
