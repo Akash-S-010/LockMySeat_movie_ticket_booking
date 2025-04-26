@@ -44,7 +44,7 @@ const Footer = () => {
               <ul className="mt-6 space-y-4 text-sm">
                 <li><Link to="/movies" className="text-base transition hover:opacity-75">Movie Tickets</Link></li>
                 <li><Link to="/showtimes" className="text-base transition hover:opacity-75">Showtimes</Link></li>
-                <li><Link to="/theaters" className="text-base transition hover:opacity-75">Theater Listings</Link></li>
+                <li><Link to="/owner/" className="text-base transition hover:opacity-75">Theater Listings</Link></li>
                 <li><Link to="/offers" className="text-base transition hover:opacity-75">Special Offers</Link></li>
               </ul>
             </div>
@@ -73,7 +73,6 @@ const Footer = () => {
               <ul className="mt-6 space-y-4 text-sm">
                 <li><Link to="/terms" className="text-base transition hover:opacity-75">Terms of Service</Link></li>
                 <li><Link to="/privacy" className="text-base transition hover:opacity-75">Privacy Policy</Link></li>
-                <li><Link to="/refund" className="text-base transition hover:opacity-75">Refund Policy</Link></li>
                 <li><Link to="/accessibility" className="text-base transition hover:opacity-75">Accessibility</Link></li>
               </ul>
             </div>
