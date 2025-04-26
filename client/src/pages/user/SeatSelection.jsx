@@ -153,7 +153,7 @@ const SeatSelection = () => {
                 <button
                   key={seatId}
                   onClick={() => handleSeatClick(seat)}
-                  className={`w-10 h-10 rounded text-xs sm:text-sm font-semibold transition-colors cursor-pointer ${
+                  className={`w-10 h-10 rounded-t-xl text-xs sm:text-sm font-semibold transition-colors cursor-pointer ${
                     seat.isBooked
                       ? "bg-black text-white cursor-not-allowed"
                       : isSelected
