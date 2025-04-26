@@ -133,11 +133,12 @@ const SeatSelection = () => {
       </div>
 
       {/* Seat Grid */}
-      <div className="overflow-x-auto w-full">
+      <div className="overflow-x-auto w-full max-w-full">
         <div
           className="grid gap-2 mb-6 mx-auto"
           style={{
-            gridTemplateColumns: `repeat(${seatLayout.columns}, minmax(2.5rem, 1fr))`,
+            gridTemplateColumns: `repeat(${seatLayout.columns}, minmax(40px, 1fr))`,
+            maxWidth: `${seatLayout.columns * 50}px`,
           }}
         >
           {rows.map((row) =>
@@ -152,7 +153,7 @@ const SeatSelection = () => {
                 <button
                   key={seatId}
                   onClick={() => handleSeatClick(seat)}
-                  className={`w-8 h-8 sm:w-10 sm:h-10 rounded text-xs sm:text-sm font-semibold transition-colors cursor-pointer ${
+                  className={`w-10 h-10 rounded text-xs sm:text-sm font-semibold transition-colors cursor-pointer ${
                     seat.isBooked
                       ? "bg-black text-white cursor-not-allowed"
                       : isSelected
@@ -172,7 +173,7 @@ const SeatSelection = () => {
       <img
         src="https://www.libertycinemas.in/assets/img/ss.svg"
         alt="screen"
-        className="mt-4 w-full max-w-xs sm:max-w-md"
+        className="mt-4 w-full max-w-xs sm:max-w-md md:max-w-lg"
       />
 
       {/* Total and Payment Section */}
