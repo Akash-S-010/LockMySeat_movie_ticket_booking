@@ -142,17 +142,29 @@ Sign up with OTP verification, resend OTP, login, forgot password, and reset pas
 ## 🔥 Getting Started
 
 ### Installation
-1. Clone the repo:  
-   `git clone https://github.com/Akash-S-010/LockMySeat_movie_ticket_booking.git`
-2. Navigate to the project:  
-   `cd LockMySeat_movie_ticket_booking`
-3. Install dependencies:  
-   `npm install`
-4. Configure environment variables:  
-   Create a `.env` file and add your Razorpay API keys and MongoDB URI.
-5. Launch the app:  
-   `npm start`
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Akash-S-010/LockMySeat_movie_ticket_booking.git
+
+2. Navigate to the project directory:
+    ```bash
+   cd LockMySeat_movie_ticket_booking
+
+3. Install the dependencies:
+    ```bash
+   npm install
+
+4. Configure environment variables:
+     ```bash
+    Create a .env file and add your Razorpay API keys , MongoDB URI, etc.
+
+5. Launch the app:
+     ```bash
+   npm start
+
 ---
+     
 
 ## 🌐 Live Demo
 Experience the magic live!  

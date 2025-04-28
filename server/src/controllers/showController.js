@@ -230,6 +230,7 @@ export const getTotalShows = async (req, res) => {
 
 
 
+
 // -------------get seats pattern with status------------
 export const getSeats = async (req, res) => {
     try {
