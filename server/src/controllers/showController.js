@@ -262,6 +262,7 @@ export const getSeats = async (req, res) => {
         hour: "2-digit",
         minute: "2-digit",
         hour12: true,
+        timeZone: "Asia/Kolkata",
       }).format(date);
   
       // Get seat layout from theater
