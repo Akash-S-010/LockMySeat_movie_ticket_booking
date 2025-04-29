@@ -43,7 +43,7 @@ Sign up with OTP verification, resend OTP, login, forgot password, and reset pas
 
 
 ### **Movie List**
-![Image](https://github.com/user-attachments/assets/f56395ac-825d-46bf-ae8c-d21c8c85ec23)
+![Image](https://github.com/user-attachments/assets/799582e1-4979-4999-ad62-97f4244ba553)
 
 
 ### **Movie Details Page**
@@ -55,11 +55,11 @@ Sign up with OTP verification, resend OTP, login, forgot password, and reset pas
 
 
 ### **Seat Selection**
-![Image](https://github.com/user-attachments/assets/dc3bd78d-8b95-40af-8449-eb62781dda11)
+![Image](https://github.com/user-attachments/assets/8a3866c1-6e80-4427-ba59-0b7c530e2578)
 
 
 ### **Order Summary**
-![Image](https://github.com/user-attachments/assets/270fd1d2-040b-404a-8559-f57dd563a4fd)
+![Image](https://github.com/user-attachments/assets/d4104c73-fc89-457e-8539-625fb6ffb85d)
 
 
 ### **Razorpay Page**
