@@ -6,7 +6,6 @@ import generateToken from "../utils/token.js";
 import crypto from "crypto";
 import cloudinaryUpload from "../utils/cloudinaryUploader.js";
 import nodemailer from "nodemailer";
-
 const NODE_ENV = process.env.NODE_ENV
 
 
