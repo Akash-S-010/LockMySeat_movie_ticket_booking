@@ -7,7 +7,7 @@
 }  
 
   html {
-    scroll-behavior: smooth;
+    /* scroll-behavior: smooth; */
     scrollbar-width: thin;
     scrollbar-color: #fd5479 var(--color-base-100);
   }
